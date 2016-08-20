@@ -15,8 +15,18 @@ jQuery(document).ready(function($){
                 button: {
                     text: uploaderJsData.buttonText
                 },
-                multiple: uploaderJsData.multiple == "true"  //TODO: this is not working properly
+                multiple: uploaderJsData.multiple == "true"  
             });
+
+        mediaUploader.on("select", function(){
+            uploadedItem = mediaUploader.state().get('selection').first().toJSON();
+
+            $("#"+uploaderJsData.id+"_selected_file").val(uploadedItem.url);
         });
 
-    });
+        mediaUploader.open();
+
+        });
+
+
+});

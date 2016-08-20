@@ -15,13 +15,14 @@ jQuery(document).ready(function($){
                 button: {
                     text: uploaderJsData.buttonText
                 },
-                multiple: uploaderJsData.multiple == "true"  
+                multiple: uploaderJsData.multiple == "true"
             });
 
         mediaUploader.on("select", function(){
             uploadedItem = mediaUploader.state().get('selection').first().toJSON();
 
             $("#"+uploaderJsData.id+"_selected_file").val(uploadedItem.url);
+            $("#"+uploaderJsData.id+"_selected_file_display").html(uploadedItem.url);
         });
 
         mediaUploader.open();

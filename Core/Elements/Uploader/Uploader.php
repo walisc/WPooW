@@ -38,7 +38,7 @@ class Uploader extends BaseElement
     {
         parent::EditView($post);
         
-        wp_localize_script("wpAPIMediaUploader", "uploaderData", ["id" =>$this->id]);
+        wp_localize_script("wpAPIMediaUploader", "uploaderJsData", ["id" =>$this->id, "title" => "Cs", "buttonText" => "asdas", "multiple" => "false"]);
         wp_enqueue_script("wpAPIMediaUploader");
 
         echo $this->mustache->render('Uploader/edit_view.mustache', [

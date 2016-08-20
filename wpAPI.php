@@ -25,6 +25,12 @@ class wpAPI
         //TODO: Add helper
         Mustache_Autoloader::register();
         Elements_Autoloader::register();
+
+        define( 'WP_API_PATH_ABS', dirname(__FILE__) . '/' );
+        define( 'WP_API_PATH_REL', str_replace(ABSPATH, '', __DIR__) . '/' );
+        define( 'WP_API_ELEMENT_PATH_REL', WP_API_PATH_REL . "Core" . DIRECTORY_SEPARATOR . "Elements" .DIRECTORY_SEPARATOR);
+
+
     }
 
     public function CreateMenu($page_slug, $menu_title, $capability, $display_path, $icon='', $position=null)

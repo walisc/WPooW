@@ -36,7 +36,11 @@ abstract class BaseElement
         return get_post_meta($post_id, $this->valueKey, true);
     }
 
-
+    protected function GetElementDirectory()
+    {
+        return WP_API_ELEMENT_PATH_REL.  get_class($this) . DIRECTORY_SEPARATOR;
+    }
+    
     public function ProcessPostData($post_id)
     {
 

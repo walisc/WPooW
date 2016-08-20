@@ -9,12 +9,14 @@
 class Uploader extends BaseElement
 {
 
-    function __construct($id, $label, ElementPermission $permissions, $elementPath='', $elementCssClasses=[])
+    private $uploaderTitle;
+    private $buttonText;
+    private $enableMultiple;
+
+    function __construct($id, $label, ElementPermission $permissions, $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
+
         wp_enqueue_media();
-
-       ;
-
         wp_register_script("wpAPIMediaUploader", DIRECTORY_SEPARATOR.  $this->GetElementDirectory()  . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
         
 
@@ -25,6 +27,10 @@ class Uploader extends BaseElement
                 "button-primary"
             ];
         }
+
+        $this->uploaderTitle = $uploaderTitle;
+        $this->buttonText = $buttonText;
+        $this->enableMultiple = $enableMultiple;
 
         parent::__construct($id, $label, $permissions, $elementPath, $elementCssClasses);
     }
@@ -38,12 +44,12 @@ class Uploader extends BaseElement
     {
         parent::EditView($post);
         
-        wp_localize_script("wpAPIMediaUploader", "uploaderJsData", ["id" =>$this->id, "title" => "Cs", "buttonText" => "asdas", "multiple" => "false"]);
+        wp_localize_script("wpAPIMediaUploader", "uploaderJsData", ["id" =>$this->id, "title" => $this->uploaderTitle, "buttonText" => $this->buttonText, "multiple" => $this->enableMultiple]);
         wp_enqueue_script("wpAPIMediaUploader");
 
         echo $this->mustache->render('Uploader/edit_view.mustache', [
             "id" => $this->id,
-            "label" => $this->label,
+            "buttonText" => $this->buttonText,
             "value" => $this->GetDatabaseValue($post->ID),
             "cssClass" => implode(" ", $this->cssClasses)
         ]);

@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 
     var mediaUploader;
 
-    $("#"+uploaderJsData.id).on("click", function(e) {
+    $("#"+uploaderJsData.id+"_upload_button").on("click", function(e) {
         e.preventDefault();
 
         if (mediaUploader) {

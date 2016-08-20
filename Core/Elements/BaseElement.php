@@ -51,7 +51,7 @@ abstract class BaseElement
         )){return;}
      }
 
-    function __construct($id, $label, ElementPermission $permissions, $elementPath = '', $elementCssClasses=[])
+    function __construct($id, $label="", ElementPermission $permissions, $elementPath = '', $elementCssClasses=[])
     {
         $this->id = $id;
         $this->label = $label;

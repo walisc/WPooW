@@ -14,6 +14,7 @@ abstract class BaseElement
     public $label;
     public $permissions;
     protected $mustache;
+    protected $cssClasses;
 
     public $saveFunction;
     public $saveNonce;
@@ -46,11 +47,12 @@ abstract class BaseElement
         )){return;}
      }
 
-    function __construct($id, $label, ElementPermission $permissions, $elementPath = '')
+    function __construct($id, $label, ElementPermission $permissions, $elementPath = '', $elementCssClasses=[])
     {
         $this->id = $id;
         $this->label = $label;
         $this->permissions= $permissions;
+        $this->cssClasses = $elementCssClasses;
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);
         $this->valueKey = sprintf("%s_value_key", $this->id);

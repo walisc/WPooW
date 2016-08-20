@@ -34,7 +34,7 @@ $menu_base->AddChild($post_page);
 $menu_base->Render();
 ```
 
-The above we create the following, configuring all items properly in the background. i.e fields nonces, saving and updating etc
+The above will create the following, configuring all items properly in the background. i.e fields nonces, saving and updating etc
 
 New Post Type Page
 ![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_view.jpg "New Post Type Page")

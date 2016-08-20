@@ -36,4 +36,8 @@ $menu_base->Render();
 
 The above we create the following, configuring all items properly in the background. i.e fields nonces, saving and updating etc
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+New Post Type Page
+![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_view.jpg "New Post Type Page")
+
+Adding New Post Type
+![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_addnew.jpg "Add New Post Type")

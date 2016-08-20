@@ -12,8 +12,11 @@ class Uploader extends BaseElement
     function __construct($id, $label, ElementPermission $permissions, $elementPath='', $elementCssClasses=[])
     {
         wp_enqueue_media();
-        wp_register_script("wpAPIMediaUploader", __DIR__ . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
-        wp_enqueue_script("wpAPIMediaUploader");
+
+       ;
+
+        wp_register_script("wpAPIMediaUploader", DIRECTORY_SEPARATOR.  $this->GetElementDirectory()  . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
+        
 
         if (empty($elementCssClasses))
         {
@@ -34,6 +37,10 @@ class Uploader extends BaseElement
     function EditView( $post)
     {
         parent::EditView($post);
+        
+        wp_localize_script("wpAPIMediaUploader", "uploaderData", ["id" =>$this->id]);
+        wp_enqueue_script("wpAPIMediaUploader");
+
         echo $this->mustache->render('Uploader/edit_view.mustache', [
             "id" => $this->id,
             "label" => $this->label,

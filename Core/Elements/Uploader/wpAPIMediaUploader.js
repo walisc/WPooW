@@ -28,7 +28,9 @@ jQuery(document).ready(function($){
                 url: uploadedItem.url,
                 filename: uploadedItem.filename
             });
+            //TODO:Change the id extensions
             $("#"+uploaderJsData.id+"_selected_file").val(uploadedDataItem);
+            $("#"+uploaderJsData.id+"_selected_file_preview img").attr("src",uploadedItem.url);
 
             $("#"+uploaderJsData.id+"_selected_file_display").html(uploadedItem.filename);
         });

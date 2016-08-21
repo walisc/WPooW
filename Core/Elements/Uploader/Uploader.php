@@ -37,7 +37,14 @@ class Uploader extends BaseElement
 
     function ReadView($post_id)
     {
-        echo wp_get_attachment_image(82);
+        $fileData = json_decode($this->GetDatabaseValue($post_id), true);
+        $fileData = $fileData != null ? $fileData : [];
+
+        $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
+        $fileName = array_key_exists("filename", $fileData) ? $fileData["filename"] : "";
+        echo $this->twigTemplate->render('Uploader/read_view.mustache', ["filePreview" => wp_get_attachment_image($fileId),
+            "fileName" => $fileName]);
+
     }
 
     function EditView( $post)
@@ -50,12 +57,16 @@ class Uploader extends BaseElement
         $fileData = json_decode($this->GetDatabaseValue($post->ID), true);
         $fileData = $fileData != null ? $fileData : [];
 
+        $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
+        $fileName = array_key_exists("filename", $fileData) ? $fileData["filename"] : "";
+
         echo $this->twigTemplate->render('Uploader/edit_view.mustache', [
             "id" => $this->id,
             "buttonText" => $this->buttonText,
             "value" => $this->GetDatabaseValue($post->ID),
-            "filename" => array_key_exists("filename", $fileData) ? $fileData["filename"] : "",
-            "fileId" =>array_key_exists("id", $fileData) ? $fileData["id"] : "",
+            "filename" => $fileName,
+            "fileId" =>$fileId,
+            "filePreview" => wp_get_attachment_image($fileId),
             "cssClass" => implode(" ", $this->cssClasses)
         ]);
     }

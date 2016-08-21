@@ -65,11 +65,21 @@ abstract class BaseElement
 
         $loader = new Twig_Loader_Filesystem(__DIR__. $elementPath);
         $this->twigTemplate = new Twig_Environment($loader);
+        $this->twigTemplate->addGlobal('wpAPIElementHelper', new wpAPIElementHelper());
 
         wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);
 
     }
 }
+
+class wpAPIElementHelper{
+
+    public function GetAttachmentThumbnail($id)
+    {
+        return wp_get_attachment_image($id);
+    }
+}
+
 
 class ElementPermission
 {

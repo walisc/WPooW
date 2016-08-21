@@ -1,8 +1,8 @@
 # Wordpress API
 #### a oop wordpress wrapper for rapid development
 
-If you have ever had to create a custom theme on wordpress you how cumbersome it can be. This API wordpress api
-wrapper that enable  to create themes/plugin much faster in a Object oriented way. Below is and example of you can
+If you have ever had to create a custom theme on wordpress you how cumbersome it can be. This ia a wordpress api
+wrapper that enable  to create themes/plugin much faster in a object oriented way. Below is and example of you can
 create a custome postpage, with additional metaboxes in a few lines of code
 
 ```<?php
@@ -34,7 +34,7 @@ $menu_base->AddChild($post_page);
 $menu_base->Render();
 ```
 
-The above we create the following, configuring all items properly in the background. i.e fields nonces, saving and updating etc
+The above will create the following, configuring all items properly in the background. i.e fields nonces, saving and updating etc
 
 New Post Type Page
 ![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_view.jpg "New Post Type Page")

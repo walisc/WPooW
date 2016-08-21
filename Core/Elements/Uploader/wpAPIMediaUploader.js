@@ -21,8 +21,16 @@ jQuery(document).ready(function($){
         mediaUploader.on("select", function(){
             uploadedItem = mediaUploader.state().get('selection').first().toJSON();
 
-            $("#"+uploaderJsData.id+"_selected_file").val(uploadedItem.url);
-            $("#"+uploaderJsData.id+"_selected_file_display").html(uploadedItem.url);
+
+
+            var uploadedDataItem = JSON.stringify({
+                id: uploadedItem.id,
+                url: uploadedItem.url,
+                filename: uploadedItem.filename
+            });
+            $("#"+uploaderJsData.id+"_selected_file").val(uploadedDataItem);
+
+            $("#"+uploaderJsData.id+"_selected_file_display").html(uploadedItem.filename);
         });
 
         mediaUploader.open();

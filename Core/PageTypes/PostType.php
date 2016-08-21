@@ -10,7 +10,7 @@
 class PostType extends wpAPIBasePage
 {
     protected $props = [
-        "labels" => "None",
+        "labels" => ["name" => "wpAPI Custom Post Type", "wpAPI Custom Post Type", "wpAPI Custom Post Type", "wpAPI Custom Post Type"],
         "show_ui" => true,
         "show_in_menu" => true,
         "capability_type" => "post",

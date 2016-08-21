@@ -37,7 +37,7 @@ class Uploader extends BaseElement
 
     function ReadView($post_id)
     {
-        echo $this->mustache->render('Uploader/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
+        echo wp_get_attachment_image(82);
     }
 
     function EditView( $post)
@@ -46,11 +46,16 @@ class Uploader extends BaseElement
         
         wp_localize_script("wpAPIMediaUploader", "uploaderJsData", ["id" =>$this->id, "title" => $this->uploaderTitle, "buttonText" => $this->buttonText, "multiple" => $this->enableMultiple]);
         wp_enqueue_script("wpAPIMediaUploader");
+        
+        $fileData = json_decode($this->GetDatabaseValue($post->ID), true);
+        $fileData = $fileData != null ? $fileData : [];
 
-        echo $this->mustache->render('Uploader/edit_view.mustache', [
+        echo $this->twigTemplate->render('Uploader/edit_view.mustache', [
             "id" => $this->id,
             "buttonText" => $this->buttonText,
             "value" => $this->GetDatabaseValue($post->ID),
+            "filename" => array_key_exists("filename", $fileData) ? $fileData["filename"] : "",
+            "fileId" =>array_key_exists("id", $fileData) ? $fileData["id"] : "",
             "cssClass" => implode(" ", $this->cssClasses)
         ]);
     }

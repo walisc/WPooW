@@ -13,7 +13,7 @@ abstract class BaseElement
     public $id;
     public $label;
     public $permissions;
-    protected $mustache;
+    protected $twigTemplate;
     protected $cssClasses;
 
     public $saveFunction;
@@ -62,11 +62,9 @@ abstract class BaseElement
         $this->valueKey = sprintf("%s_value_key", $this->id);
 
         //TODO: Make this global
-        $this->mustache = new Mustache_Engine(
-            [
-                "loader" => new Mustache_Loader_FilesystemLoader(__DIR__. $elementPath)
-            ]
-        );
+
+        $loader = new Twig_Loader_Filesystem(__DIR__. $elementPath);
+        $this->twigTemplate = new Twig_Environment($loader);
 
         wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);
 

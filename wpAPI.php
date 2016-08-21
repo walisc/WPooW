@@ -15,7 +15,7 @@ include_once 'Core/PageTypes/PostType.php';
 include_once 'Core/PageTypes/SubMenu.php';
 include_once 'Core/PageTypes/Menu.php';
 
-include_once 'Libraries/Mustache/Autoloader.php';
+include_once 'Libraries/twig/twig/lib/Twig/Autoloader.php';
 include_once 'Core/Elements/Autoloader.php';
 
 class wpAPI
@@ -23,7 +23,7 @@ class wpAPI
     function __construct()
     {
         //TODO: Add helper
-        Mustache_Autoloader::register();
+        Twig_Autoloader::register();
         Elements_Autoloader::register();
 
         define( 'WP_API_PATH_ABS', dirname(__FILE__) . '/' );
@@ -78,15 +78,23 @@ class wpAPI_VIEW
         if ($this->type == self::PATH)
         {
             //TODO: Make this global
-            $m = new Mustache_Engine;
-            $loader = new Mustache_Loader_FilesystemLoader(__DIR__.'/../../');
 
-            echo $m->render($loader->load($this->path_content), $this->data);
+            $loader = new Twig_Loader_Filesystem(__DIR__.'/../../');
+            $twig = new Twig_Environment($loader);
+
+            echo $twig->render($this->path_content, $this->data);
         }
         else if ($this->type == self::CONTENT)
         {
-            $m = new Mustache_Engine;
-            echo $m->render($this->path_content, $this->data);
+
+            $loader = new Twig_Loader_Array(array(
+                'page.html' => $this->path_content,
+            ));
+
+            $twig = new Twig_Environment($loader);
+
+            echo $twig->render('page.html', $this->data);
+
         }
 
 

@@ -19,13 +19,13 @@ class Text extends BaseElement
 
     function ReadView($post_id)
     {
-        echo $this->mustache->render('Text/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
+        echo $this->twigTemplate->render('Text/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
     }
 
     function EditView( $post)
     {
        parent::EditView($post);
-       echo $this->mustache->render('Text/edit_view.mustache', [
+       echo $this->twigTemplate->render('Text/edit_view.mustache', [
            "id" => $this->id,
            "label" => $this->label,
            "value" => $this->GetDatabaseValue($post->ID)

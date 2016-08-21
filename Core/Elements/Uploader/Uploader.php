@@ -50,8 +50,20 @@ class Uploader extends BaseElement
     function EditView( $post)
     {
         parent::EditView($post);
-        
-        wp_localize_script("wpAPIMediaUploader", "uploaderJsData", ["id" =>$this->id, "title" => $this->uploaderTitle, "buttonText" => $this->buttonText, "multiple" => $this->enableMultiple]);
+
+        $elementIds = [
+            "selected_file_preview" =>"_selected_file_preview",
+            "selected_file_display" => "_selected_file_display",
+            "upload_button" => "_upload_button",
+            "selected_file" => "_selected_file"
+        ];
+        wp_localize_script("wpAPIMediaUploader", "uploaderJsData",
+                    array_merge(["id" =>$this->id,
+                    "title" => $this->uploaderTitle,
+                    "buttonText" => $this->buttonText,
+                    "multiple" => $this->enableMultiple
+                    ],$elementIds));
+
         wp_enqueue_script("wpAPIMediaUploader");
         
         $fileData = json_decode($this->GetDatabaseValue($post->ID), true);
@@ -64,10 +76,12 @@ class Uploader extends BaseElement
             "id" => $this->id,
             "buttonText" => $this->buttonText,
             "value" => $this->GetDatabaseValue($post->ID),
+            "cssClass" => implode(" ", $this->cssClasses),
+            "fileDetails" => [
             "filename" => $fileName,
             "fileId" =>$fileId,
-            "filePreview" => wp_get_attachment_image($fileId),
-            "cssClass" => implode(" ", $this->cssClasses)
+            "filePreview" => wp_get_attachment_image($fileId)],
+            "elementIds" => $elementIds
         ]);
     }
 

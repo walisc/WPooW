@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 
     var mediaUploader;
 
-    $("#"+uploaderJsData.id+"_upload_button").on("click", function(e) {
+    $("#"+uploaderJsData.id+uploaderJsData.upload_button).on("click", function(e) {
         e.preventDefault();
 
         if (mediaUploader) {
@@ -29,10 +29,10 @@ jQuery(document).ready(function($){
                 filename: uploadedItem.filename
             });
             //TODO:Change the id extensions
-            $("#"+uploaderJsData.id+"_selected_file").val(uploadedDataItem);
-            $("#"+uploaderJsData.id+"_selected_file_preview img").attr("src",uploadedItem.url);
+            $("#"+uploaderJsData.id+uploaderJsData.selected_file).val(uploadedDataItem);
+            $("#"+uploaderJsData.id+uploaderJsData.selected_file_preview+" img").attr("src",uploadedItem.url);
 
-            $("#"+uploaderJsData.id+"_selected_file_display").html(uploadedItem.filename);
+            $("#"+uploaderJsData.id+uploaderJsData.selected_file_display).html(uploadedItem.filename);
         });
 
         mediaUploader.open();

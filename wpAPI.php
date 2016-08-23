@@ -32,10 +32,9 @@ class wpAPI
 
 
     }
-
+    //TODO: Id validation. Also note Id/slug cannot be to long
     public function CreateMenu($page_slug, $menu_title, $capability, $display_path, $icon='', $position=null)
     {
-        //TODO: Move the adding of object to the constructors
         return new Menu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
 
     }

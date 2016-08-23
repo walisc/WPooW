@@ -10,7 +10,7 @@
 class PostType extends wpAPIBasePage
 {
     protected $props = [
-        "labels" => ["name" => "wpAPI Custom Post Type", "wpAPI Custom Post Type", "wpAPI Custom Post Type", "wpAPI Custom Post Type"],
+        "labels" => [],
         "show_ui" => true,
         "show_in_menu" => true,
         "capability_type" => "post",
@@ -24,6 +24,16 @@ class PostType extends wpAPIBasePage
     function __construct($slug, $label, $options = [])
     {
         parent::__construct($slug, $label);
+
+        if (is_array($label))
+        {
+            $this->props["labels"] = $label;
+        }
+        else
+        {
+            $this->props["labels"] = ["name" => $label];
+        }
+
         foreach ($options as $opt => $val){
             if (array_key_exists($opt, $this->props)){
                 $this->props[$opt] = $val;

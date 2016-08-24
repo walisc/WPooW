@@ -62,6 +62,7 @@ class PostType extends wpAPIBasePage
         add_filter(sprintf("manage_%s_posts_columns", $this->slug), [$this, "SetFields"]);
         add_action(sprintf("manage_%s_posts_custom_column", $this->slug), [$this, "ViewFields"], 10, 2);
         add_action("add_meta_boxes", [$this, "EditFields"] );
+        add_action('quick_edit_custom_box', [$this, "QuickEditFields"], 10, 2);
         add_action('save_post', [$this, "SaveFields"]);
 
     }
@@ -70,7 +71,7 @@ class PostType extends wpAPIBasePage
         return 'init';
     }
 
-    function Render($parent_slug)
+    function Render($parent_slug=null)
     {
         if ($parent_slug != null)
         {
@@ -115,6 +116,17 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    function QuickEditFields($field, $post_type)
+    {
+        foreach ($this->fields as $fi)
+        {
+            if ($fi->id == $field)
+            {
+                $fi->EditView($post_type);
+                break;
+            }
+        }
+    }
     function EditFields()
     {
         foreach ($this->fields as $fi)
@@ -122,6 +134,7 @@ class PostType extends wpAPIBasePage
             if ($fi->permissions->UPDATE)
             {
                 add_meta_box($fi->id, $fi->label, [$fi, "EditView"] , $this->slug);
+
             }
         }
     }

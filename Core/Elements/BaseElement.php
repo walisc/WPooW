@@ -20,8 +20,21 @@ abstract class BaseElement
     public $saveNonce;
     public $valueKey;
 
-    abstract function ReadView($post_id);
-    function EditView( $post)
+    private $onSaveEvents = [];
+    private $onViewEvents = [];
+    private $onEditEvents = [];
+
+
+    protected function ReadView($post_id)
+    {
+        $db_value = $this->GetDatabaseValue($post_id);
+
+        foreach ($this->onViewEvents as $observor)
+        {
+            call_user_func_array($observor, [$db_value, $post_id]);
+        }
+    }
+    protected function EditView( $post)
     {
         wp_nonce_field($this->saveFunction, $this->saveNonce);
     }
@@ -33,14 +46,34 @@ abstract class BaseElement
 
     protected function GetDatabaseValue($post_id)
     {
-        return get_post_meta($post_id, $this->valueKey, true);
+        $db_value =  get_post_meta($post_id, $this->valueKey, true);
+
+        foreach ($this->onViewEvents as $observor)
+        {
+            $db_value =  call_user_func_array($observor, [$db_value, $post_id]);
+        }
+        return $db_value;
     }
 
     protected function GetElementDirectory()
     {
         return WP_API_ELEMENT_PATH_REL.  get_class($this) . DIRECTORY_SEPARATOR;
     }
-    
+
+    public function RegisterOnSaveEvent($class, $method)
+    {
+        array_push($this->onSaveEvents, [$class, $method ]);
+    }
+
+    public function RegisterOnViewEvent($class, $method)
+    {
+        array_push($this->onViewEvents, [$class, $method ]);
+    }
+
+    public function RegisterOnEditEvent($class, $method)
+    {
+
+    }
     public function ProcessPostData($post_id)
     {
 

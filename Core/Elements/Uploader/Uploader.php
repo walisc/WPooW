@@ -42,7 +42,7 @@ class Uploader extends BaseElement
 
         $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
         $fileName = array_key_exists("filename", $fileData) ? $fileData["filename"] : "";
-        echo $this->twigTemplate->render('Uploader/read_view.mustache', ["filePreview" => wp_get_attachment_image($fileId),
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["filePreview" => wp_get_attachment_image($fileId),
             "fileName" => $fileName]);
 
     }
@@ -72,7 +72,7 @@ class Uploader extends BaseElement
         $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
         $fileName = array_key_exists("filename", $fileData) ? $fileData["filename"] : "";
 
-        echo $this->twigTemplate->render('Uploader/edit_view.mustache', [
+        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
             "id" => $this->id,
             "buttonText" => $this->buttonText,
             "value" => $this->GetDatabaseValue($post->ID),

@@ -9,7 +9,7 @@
 
 
 
-class Text extends BaseElement
+class Link extends BaseElement
 {
 
     function __construct($id, $label, ElementPermission $permissions, $elementPath='')
@@ -20,7 +20,9 @@ class Text extends BaseElement
     function ReadView($post_id)
     {
         parent::ReadView($post_id);
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
+
+        $linkData = json_decode($this->GetDatabaseValue($post_id), true);
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_text" => $linkData["url_text"]]);
     }
 
     function EditView( $post)

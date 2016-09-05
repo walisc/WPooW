@@ -8,8 +8,7 @@
  */
 
 
-
-class Link extends BaseElement
+class wpAPIDateTime extends BaseElement
 {
 
     function __construct($id, $label, ElementPermission $permissions, $elementPath='')
@@ -19,8 +18,8 @@ class Link extends BaseElement
 
     function ReadView($post_id)
     {
-        $linkData = json_decode($this->GetDatabaseValue($post_id), true);
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_text" => $linkData["url_text"]]);
+        parent::ReadView($post_id);
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
     }
 
     function EditView( $post)
@@ -28,7 +27,6 @@ class Link extends BaseElement
        parent::EditView($post);
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
            "id" => $this->id,
-           "label" => $this->label,
            "value" => $this->GetDatabaseValue($post->ID)
        ]);
     }

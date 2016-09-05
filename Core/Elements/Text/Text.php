@@ -19,7 +19,6 @@ class Text extends BaseElement
 
     function ReadView($post_id)
     {
-        parent::ReadView($post_id);
         echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
     }
 

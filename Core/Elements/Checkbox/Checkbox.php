@@ -9,7 +9,7 @@
 
 
 
-class Link extends BaseElement
+class Checkbox extends BaseElement
 {
 
     function __construct($id, $label, ElementPermission $permissions, $elementPath='')
@@ -19,18 +19,17 @@ class Link extends BaseElement
 
     function ReadView($post_id)
     {
-        $linkData = json_decode($this->GetDatabaseValue($post_id), true);
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_text" => $linkData["url_text"]]);
+        $activeValue = $this->GetDatabaseValue($post_id) == 1 ? "checked" : "";
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["active_value" => $activeValue]);
     }
 
     function EditView( $post)
     {
        parent::EditView($post);
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
-           "id" => $this->id,
-           "label" => $this->label,
-           "value" => $this->GetDatabaseValue($post->ID)
-       ]);
+
+       $activeValue = $this->GetDatabaseValue($post->ID) == "on" ? "checked" : "";
+       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["active_value" => $activeValue,
+                                                                                "id" => $this->id]);
     }
 
     function ProcessPostData($post_id)

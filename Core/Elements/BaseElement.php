@@ -6,6 +6,7 @@
  * Date: 2016/08/13
  * Time: 7:36 PM
  */
+
 abstract class BaseElement
 {
     //TODO: Have a way of checking that id is unique
@@ -21,18 +22,12 @@ abstract class BaseElement
     public $valueKey;
 
     private $onSaveEvents = [];
-    private $onViewEvents = [];
-    private $onEditEvents = [];
+    private $onReadEvents = [];
 
 
     protected function ReadView($post_id)
     {
-        $db_value = $this->GetDatabaseValue($post_id);
-
-        foreach ($this->onViewEvents as $observor)
-        {
-            call_user_func_array($observor, [$db_value, $post_id]);
-        }
+        echo $this->GetDatabaseValue($post_id);
     }
     protected function EditView( $post)
     {
@@ -41,14 +36,23 @@ abstract class BaseElement
 
     protected function SaveElementData($post_id, $data)
     {
-        update_post_meta($post_id, $this->valueKey, $data);
+        $processed_data = $data;
+
+        // Call Save observers before updating
+        foreach ($this->onSaveEvents as $observor)
+        {
+            $processed_data =  call_user_func_array($observor, [$processed_data, $post_id]);
+        }
+
+        update_post_meta($post_id, $this->valueKey, $processed_data);
     }
 
     protected function GetDatabaseValue($post_id)
     {
         $db_value =  get_post_meta($post_id, $this->valueKey, true);
 
-        foreach ($this->onViewEvents as $observor)
+        // Call Read Observer before reading/viewing the value
+        foreach ($this->onReadEvents as $observor)
         {
             $db_value =  call_user_func_array($observor, [$db_value, $post_id]);
         }
@@ -60,20 +64,18 @@ abstract class BaseElement
         return WP_API_ELEMENT_PATH_REL.  get_class($this) . DIRECTORY_SEPARATOR;
     }
 
+    // register events
     public function RegisterOnSaveEvent($class, $method)
     {
         array_push($this->onSaveEvents, [$class, $method ]);
     }
 
-    public function RegisterOnViewEvent($class, $method)
+    public function RegisterOnReadEvent($class, $method)
     {
-        array_push($this->onViewEvents, [$class, $method ]);
+        array_push($this->onReadEvents, [$class, $method ]);
     }
 
-    public function RegisterOnEditEvent($class, $method)
-    {
 
-    }
     public function ProcessPostData($post_id)
     {
 

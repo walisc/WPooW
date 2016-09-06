@@ -54,7 +54,7 @@ abstract class BaseElement
         // Call Read Observer before reading/viewing the value
         foreach ($this->onReadEvents as $observor)
         {
-            $db_value =  call_user_func_array($observor, [$db_value, $post_id]);
+            $db_value = wpAPIUtilities::CallUserFunc($observor[0], $observor[1], [$db_value, $post_id] );
         }
         return $db_value;
     }
@@ -72,6 +72,7 @@ abstract class BaseElement
 
     public function RegisterOnReadEvent($class, $method)
     {
+
         array_push($this->onReadEvents, [$class, $method ]);
     }
 

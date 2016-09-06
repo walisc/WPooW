@@ -7,6 +7,7 @@
  * Time: 9:31 PM
  */
 //TODO: Use autoloading
+include_once  'Core/wpAPIUtilities.php';
 include_once 'Core/wpAPIBasePage.php';
 include_once 'Core/wpAPIObjects.php';
 include_once 'Core/Elements/BaseElement.php';

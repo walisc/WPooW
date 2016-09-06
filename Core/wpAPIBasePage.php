@@ -12,7 +12,7 @@ abstract class wpAPIBasePage
     protected $slug;
     protected $label;
     protected $parent_slug;
-    
+    protected $viewState = wpAPIPermissions::EditPage;
     
     function __construct($slug, $label)
     {

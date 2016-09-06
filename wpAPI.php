@@ -114,9 +114,57 @@ class wpAPI_VIEW
     }
 }
 
-class wpAPI_PERMISSIONS
+class WP_PERMISSIONS
 {
    CONST MANAGE_OPTIONS = "manage_options";
 }
 
+
+
+class wpAPIPermissions 
+{
+    const EditTable = "EditTable"; // Mainly relevant for custom post type. Inline editing mode
+    const EditPage = "EditPage"; // The edit page of a custom post type. Or a general page edit view. Serves as the default
+    const ViewTable = "ViewTable"; // Mainly relevant for custom post type. The grid layout
+    const ViewPage = "ViewPage"; // This mainly valid in custom pages. View only mode
+
+
+    // cru - create - read - update
+    private $permissionMatrix = [
+        wpAPIPermissions::EditTable => "cru",
+        wpAPIPermissions::EditPage => "cru",
+        wpAPIPermissions::ViewTable => "cru",
+        wpAPIPermissions::ViewPage => "cru",
+    ];
+
+    public function SetPermission($editTable, $editPage, $viewTable, $viewPage)
+    {
+        $this->permissionMatrix[wpAPIPermissions::EditTable] = $editTable;
+        $this->permissionMatrix[wpAPIPermissions::EditPage] = $editPage;
+        $this->permissionMatrix[wpAPIPermissions::ViewTable] = $viewTable;
+        $this->permissionMatrix[wpAPIPermissions::ViewPage] = $viewPage;
+    }
+
+    // a more direct way of setting permissions e.g ["cr", "cru", "cru", "cru"] in order  EditTable, EditPage, ViewTable, ViewPage
+    public function SetPermissionArray($permissions)
+    {
+        if (count($permissions) != 4)
+        {
+            throw new Exception("Permission array should have set for all 4 view states EditTable, EditPage, ViewTable, ViewPage");
+        }
+        $this->permissionMatrix[wpAPIPermissions::EditTable] = $permissions[0];
+        $this->permissionMatrix[wpAPIPermissions::EditPage] = $permissions[1];
+        $this->permissionMatrix[wpAPIPermissions::ViewTable] = $permissions[2];
+        $this->permissionMatrix[wpAPIPermissions::ViewPage] = $permissions[4];
+    }
+
+
+    public function GetPermission($pageState)
+    {
+        return $this->permissionMatrix[$pageState];
+    }
+
+}
+
+class_alias('wpAPIPermissions', 'wpPer');
 

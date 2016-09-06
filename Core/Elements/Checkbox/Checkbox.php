@@ -12,7 +12,7 @@
 class Checkbox extends BaseElement
 {
 
-    function __construct($id, $label, ElementPermission $permissions, $elementPath='')
+    function __construct($id, $label, $permissions, $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
     }

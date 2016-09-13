@@ -91,7 +91,7 @@ abstract class BaseElement
     {
         $this->id = $id;
         $this->label = $label;
-        $this->permissions= $permissions;
+        $this->permissions= $permissions == null ? wpAPIPermissions::SetPermission() : $permissions;
         $this->cssClasses = $elementCssClasses;
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);

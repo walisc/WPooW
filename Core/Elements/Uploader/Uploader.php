@@ -13,7 +13,7 @@ class Uploader extends BaseElement
     private $buttonText;
     private $enableMultiple;
 
-    function __construct($id, $label, $permissions, $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
+    function __construct($id, $label, $permissions=null, $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
 
         wp_enqueue_media();

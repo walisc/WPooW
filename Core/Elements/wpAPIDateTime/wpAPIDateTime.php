@@ -11,7 +11,7 @@
 class wpAPIDateTime extends BaseElement
 {
 
-    function __construct($id, $label,  $permissions, $elementPath='')
+    function __construct($id, $label,  $permissions=null, $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
     }

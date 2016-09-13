@@ -137,29 +137,32 @@ class wpAPIPermissions
         wpAPIPermissions::ViewPage => "cru",
     ];
 
-    public static function SetPermission($editTable, $editPage, $viewTable, $viewPage)
-    {
-        $wP = new wpAPIPermissions();
-        $wP->permissionMatrix[wpAPIPermissions::EditTable] = $editTable;
-        $wP->permissionMatrix[wpAPIPermissions::EditPage] = $editPage;
-        $wP->permissionMatrix[wpAPIPermissions::ViewTable] = $viewTable;
-        $wP->permissionMatrix[wpAPIPermissions::ViewPage] = $viewPage;
-        return $wP;
+    // $permissions
+    // an array with viewstate -> permission  relations to be set for the element such as the field
+    // eg
+    //  [
+    //      "EditTable" = > "cr"
+    //      "EditPage" = > "cru"
+    //      "ViewTable" = > "cru"
+    //      "ViewPage" = > "cru"
+    //  ]
+    // Note:- for viewstates you can use the const i.e wpAPIPermissions::EditTable => "cru"
+    // Also note by default all viewstates have the permission cru.
+    // because of this you don't have to specify all viewstates. Only the one you want
 
-    }
-
-    // a more direct way of setting permissions e.g ["cr", "cru", "cru", "cru"] in order  EditTable, EditPage, ViewTable, ViewPage
-    public static function SetPermissionArray($permissions)
+    public static function SetPermission($permissions = [])
     {
-        if (count($permissions) != 4)
+        if (!is_array($permissions))
         {
-            throw new Exception("Permission array should have set for all 4 view states EditTable, EditPage, ViewTable, ViewPage");
+            throw new Exception("Permission should be an array with the 4 view states EditTable, EditPage, ViewTable, ViewPage");
         }
         $wP = new wpAPIPermissions();
-        $wP->permissionMatrix[wpAPIPermissions::EditTable] = $permissions[0];
-        $wP->permissionMatrix[wpAPIPermissions::EditPage] = $permissions[1];
-        $wP->permissionMatrix[wpAPIPermissions::ViewTable] = $permissions[2];
-        $wP->permissionMatrix[wpAPIPermissions::ViewPage] = $permissions[4];
+
+
+        foreach ($permissions as $pageState => $permission)
+        {
+            $wP->permissionMatrix[$pageState] = $permission;
+        }
         return $wP;
     }
 

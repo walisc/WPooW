@@ -82,13 +82,17 @@ class PostType extends wpAPIBasePage
 
     public function AddField($aField)
     {
-        $aField->parent_slug = $this->slug;
-        $aField->id = sprintf("%s_%s",$this->slug, $aField->id);
-        $aField->saveFunction = sprintf("save_data_%s",  $aField->id);
-        $aField->saveNonce = sprintf("%s_meta_box_nonce",$aField->id);
-        $aField->valueKey = sprintf("%s_value_key", $aField->id);
+        if ($aField->permissions->GetPermissionAction($this->viewState, 'r') !== false) {
 
-        array_push($this->fields, $aField);
+
+            $aField->parent_slug = $this->slug;
+            $aField->id = sprintf("%s_%s", $this->slug, $aField->id);
+            $aField->saveFunction = sprintf("save_data_%s", $aField->id);
+            $aField->saveNonce = sprintf("%s_meta_box_nonce", $aField->id);
+            $aField->valueKey = sprintf("%s_value_key", $aField->id);
+
+            array_push($this->fields, $aField);
+        }
     }
 
     function SetFields( $fields)
@@ -98,7 +102,9 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->fields as $fi)
         {
-            $postTypeFields[$fi->id] = $fi->label;
+            if ($fi->permissions->GetPermissionAction($this->viewState, 'r') !== false) {
+                $postTypeFields[$fi->id] = $fi->label;
+            }
         }
 
         return $postTypeFields;
@@ -110,6 +116,7 @@ class PostType extends wpAPIBasePage
         {
             if ($fi->id == $field)
             {
+
                 $fi->ReadView($post_id);
                 break;
             }
@@ -131,10 +138,12 @@ class PostType extends wpAPIBasePage
     {
         foreach ($this->fields as $fi)
         {
-            if ($fi->permissions->UPDATE)
+            if ($fi->permissions->GetPermissionAction($this->viewState, 'u') !== false) {
+                add_meta_box($fi->id, $fi->label, [$fi, "EditView"], $this->slug);
+            }
+            else
             {
-                add_meta_box($fi->id, $fi->label, [$fi, "EditView"] , $this->slug);
-
+                add_meta_box($fi->id, $fi->label, [$fi, "ReadView"], $this->slug);
             }
         }
     }
@@ -143,10 +152,7 @@ class PostType extends wpAPIBasePage
     {
         foreach ($this->fields as $fi)
         {
-            if ($fi->permissions->UPDATE)
-            {
-                $fi->ProcessPostData($post_id);
-            }
+            $fi->ProcessPostData($post_id);
         }
     }
 }

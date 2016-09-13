@@ -137,31 +137,41 @@ class wpAPIPermissions
         wpAPIPermissions::ViewPage => "cru",
     ];
 
-    public function SetPermission($editTable, $editPage, $viewTable, $viewPage)
+    public static function SetPermission($editTable, $editPage, $viewTable, $viewPage)
     {
-        $this->permissionMatrix[wpAPIPermissions::EditTable] = $editTable;
-        $this->permissionMatrix[wpAPIPermissions::EditPage] = $editPage;
-        $this->permissionMatrix[wpAPIPermissions::ViewTable] = $viewTable;
-        $this->permissionMatrix[wpAPIPermissions::ViewPage] = $viewPage;
+        $wP = new wpAPIPermissions();
+        $wP->permissionMatrix[wpAPIPermissions::EditTable] = $editTable;
+        $wP->permissionMatrix[wpAPIPermissions::EditPage] = $editPage;
+        $wP->permissionMatrix[wpAPIPermissions::ViewTable] = $viewTable;
+        $wP->permissionMatrix[wpAPIPermissions::ViewPage] = $viewPage;
+        return $wP;
+
     }
 
     // a more direct way of setting permissions e.g ["cr", "cru", "cru", "cru"] in order  EditTable, EditPage, ViewTable, ViewPage
-    public function SetPermissionArray($permissions)
+    public static function SetPermissionArray($permissions)
     {
         if (count($permissions) != 4)
         {
             throw new Exception("Permission array should have set for all 4 view states EditTable, EditPage, ViewTable, ViewPage");
         }
-        $this->permissionMatrix[wpAPIPermissions::EditTable] = $permissions[0];
-        $this->permissionMatrix[wpAPIPermissions::EditPage] = $permissions[1];
-        $this->permissionMatrix[wpAPIPermissions::ViewTable] = $permissions[2];
-        $this->permissionMatrix[wpAPIPermissions::ViewPage] = $permissions[4];
+        $wP = new wpAPIPermissions();
+        $wP->permissionMatrix[wpAPIPermissions::EditTable] = $permissions[0];
+        $wP->permissionMatrix[wpAPIPermissions::EditPage] = $permissions[1];
+        $wP->permissionMatrix[wpAPIPermissions::ViewTable] = $permissions[2];
+        $wP->permissionMatrix[wpAPIPermissions::ViewPage] = $permissions[4];
+        return $wP;
     }
 
 
     public function GetPermission($pageState)
     {
         return $this->permissionMatrix[$pageState];
+    }
+
+    public function GetPermissionAction($pageState, $action)
+    {
+        return strpos($this->permissionMatrix[$pageState], $action);
     }
 
 }

@@ -181,7 +181,7 @@ class wpAPIPermissions
     }
 
     //TODO: Rename this to check permission
-    public function GetPermissionAction($pageState, $action)
+    public function CheckPermissionAction($pageState, $action)
     {
         return strpos($this->permissionMatrix[$pageState], $action);
     }

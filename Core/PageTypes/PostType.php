@@ -41,7 +41,7 @@ class PostType extends wpAPIBasePage
             }
         }
         $this->CreateProperties();
-        $this->SetViewState();
+        $this->LoadViewState();
     }
 
     private function CreateProperties()
@@ -69,7 +69,7 @@ class PostType extends wpAPIBasePage
 
     }
 
-    function SetViewState($screen=null)
+    function LoadViewState($screen=null)
     {
         $action = '';
 
@@ -80,20 +80,22 @@ class PostType extends wpAPIBasePage
 
         if (function_exists('get_current_screen'))
         {
-            if (isset(get_current_screen()->action))
+            if (isset(get_current_screen()->action) && get_current_screen()->action !=null)
             {
                 $action = get_current_screen()->action;
             }
         }
 
+
         if ($action == "add"){
-            $this->viewState = wpAPIPermissions::AddPage;
+            $this->SetViewState(wpAPIPermissions::AddPage);
         }
         elseif ($action== "edit"){
-            $this->viewState = wpAPIPermissions::EditPage;
+
+            $this->SetViewState(wpAPIPermissions::EditPage);
         }
         else{
-            $this->viewState = wpAPIPermissions::ViewTable;
+            $this->SetViewState(wpAPIPermissions::ViewTable);
         }
 
 
@@ -116,7 +118,7 @@ class PostType extends wpAPIBasePage
     public function AddField($aField)
     {
 
-        if ($aField->permissions->GetPermissionAction($this->viewState, 'r') !== false) {
+        if ($aField->permissions->CheckPermissionAction($this->GetViewState(), 'r') !== false) {
 
 
             $aField->parent_slug = $this->slug;
@@ -138,7 +140,7 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->fields as $fi)
         {
-            if ($fi->permissions->GetPermissionAction($this->viewState, 'r') !== false) {
+            if ($fi->permissions->CheckPermissionAction($this->GetViewState(), 'r') !== false) {
                 $postTypeFields[$fi->id] = $fi->label;
             }
         }
@@ -176,8 +178,8 @@ class PostType extends wpAPIBasePage
     {
         foreach ($this->fields as $fi)
         {
-            if (($this->viewState == wpAPIPermissions::EditPage && $fi->permissions->GetPermissionAction($this->viewState, 'u') !== false)||
-                ($this->viewState == wpAPIPermissions::AddPage && $fi->permissions->GetPermissionAction($this->viewState, 'c') !== false)){
+            if (($this->GetViewState() == wpAPIPermissions::EditPage && $fi->permissions->CheckPermissionAction($this->GetViewState(), 'u') !== false)||
+                ($this->GetViewState() == wpAPIPermissions::AddPage && $fi->permissions->CheckPermissionAction($this->GetViewState(), 'c') !== false)){
 
                 add_meta_box($fi->id, $fi->label, [$fi, "EditView"], $this->slug);
             }

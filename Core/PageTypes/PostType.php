@@ -25,6 +25,7 @@ class PostType extends wpAPIBasePage
     {
         parent::__construct($slug, $label);
 
+
         if (is_array($label))
         {
             $this->props["labels"] = $label;
@@ -40,6 +41,7 @@ class PostType extends wpAPIBasePage
             }
         }
         $this->CreateProperties();
+        $this->SetViewState();
     }
 
     private function CreateProperties()
@@ -66,6 +68,37 @@ class PostType extends wpAPIBasePage
         add_action('save_post', [$this, "SaveFields"]);
 
     }
+
+    function SetViewState($screen=null)
+    {
+        $action = '';
+
+        //TODO: A bit hacky, look for ways to improve this
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+        }
+
+        if (function_exists('get_current_screen'))
+        {
+            if (isset(get_current_screen()->action))
+            {
+                $action = get_current_screen()->action;
+            }
+        }
+
+        if ($action == "add"){
+            $this->viewState = wpAPIPermissions::AddPage;
+        }
+        elseif ($action== "edit"){
+            $this->viewState = wpAPIPermissions::EditPage;
+        }
+        else{
+            $this->viewState = wpAPIPermissions::ViewTable;
+        }
+
+
+    }
+
     function RenderHook()
     {
         return 'init';
@@ -82,6 +115,7 @@ class PostType extends wpAPIBasePage
 
     public function AddField($aField)
     {
+
         if ($aField->permissions->GetPermissionAction($this->viewState, 'r') !== false) {
 
 
@@ -95,10 +129,12 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    # Function that sets the columns for the post types
     function SetFields( $fields)
     {
 
         $postTypeFields = [];
+
 
         foreach ($this->fields as $fi)
         {
@@ -110,13 +146,13 @@ class PostType extends wpAPIBasePage
         return $postTypeFields;
     }
 
+    # Rendering the declared columns. This is equivalent to the Grid View.
     function ViewFields($field, $post_id)
     {
         foreach ($this->fields as $fi)
         {
             if ($fi->id == $field)
             {
-
                 $fi->ReadView($post_id);
                 break;
             }
@@ -134,11 +170,15 @@ class PostType extends wpAPIBasePage
             }
         }
     }
+
+    # Display the edit fields
     function EditFields()
     {
         foreach ($this->fields as $fi)
         {
-            if ($fi->permissions->GetPermissionAction($this->viewState, 'u') !== false) {
+            if (($this->viewState == wpAPIPermissions::EditPage && $fi->permissions->GetPermissionAction($this->viewState, 'u') !== false)||
+                ($this->viewState == wpAPIPermissions::AddPage && $fi->permissions->GetPermissionAction($this->viewState, 'c') !== false)){
+
                 add_meta_box($fi->id, $fi->label, [$fi, "EditView"], $this->slug);
             }
             else
@@ -148,6 +188,7 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    # Save post type fields
     function SaveFields($post_id)
     {
         foreach ($this->fields as $fi)

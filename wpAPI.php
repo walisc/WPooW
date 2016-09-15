@@ -123,18 +123,25 @@ class WP_PERMISSIONS
 
 class wpAPIPermissions 
 {
-    const EditTable = "EditTable"; // Mainly relevant for custom post type. Inline editing mode
-    const EditPage = "EditPage"; // The edit page of a custom post type. Or a general page edit view. Serves as the default
-    const ViewTable = "ViewTable"; // Mainly relevant for custom post type. The grid layout
     const ViewPage = "ViewPage"; // This mainly valid in custom pages. View only mode
+    const AddPage = "AddPage"; //The add page of a custom post type.
+    const EditPage = "EditPage"; // The edit page of a custom post type. Or a general page edit view. Serves as the default
+
+    const ViewTable = "ViewTable"; // Mainly relevant for custom post type. The grid layout
+    const EditTable = "EditTable"; // Mainly relevant for custom post type. Inline editing mode
+
+
+
 
 
     // cru - create - read - update
     private $permissionMatrix = [
-        wpAPIPermissions::EditTable => "cru",
-        wpAPIPermissions::EditPage => "cru",
-        wpAPIPermissions::ViewTable => "cru",
         wpAPIPermissions::ViewPage => "cru",
+        wpAPIPermissions::AddPage => "cru",
+        wpAPIPermissions::EditPage => "cru",
+        wpAPIPermissions::EditTable => "cru",
+        wpAPIPermissions::ViewTable => "cru",
+
     ];
 
     // $permissions
@@ -169,9 +176,11 @@ class wpAPIPermissions
 
     public function GetPermission($pageState)
     {
+        //TODO: consider returning an object
         return $this->permissionMatrix[$pageState];
     }
 
+    //TODO: Rename this to check permission
     public function GetPermissionAction($pageState, $action)
     {
         return strpos($this->permissionMatrix[$pageState], $action);

@@ -11,6 +11,9 @@
 
 class Link extends BaseElement
 {
+    protected $elementIds = ["link_label" =>"_link_label",
+                            "link_url" => "_link_url"
+                            ];
 
     function __construct($id, $label, $permissions=null, $elementPath='')
     {
@@ -20,25 +23,36 @@ class Link extends BaseElement
     function ReadView($post_id)
     {
         $linkData = json_decode($this->GetDatabaseValue($post_id), true);
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_text" => $linkData["url_text"]]);
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_label" => $linkData["url_label"]]);
     }
 
     function EditView( $post)
     {
        parent::EditView($post);
+
+       $linkData = json_decode($this->GetDatabaseValue($post->ID), true);
+
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
            "id" => $this->id,
-           "label" => $this->label,
-           "value" => $this->GetDatabaseValue($post->ID)
+           "elementIds" => $this->elementIds,
+           "link_value_url" => $linkData["url"],
+           "link_value_label" => $linkData["url_label"],
+           //{"url":"http://localhost/tjc/wp-admin/edit.php?post_type=_tjc_speakers","url_text":"Edit"}
        ]);
     }
 
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);
-        $data = sanitize_text_field($_POST[$this->id]);
 
-        $this->SaveElementData($post_id, $data);
+
+        $database_value = [
+            "url_label" => sanitize_text_field($_POST[sprintf("%s%s",$this->id, $this->elementIds["link_url"])]),
+            "url" => sanitize_text_field($_POST[sprintf("%s%s",$this->id, $this->elementIds["link_url"])])
+
+        ];
+
+        $this->SaveElementData($post_id, json_encode($database_value));
         
     }
 }

@@ -37,7 +37,6 @@ class Link extends BaseElement
            "elementIds" => $this->elementIds,
            "link_value_url" => $linkData["url"],
            "link_value_label" => $linkData["url_label"],
-           //{"url":"http://localhost/tjc/wp-admin/edit.php?post_type=_tjc_speakers","url_text":"Edit"}
        ]);
     }
 

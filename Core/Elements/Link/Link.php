@@ -47,7 +47,7 @@ class Link extends BaseElement
 
 
         $database_value = [
-            "url_label" => sanitize_text_field($_POST[sprintf("%s%s",$this->id, $this->elementIds["link_url"])]),
+            "url_label" => sanitize_text_field($_POST[sprintf("%s%s",$this->id, $this->elementIds["link_label"])]),
             "url" => sanitize_text_field($_POST[sprintf("%s%s",$this->id, $this->elementIds["link_url"])])
 
         ];

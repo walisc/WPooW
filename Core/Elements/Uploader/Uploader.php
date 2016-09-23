@@ -12,6 +12,12 @@ class Uploader extends BaseElement
     private $uploaderTitle;
     private $buttonText;
     private $enableMultiple;
+    protected $elementIds = [
+        "selected_file_preview" =>"_selected_file_preview",
+        "selected_file_display" => "_selected_file_display",
+        "upload_button" => "_upload_button",
+        "selected_file" => "_selected_file"
+    ];
 
     function __construct($id, $label, $permissions=null, $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
@@ -51,18 +57,13 @@ class Uploader extends BaseElement
     {
         parent::EditView($post);
 
-        $elementIds = [
-            "selected_file_preview" =>"_selected_file_preview",
-            "selected_file_display" => "_selected_file_display",
-            "upload_button" => "_upload_button",
-            "selected_file" => "_selected_file"
-        ];
+
         wp_localize_script("wpAPIMediaUploader", "uploaderJsData",
                     array_merge(["id" =>$this->id,
                     "title" => $this->uploaderTitle,
                     "buttonText" => $this->buttonText,
                     "multiple" => $this->enableMultiple
-                    ],$elementIds));
+                    ],$this->elementIds));
 
         wp_enqueue_script("wpAPIMediaUploader");
         
@@ -81,7 +82,7 @@ class Uploader extends BaseElement
             "filename" => $fileName,
             "fileId" =>$fileId,
             "filePreview" => wp_get_attachment_image($fileId)],
-            "elementIds" => $elementIds
+            "elementIds" => $this->elementIds
         ]);
     }
 

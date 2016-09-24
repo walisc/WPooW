@@ -4,7 +4,11 @@ php:
   - 5.4
 
 script:
- - cat > version.txt
+ - current_version=$(cat Build/version.txt)
+ - echo $((current_version + 1)) > Build/version.txt
+ - git commit Build/version.txt -m "Updating Version Number"
+ - git push origin HEAD
+
 
 notifications:
   email: false

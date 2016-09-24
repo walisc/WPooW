@@ -5,6 +5,7 @@ php:
 
 before_script:
  - sudo apt-get install graphviz
+ - echo "phar.readonly = off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
  - current_version=$(cat Build/version.txt)
@@ -12,6 +13,7 @@ script:
  - touch Build/version.txt
  - echo $((current_version + 1)) > Build/version.txt
  - php Libraries/phpDocumentor/phpDocumentor.phar -d . -i Libraries/,Docs/,Build/ -t Build/APIDocumentation/
+ - php createPHAR.php
 
 after_success:
  - git add -A

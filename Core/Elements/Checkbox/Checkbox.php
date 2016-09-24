@@ -19,7 +19,7 @@ class Checkbox extends BaseElement
 
     function ReadView($post_id)
     {
-        $activeValue = $this->GetDatabaseValue($post_id) == 1 ? "checked" : "";
+        $activeValue = $this->GetDatabaseValue($post_id) == "on" ? "checked" : "";
         echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["active_value" => $activeValue]);
     }
 

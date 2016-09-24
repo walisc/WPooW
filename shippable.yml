@@ -5,17 +5,18 @@ php:
 
 before_script:
  - sudo apt-get install graphviz
- 
+
 script:
  - current_version=$(cat Build/version.txt)
+ - rm -r Build/*
+ - touch Build/version.txt
  - echo $((current_version + 1)) > Build/version.txt
  - php Libraries/phpDocumentor/phpDocumentor.phar -d . -i Libraries/,Docs/,Build/ -t Build/APIDocumentation/
 
 after_success:
+ - git add -A
  - git commit -a -m "Build Commit. Version number bumped"
  - git push git@github.com:walisc/wpAPI.git HEAD
-
-
 
 notifications:
   email: false

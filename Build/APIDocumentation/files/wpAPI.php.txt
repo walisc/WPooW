@@ -1,0 +1,193 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: chidow
+ * Date: 2016/05/30
+ * Time: 9:31 PM
+ */
+//TODO: Use autoloading
+include_once  'Core/wpAPIUtilities.php';
+include_once 'Core/wpAPIBasePage.php';
+include_once 'Core/wpAPIObjects.php';
+include_once 'Core/Elements/BaseElement.php';
+
+include_once 'Core/PageTypes/PostType.php';
+include_once 'Core/PageTypes/SubMenu.php';
+include_once 'Core/PageTypes/Menu.php';
+
+include_once 'Libraries/twig/twig/lib/Twig/Autoloader.php';
+include_once 'Core/Elements/Autoloader.php';
+
+class wpAPI
+{
+    function __construct()
+    {
+        //TODO: Add helper
+        Twig_Autoloader::register();
+        Elements_Autoloader::register();
+
+        define( 'WP_API_PATH_ABS', dirname(__FILE__) . '/' );
+        define( 'WP_API_PATH_REL', str_replace(ABSPATH, '', __DIR__) . '/' );
+        define( 'WP_API_ELEMENT_PATH_REL', WP_API_PATH_REL . "Core" . DIRECTORY_SEPARATOR . "Elements" .DIRECTORY_SEPARATOR);
+
+
+    }
+    //TODO: Id validation. Also note Id/slug cannot be to long
+    public function CreateMenu($page_slug, $menu_title, $capability, $display_path, $icon='', $position=null)
+    {
+        return new Menu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
+
+    }
+
+    public function CreateSubMenu($page_slug, $menu_title, $capability, $display_path)
+    {
+        return new SubMenu($page_slug, $menu_title ,$capability,$display_path);
+
+    }
+
+    public function CreatePostType($page_slug, $title)
+    {
+        return new PostType($page_slug, $title );
+
+    }
+
+
+}
+
+class wpAPI_VIEW
+{
+    CONST PATH = 1;
+    CONST CONTENT = 2;
+
+    private $type;
+    private $path_content;
+    private $data = [];
+
+    function __construct($type, $path_content, $data)
+    {
+        $this->type = $type;
+        $this->path_content = $path_content;
+        $this->data = array_merge($this->data, $data);
+
+    }
+    
+    function Render()
+    {
+        
+        if ($this->type == self::PATH)
+        {
+            //TODO: Make this global
+
+            $loader = new Twig_Loader_Filesystem(__DIR__.'/../../');
+            $twig = new Twig_Environment($loader);
+
+            echo $twig->render($this->path_content, $this->data);
+        }
+        else if ($this->type == self::CONTENT)
+        {
+
+            $loader = new Twig_Loader_Array(array(
+                'page.html' => $this->path_content,
+            ));
+
+            $twig = new Twig_Environment($loader);
+
+            echo $twig->render('page.html', $this->data);
+
+        }
+
+
+
+    }
+    
+    function SetData($data, $append=true)
+    {
+        if ($append) {
+            $this->data = array_merge($this->data, $data);
+        }
+        else
+        {
+            $this->data = $data;
+        }
+
+    }
+}
+
+class WP_PERMISSIONS
+{
+   CONST MANAGE_OPTIONS = "manage_options";
+}
+
+
+
+class wpAPIPermissions 
+{
+    const ViewPage = "ViewPage"; // This mainly valid in custom pages. View only mode
+    const AddPage = "AddPage"; //The add page of a custom post type.
+    const EditPage = "EditPage"; // The edit page of a custom post type. Or a general page edit view. Serves as the default
+
+    const ViewTable = "ViewTable"; // Mainly relevant for custom post type. The grid layout
+    const EditTable = "EditTable"; // Mainly relevant for custom post type. Inline editing mode
+
+
+
+
+
+    // cru - create - read - update
+    private $permissionMatrix = [
+        wpAPIPermissions::ViewPage => "cru",
+        wpAPIPermissions::AddPage => "cru",
+        wpAPIPermissions::EditPage => "cru",
+        wpAPIPermissions::EditTable => "cru",
+        wpAPIPermissions::ViewTable => "cru",
+
+    ];
+
+    // $permissions
+    // an array with viewstate -> permission  relations to be set for the element such as the field
+    // eg
+    //  [
+    //      "EditTable" = > "cr"
+    //      "EditPage" = > "cru"
+    //      "ViewTable" = > "cru"
+    //      "ViewPage" = > "cru"
+    //  ]
+    // Note:- for viewstates you can use the const i.e wpAPIPermissions::EditTable => "cru"
+    // Also note by default all viewstates have the permission cru.
+    // because of this you don't have to specify all viewstates. Only the one you want
+
+    public static function SetPermission($permissions = [])
+    {
+        if (!is_array($permissions))
+        {
+            throw new Exception("Permission should be an array with the 4 view states EditTable, EditPage, ViewTable, ViewPage");
+        }
+        $wP = new wpAPIPermissions();
+
+
+        foreach ($permissions as $pageState => $permission)
+        {
+            $wP->permissionMatrix[$pageState] = $permission;
+        }
+        return $wP;
+    }
+
+
+    public function GetPermission($pageState)
+    {
+        //TODO: consider returning an object
+        return $this->permissionMatrix[$pageState];
+    }
+
+    //TODO: Rename this to check permission
+    public function CheckPermissionAction($pageState, $action)
+    {
+        return strpos($this->permissionMatrix[$pageState], $action);
+    }
+
+}
+
+class_alias('wpAPIPermissions', 'wpPer');
+
+

@@ -8,7 +8,7 @@ script:
  - echo $((current_version + 1)) > Build/version.txt
 
 after_success:
- - git commit Build/version.txt  --amend -m "Version bump [skip ci]"
+ - git commit Build/version.txt  -m "Build Commit. Version numerb bumped"
  - git push git@github.com:walisc/wpAPI.git HEAD
 
 notifications:

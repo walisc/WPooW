@@ -3,6 +3,10 @@ language: php
 php:
   - 5.4
 
+before_script:
+ - git remote set-url origin git@github.com:walisc/wpAPI.git
+ - git config --get remote.origin.url
+
 script:
  - current_version=$(cat Build/version.txt)
  - echo $((current_version + 1)) > Build/version.txt

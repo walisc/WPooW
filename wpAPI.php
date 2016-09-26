@@ -27,8 +27,8 @@ class wpAPI
         Twig_Autoloader::register();
         Elements_Autoloader::register();
 
-        define( 'WP_API_PATH_ABS', dirname(__FILE__) . '/' );
-        define( 'WP_API_PATH_REL', str_replace(ABSPATH, '', __DIR__) . '/' );
+        define( 'WP_API_PATH_ABS', wpAPIUtilities::GetRealPath(dirname(__FILE__)) . '/' );
+        define( 'WP_API_PATH_REL', str_replace(ABSPATH, '',  wpAPIUtilities::GetRealPath( __DIR__ )) . '/' );
         define( 'WP_API_ELEMENT_PATH_REL', WP_API_PATH_REL . "Core" . DIRECTORY_SEPARATOR . "Elements" .DIRECTORY_SEPARATOR);
 
 
@@ -79,7 +79,7 @@ class wpAPI_VIEW
         {
             //TODO: Make this global
 
-            $loader = new Twig_Loader_Filesystem(__DIR__.'/../../');
+            $loader = new Twig_Loader_Filesystem(ABSPATH);
             $twig = new Twig_Environment($loader);
 
             echo $twig->render($this->path_content, $this->data);

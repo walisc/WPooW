@@ -17,4 +17,9 @@ class wpAPIUtilities
         return call_user_func_array([$className, $classMethod], $params);
 
     }
+
+    public static function GetRealPath($path)
+    {
+        return str_replace("phar://", "", $path);
+    }
 }

@@ -46,9 +46,9 @@ class wpAPI
 
     }
 
-    public function CreatePostType($page_slug, $title)
+    public function CreatePostType($page_slug, $title, $persist=false)
     {
-        return new PostType($page_slug, $title );
+        return new PostType($page_slug, $title , $persist);
 
     }
 

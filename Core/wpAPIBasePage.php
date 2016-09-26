@@ -23,6 +23,11 @@ abstract class wpAPIBasePage
         $this->label = $label;
     }
 
+    public function GetSlug()
+    {
+        return $this->slug;
+    }
+
     public function Render($parent_slug)
     {
 

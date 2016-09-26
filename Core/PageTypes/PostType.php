@@ -21,7 +21,7 @@ class PostType extends wpAPIBasePage
 
     protected $fields = [];
 
-    function __construct($slug, $label, $options = [])
+    function __construct($slug, $label, $persist=false, $options = [])
     {
         parent::__construct($slug, $label);
 
@@ -42,6 +42,11 @@ class PostType extends wpAPIBasePage
         }
         $this->CreateProperties();
         $this->LoadViewState();
+
+        if ($persist)
+        {
+            WPAPIObjects::GetInstance()->AddObject($slug, $this);
+        }
     }
 
     private function CreateProperties()
@@ -51,6 +56,11 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    function Query()
+    {
+        return new wpQueryObject($this);
+    }
+    
     function Generate()
     {
         $postTypeArray = [];
@@ -130,7 +140,7 @@ class PostType extends wpAPIBasePage
             array_push($this->fields, $aField);
         }
     }
-
+    
     # Function that sets the columns for the post types
     function SetFields( $fields)
     {

@@ -9,4 +9,4 @@ ini_set('phar.readonly',"off");
 
 $phar = new Phar('Build/wpAPI.phar', 0, 'wpAPI.phar');
 $phar->buildFromDirectory( getcwd());
-$phar->setStub($phar->createDefaultStub('wpAPI.php'));
+$phar->setStub($phar->createDefaultStub('wpAPI.php','wpAPI.php' ));

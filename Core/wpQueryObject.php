@@ -20,7 +20,7 @@ class wpQueryObject
     #TODO and column logic
     public function Select($colums = [])
     {
-        $queryArgs["post_type"] =  $this->postType->GetSlug();
+        $this->queryArgs["post_type"] =  $this->postType->GetSlug();
 
         return $this;
     }
@@ -28,9 +28,9 @@ class wpQueryObject
     public function OrderBy($fieldname, $asc_desc)
     {
         #TODO: What if not meta Value
-        $queryArgs["orderby"] =  "meta_value";
-        $queryArgs["meta_key"] =  $fieldname;
-        $queryArgs["order"] =  $asc_desc; # ASC or DESC
+        $this->queryArgs["orderby"] =  "meta_value";
+        $this->queryArgs["meta_key"] =  $fieldname;
+        $this->queryArgs["order"] =  $asc_desc; # ASC or DESC
         return $this;
 
     }
@@ -43,7 +43,7 @@ class wpQueryObject
 
             $returnRow = [];
 
-            foreach ($this->postType->fields as $field)
+            foreach ($this->postType->GetFields() as $field)
             {
                 #TODO: if not custom post
                 $returnRow[$field->id] = post_custom($field->valueKey);

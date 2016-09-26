@@ -125,6 +125,16 @@ class PostType extends wpAPIBasePage
         parent::Render($parent_slug);
     }
 
+    public function GetFields()
+    {
+        return $this->fields;
+    }
+
+    public function GetFieldDbKey($field_id)
+    {
+        return $this->fields[$field_id]->valueKey;
+    }
+
     public function AddField($aField)
     {
 
@@ -137,10 +147,10 @@ class PostType extends wpAPIBasePage
             $aField->saveNonce = sprintf("%s_meta_box_nonce", $aField->id);
             $aField->valueKey = sprintf("%s_value_key", $aField->id);
 
-            array_push($this->fields, $aField);
+            $this->fields[$aField->id] = $aField;
         }
     }
-    
+
     # Function that sets the columns for the post types
     function SetFields( $fields)
     {

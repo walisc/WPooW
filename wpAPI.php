@@ -10,6 +10,7 @@
 include_once  'Core/wpAPIUtilities.php';
 include_once 'Core/wpAPIBasePage.php';
 include_once 'Core/wpAPIObjects.php';
+include_once 'Core/wpQueryObject.php';
 include_once 'Core/Elements/BaseElement.php';
 
 include_once 'Core/PageTypes/PostType.php';

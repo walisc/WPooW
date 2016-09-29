@@ -20,6 +20,7 @@ class PostType extends wpAPIBasePage
     ];
 
     protected $fields = [];
+    private $persist = false;
 
     function __construct($slug, $label, $persist=false, $options = [])
     {
@@ -43,10 +44,8 @@ class PostType extends wpAPIBasePage
         $this->CreateProperties();
         $this->LoadViewState();
 
-        if ($persist)
-        {
-            WPAPIObjects::GetInstance()->AddObject($slug, $this);
-        }
+        $this->persist = $persist;
+
     }
 
     private function CreateProperties()
@@ -76,6 +75,11 @@ class PostType extends wpAPIBasePage
         add_action("add_meta_boxes", [$this, "EditFields"] );
         add_action('quick_edit_custom_box', [$this, "QuickEditFields"], 10, 2);
         add_action('save_post', [$this, "SaveFields"]);
+
+        if ($this->persist)
+        {
+            WPAPIObjects::GetInstance()->AddObject($this->slug, $this);
+        }
 
     }
 
@@ -132,7 +136,8 @@ class PostType extends wpAPIBasePage
 
     public function GetFieldDbKey($field_id)
     {
-        return $this->fields[$field_id]->valueKey;
+
+       return $this->fields[sprintf("%s_%s", $this->slug, $field_id)]->valueKey;
     }
 
     public function AddField($aField)

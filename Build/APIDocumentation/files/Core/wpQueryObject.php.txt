@@ -29,7 +29,7 @@ class wpQueryObject
     {
         #TODO: What if not meta Value
         $this->queryArgs["orderby"] =  "meta_value";
-        $this->queryArgs["meta_key"] =  $fieldname;
+        $this->queryArgs["meta_key"] =  $this->postType->GetFieldDbKey($fieldname);
         $this->queryArgs["order"] =  $asc_desc; # ASC or DESC
         return $this;
 
@@ -41,7 +41,7 @@ class wpQueryObject
 
         while ( $loop->have_posts() ) : $loop->the_post();
 
-            $returnRow = [];
+            $returnRow = new PostTypeRow($this->postType->GetSlug());
 
             foreach ($this->postType->GetFields() as $field)
             {
@@ -51,5 +51,81 @@ class wpQueryObject
             yield  $returnRow;
 
         endwhile;
+    }
+}
+
+#TODO: Really think about this. The proper way of implementing. The class is no longer generic
+class PostTypeRow extends ArrayObject
+{
+
+    private $parent_slug = "";
+    private $storage = array();
+
+    //https://gist.github.com/eaglstun/1100119
+
+
+    public function __construct($parent_slug = "")
+    {
+        $this->parent_slug = $parent_slug;
+        parent::setFlags(parent::ARRAY_AS_PROPS);
+        parent::setFlags(parent::STD_PROP_LIST);
+    }
+
+    public function __get($k)
+    {
+
+        return isset($this->storage[$this->parent_slug .'_'.$k]) ? $this->storage[$this->parent_slug .'_'.$k] : FALSE;
+    }
+
+
+    public function offsetGet($k)
+    {
+        return isset($this->storage[$this->parent_slug .'_'.$k]) ? $this->storage[$this->parent_slug .'_'.$k] : FALSE;
+    }
+
+
+    public function __set($k, $v)
+    {
+        $this->storage[$k] = $v;
+    }
+
+
+    public function offsetSet($k, $v)
+    {
+        is_null($k) ? array_push($this->storage, $v) : $this->storage[$k] = $v;
+    }
+
+
+    public function count()
+    {
+        return count($this->storage);
+    }
+
+    public function asort()
+    {
+        asort($this->storage);
+    }
+
+
+    public function ksort()
+    {
+        ksort($this->storage);
+    }
+
+    public function offsetUnset($name)
+    {
+        unset($this->storage[$name]);
+    }
+
+
+    public function __unset($name)
+    {
+        unset($this->storage[$name]);
+    }
+
+    public function getIterator()
+    {
+        return new ArrayIterator($this->storage);
+
     }
 }

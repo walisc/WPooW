@@ -36,9 +36,9 @@ class Select extends BaseElement
     {
        parent::EditView($post);
 
-       $activeValue = $this->GetDatabaseValue($post->ID) == "on" ? "checked" : "";
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
-                                                                                "id" => $this->id]);
+                                                                                "id" => $this->id,
+                                                                                "selected_option" => $this->GetDatabaseValue($post->ID) ]);
     }
 
     function ProcessPostData($post_id)

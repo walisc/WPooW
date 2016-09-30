@@ -21,6 +21,7 @@ class wpQueryObject
     public function Select($colums = [])
     {
         $this->queryArgs["post_type"] =  $this->postType->GetSlug();
+        $this->queryArgs["posts_per_page"] = -1;
 
         return $this;
     }

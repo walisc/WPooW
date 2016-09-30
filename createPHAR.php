@@ -24,7 +24,7 @@ class MyRecursiveFilterIterator extends RecursiveFilterIterator {
 
 }
 
-$exclude = array('.git', 'Docs', 'Build');
+$exclude = array('.git', 'Docs', 'Build' , 'createPHAR.php', 'shippable.yml');
 
 $filter = function ($file, $key, $iterator) use ($exclude) {
     if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
@@ -41,12 +41,13 @@ $iterator = new RecursiveIteratorIterator(
     new RecursiveCallbackFilterIterator($innerIterator, $filter)
 );
 
-
-unlink('Build/wpAPI.phar');
+if (file_exists('Build/wpAPI.phar')) {
+    unlink('Build/wpAPI.phar');
+}
 
 $phar = new Phar('Build/wpAPI.phar', 0, 'wpAPI.phar');
 $phar->buildFromIterator(
     new RecursiveIteratorIterator(
         new RecursiveCallbackFilterIterator($innerIterator, $filter)),
     getcwd());
-$phar->setStub($phar->createDefaultStub('cli/index.php', 'www/index.php'));
+$phar->setStub($phar->createDefaultStub('wpAPI.php', 'wpAPI.php'));

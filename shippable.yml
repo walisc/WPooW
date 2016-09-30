@@ -12,7 +12,7 @@ script:
  - rm -r Build/*
  - touch Build/version.txt
  - echo $((current_version + 1)) > Build/version.txt
- - php Libraries/phpDocumentor/phpDocumentor.phar -d . -i Libraries/,Docs/,Build/ -t Build/APIDocumentation/
+ - php Libraries/phpDocumentor/phpDocumentor.phar -d . -i Libraries,Docs,Build,.git -t Build/APIDocumentation/
  - php createPHAR.php
 
 after_success:

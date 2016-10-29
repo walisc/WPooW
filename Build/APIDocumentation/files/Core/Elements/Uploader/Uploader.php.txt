@@ -57,8 +57,12 @@ class Uploader extends BaseElement
     {
         parent::EditView($post);
 
+        $wpAPIMediaUploaderBagCount = "wpAPI_uploaderJsData_bag_count";
+        
+        wp_cache_add($wpAPIMediaUploaderBagCount, 1);
+        $mediaUploaderIndex =wp_cache_get($wpAPIMediaUploaderBagCount);
 
-        wp_localize_script("wpAPIMediaUploader", "uploaderJsData",
+        wp_localize_script("wpAPIMediaUploader", "uploaderJsData_bag_". $mediaUploaderIndex,
                     array_merge(["id" =>$this->id,
                     "title" => $this->uploaderTitle,
                     "buttonText" => $this->buttonText,
@@ -66,6 +70,7 @@ class Uploader extends BaseElement
                     ],$this->elementIds));
 
         wp_enqueue_script("wpAPIMediaUploader");
+        wp_cache_set($wpAPIMediaUploaderBagCount, ++$mediaUploaderIndex);
         
         $fileData = json_decode($this->GetDatabaseValue($post->ID), true);
         $fileData = $fileData != null ? $fileData : [];

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/05/30
- * Time: 9:31 PM
- */
 //TODO: Use autoloading
 include_once  'Core/wpAPIUtilities.php';
 include_once 'Core/wpAPIBasePage.php';
@@ -25,11 +19,14 @@ include_once 'Core/Elements/Autoloader.php';
  *
  * Forms the entry point of the wpAPI wrapper. Contains main methods for creating elements
  *
+ * @namespace wpAPI
+ *
  */
 class wpAPI
 {
     /**
      * wpAPI constructor.
+     *
      */
     function __construct()
     {
@@ -101,6 +98,7 @@ class wpAPI
  * A wpAPI_VIEW can either be link to a twig template or be based on a template string
  *
  * Class wpAPI_VIEW
+ * @package wpAPI\Core
  */
 class wpAPI_VIEW
 {
@@ -208,7 +206,7 @@ class wpAPI_VIEW
  * Class WP_PERMISSIONS
  *
  * wrapper for the main wordpress permissions
- *
+ * @package wpAPI\Core
  */
 class WP_PERMISSIONS
 {
@@ -258,6 +256,7 @@ class WP_PERMISSIONS
  * - editable if update permissions are true and the viewstate matches.
  * - editable if create permissions are true and the viewstate matches.
  *
+ * @package wpAPI\Core
  */
 
 

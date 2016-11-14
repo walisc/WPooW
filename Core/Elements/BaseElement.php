@@ -79,7 +79,6 @@ abstract class BaseElement
 
     public function ProcessPostData($post_id)
     {
-
         if ((!isset($_POST[$this->saveNonce])
         || (! wp_verify_nonce($_POST[$this->saveNonce], $this->saveFunction))
         || (defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)

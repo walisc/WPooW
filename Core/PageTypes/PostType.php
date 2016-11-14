@@ -20,6 +20,11 @@ class PostType extends wpAPIBasePage
     ];
 
     protected $fields = [];
+
+    private $onSaveEvents = [];
+    private $onEditEvents = [];
+    private $onViewEvents = [];
+
     private $persist = false;
 
     function __construct($slug, $label, $persist=false, $options = [])
@@ -218,9 +223,49 @@ class PostType extends wpAPIBasePage
     # Save post type fields
     function SaveFields($post_id)
     {
+        $data = [];
+
+        foreach ($this->fields as $fi)
+        {
+
+            if ((!isset($_POST[$fi->saveNonce])
+                || (! wp_verify_nonce($_POST[$fi->saveNonce], $fi->saveFunction))
+                || (defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
+                || (! current_user_can('edit_post', $post_id))
+            )){continue;}
+
+            $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
+        }
+
+        foreach ($this->onSaveEvents as $observor)
+        {
+
+            $processed_data =  call_user_func_array($observor, [$data]);
+
+            foreach ($processed_data as $key => $value)
+            {
+                $_POST[$key] = $value;
+            }
+        }
+
         foreach ($this->fields as $fi)
         {
             $fi->ProcessPostData($post_id);
         }
     }
+
+    public function RegisterOnSaveEvent($method, $class=null)
+    {
+        if ($class == null)
+        {
+            array_push($this->onSaveEvents,  $method);
+        }
+        else
+        {
+            array_push($this->onSaveEvents, [$class, $method]);
+
+        }
+    }
+
+
 }

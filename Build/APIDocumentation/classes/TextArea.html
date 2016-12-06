@@ -3,1011 +3,923 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta charset="utf-8"/>
-    <title>API Documentation</title>
+    <title>    API Documentation &raquo; \TextArea
+</title>
     <meta name="author" content=""/>
     <meta name="description" content=""/>
 
-    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/prism.css" rel="stylesheet" media="all"/>
-    <link href="../css/template.css" rel="stylesheet" media="all"/>
+            <link href="../css/template.css" rel="stylesheet" media="all"/>
     
-    <!--[if lt IE 9]>
-    <script src="../js/html5.js"></script>
-    <![endif]-->
-    <script src="../js/jquery-1.11.0.min.js"></script>
-    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.smooth-scroll.js"></script>
-    <script src="../js/prism.min.js"></script>
-    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-    <script type="text/javascript">
-    function loadExternalCodeSnippets() {
-        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
-            var src = pre.getAttribute('data-src');
-            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-            var language = 'php';
-
-            var code = document.createElement('code');
-            code.className = 'language-' + language;
-
-            pre.textContent = '';
-
-            code.textContent = 'Loading…';
-
-            pre.appendChild(code);
-
-            var xhr = new XMLHttpRequest();
-
-            xhr.open('GET', src, true);
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-
-                    if (xhr.status < 400 && xhr.responseText) {
-                        code.textContent = xhr.responseText;
-
-                        Prism.highlightElement(code);
-                    }
-                    else if (xhr.status >= 400) {
-                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                    }
-                    else {
-                        code.textContent = '✖ Error: File does not exist or is empty';
-                    }
-                }
-            };
-
-            xhr.send(null);
-        });
-    }
-
-    $(document).ready(function(){
-        loadExternalCodeSnippets();
-    });
-    $('#source-view').on('shown', function () {
-        loadExternalCodeSnippets();
-    })
-</script>
-
-    <link rel="shortcut icon" href="../images/favicon.ico"/>
-    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
-    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
-    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
-</head>
+            <!--[if lt IE 9]>
+        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+        <![endif]-->
+        <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+        <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap.js" type="text/javascript"></script>
+        <script src="../js/template.js" type="text/javascript"></script>
+        <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    
+            <link rel="shortcut icon" href="../img/favicon.ico"/>
+        <link rel="apple-touch-icon" href="../img/apple-touch-icon.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png"/>
+    </head>
 <body>
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <i class="icon-ellipsis-vertical"></i>
-            </a>
-            <a class="brand" href="../index.html">API Documentation</a>
+        <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> </a>
+                <a class="brand" href="../index.html">API Documentation</a>
 
-            <div class="nav-collapse">
-                <ul class="nav pull-right">
-                                        <li class="dropdown" id="charts-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../graphs/class.html">
-                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">279</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">10</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/deprecated.html">
-                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!--<div class="go_to_top">-->
-    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-    <!--</div>-->
-</div>
-
-<div id="___" class="container-fluid">
-        <section class="row-fluid">
-        <div class="span2 sidebar">
-                                <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1385298676"></a>
-                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
-            </div>
-            <div id="namespace-1385298676" class="accordion-body collapse in">
-                <div class="accordion-inner">
-
-                    
-                    <ul>
-                                                                                                    <li class="class"><a href="../classes/BaseElement.html">BaseElement</a></li>
-                                                    <li class="class"><a href="../classes/Checkbox.html">Checkbox</a></li>
-                                                    <li class="class"><a href="../classes/Elements_Autoloader.html">Elements_Autoloader</a></li>
-                                                    <li class="class"><a href="../classes/Link.html">Link</a></li>
-                                                    <li class="class"><a href="../classes/Menu.html">Menu</a></li>
-                                                    <li class="class"><a href="../classes/MyRecursiveFilterIterator.html">MyRecursiveFilterIterator</a></li>
-                                                    <li class="class"><a href="../classes/PostType.html">PostType</a></li>
-                                                    <li class="class"><a href="../classes/PostTypeRow.html">PostTypeRow</a></li>
-                                                    <li class="class"><a href="../classes/Select.html">Select</a></li>
-                                                    <li class="class"><a href="../classes/SubMenu.html">SubMenu</a></li>
-                                                    <li class="class"><a href="../classes/Text.html">Text</a></li>
-                                                    <li class="class"><a href="../classes/TextArea.html">TextArea</a></li>
-                                                    <li class="class"><a href="../classes/Uploader.html">Uploader</a></li>
-                                                    <li class="class"><a href="../classes/WP_PERMISSIONS.html">WP_PERMISSIONS</a></li>
-                                                    <li class="class"><a href="../classes/wpAPI.html">wpAPI</a></li>
-                                                    <li class="class"><a href="../classes/wpAPI_VIEW.html">wpAPI_VIEW</a></li>
-                                                    <li class="class"><a href="../classes/wpAPIBasePage.html">wpAPIBasePage</a></li>
-                                                    <li class="class"><a href="../classes/wpAPIDateTime.html">wpAPIDateTime</a></li>
-                                                    <li class="class"><a href="../classes/wpAPIObjects.html">wpAPIObjects</a></li>
-                                                    <li class="class"><a href="../classes/wpAPIPermissions.html">wpAPIPermissions</a></li>
-                                                    <li class="class"><a href="../classes/wpAPIUtilities.html">wpAPIUtilities</a></li>
-                                                    <li class="class"><a href="../classes/wpQueryObject.html">wpQueryObject</a></li>
-                                            </ul>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                API Documentation <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                                                                            </ul>
+                        </li>
+                        <li class="dropdown" id="charts-menu">
+                            <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                Charts <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../graph_class.html">
+                                        <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="reports-menu">
+                            <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                Reports <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../errors.html">
+                                        <i class="icon-list-alt"></i>&#160;Errors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../markers.html">
+                                        <i class="icon-list-alt"></i>&#160;Markers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../deprecated.html">
+                                        <i class="icon-list-alt"></i>&#160;Deprecated
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+        <div class="go_to_top">
+            <a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>
+        </div>
+    </div>
+    
+    <div id="___" class="container">
+        <noscript>
+            <div class="alert alert-warning">
+                Javascript is disabled; several features are only available if Javascript is enabled.
+            </div>
+        </noscript>
+
+        
+            <style>
+        .deprecated h2 {
+            text-decoration: line-through;
+        }
+    </style>
+    <div class="row">
+        <div class="span4">
+                    <div class="btn-group view pull-right" data-toggle="buttons-radio">
+        <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button>
+        <button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+    </div>
+    <div class="btn-group visibility" data-toggle="buttons-checkbox">
+        <button class="btn public active" title="Show public elements">Public</button>
+        <button class="btn protected" title="Show protected elements">Protected</button>
+        <button class="btn private" title="Show private elements">Private</button>
+        <button class="btn inherited active" title="Show inherited elements">Inherited</button>
     </div>
 
-        </div>
-    </section>
-    <section class="row-fluid">
-        <div class="span10 offset2">
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <nav>
-                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
-                                            </nav>
-                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+        <ul class="side-nav nav nav-list">
+        <li class="nav-header">
+            <i class="icon-custom icon-method"></i> Methods
+            <ul>
+                                                                                                    <li class="method public inherited">
+        <a href="#method___construct" title="__construct :: ">
+            <span class="description"></span><pre>__construct</pre>
+        </a>
+    </li>
 
-                    <h1><small>\</small>TextArea</h1>
-                    <p><em>Created by PhpStorm.</em></p>
-                    <p>User: chidow
+                                                                                                                                                                                                                                                                                <li class="method public inherited">
+        <a href="#method_ProcessPostData" title="ProcessPostData :: ">
+            <span class="description"></span><pre>ProcessPostData</pre>
+        </a>
+    </li>
+
+                                                                                                                                                                <li class="method public inherited">
+        <a href="#method_RegisterOnReadEvent" title="RegisterOnReadEvent :: ">
+            <span class="description"></span><pre>RegisterOnReadEvent</pre>
+        </a>
+    </li>
+
+                                                                                                        <li class="method public inherited">
+        <a href="#method_RegisterOnSaveEvent" title="RegisterOnSaveEvent :: ">
+            <span class="description"></span><pre>RegisterOnSaveEvent</pre>
+        </a>
+    </li>
+
+                                                                                                        </ul>
+        </li>
+        <li class="nav-header protected">» Protected
+            <ul>
+                                                                                                                <li class="method protected inherited">
+                            <a href="#method_EditView" title="EditView :: ">
+                                <span class="description"></span><pre>EditView</pre>
+                            </a>
+                        </li>
+                                                                                <li class="method protected inherited">
+                            <a href="#method_GetDatabaseValue" title="GetDatabaseValue :: ">
+                                <span class="description"></span><pre>GetDatabaseValue</pre>
+                            </a>
+                        </li>
+                                                                                <li class="method protected inherited">
+                            <a href="#method_GetElementDirectory" title="GetElementDirectory :: ">
+                                <span class="description"></span><pre>GetElementDirectory</pre>
+                            </a>
+                        </li>
+                                                                                                                    <li class="method protected inherited">
+                            <a href="#method_ReadView" title="ReadView :: ">
+                                <span class="description"></span><pre>ReadView</pre>
+                            </a>
+                        </li>
+                                                                                                                                                        <li class="method protected inherited">
+                            <a href="#method_SaveElementData" title="SaveElementData :: ">
+                                <span class="description"></span><pre>SaveElementData</pre>
+                            </a>
+                        </li>
+                                                </ul>
+        </li>
+        <li class="nav-header private">» Private
+            <ul>
+                                                                                                                                                                                                                                                                                                                                                                                </ul>
+        </li>
+        <li class="nav-header">
+            <i class="icon-custom icon-constant"></i> Constants
+            <ul>
+                            </ul>
+        </li>
+    </ul>
+
+
+        </div>
+
+        <div class="span8">
+            <div class="element class">
+                <h1>TextArea</h1>
+                <small style="display: block; text-align: right">
+                                            Extends <a href="../classes/BaseElement.html">\BaseElement</a>
+                                                        </small>
+                <p class="short_description">Created by PhpStorm.</p>
+                <div class="details">
+                    <div class="long_description">
+                        <p>User: chidow
 Date: 2016/08/13
 Time: 7:46 PM</p>
-                    
-                                        
-                    <section id="summary">
-                        <h2>Summary</h2>
-                        <section class="row-fluid heading">
-                            <section class="span4">
-                                <a href="#methods">Methods</a>
-                            </section>
-                            <section class="span4">
-                                <a href="#properties">Properties</a>
-                            </section>
-                            <section class="span4">
-                                <a href="#constants">Constants</a>
-                            </section>
-                        </section>
-                        <section class="row-fluid public">
-                            <section class="span4">
-                                                                    <a href="../classes/TextArea.html#method_ReadView" class="">ReadView()</a><br />
-                                                                    <a href="../classes/TextArea.html#method_EditView" class="">EditView()</a><br />
-                                                                    <a href="../classes/BaseElement.html#method_RegisterOnSaveEvent" class="">RegisterOnSaveEvent()</a><br />
-                                                                    <a href="../classes/BaseElement.html#method_RegisterOnReadEvent" class="">RegisterOnReadEvent()</a><br />
-                                                                    <a href="../classes/TextArea.html#method_ProcessPostData" class="">ProcessPostData()</a><br />
-                                                                    <a href="../classes/TextArea.html#method___construct" class="">__construct()</a><br />
-                                                            </section>
-                            <section class="span4">
-                                                                    <a href="../classes/BaseElement.html#property_parent_slug" class="">$parent_slug</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_id" class="">$id</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_label" class="">$label</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_permissions" class="">$permissions</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_saveFunction" class="">$saveFunction</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_saveNonce" class="">$saveNonce</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_valueKey" class="">$valueKey</a><br />
-                                                            </section>
-                            <section class="span4">
-                                                                    <em>No constants found</em>
-                                                            </section>
-                        </section>
-                        <section class="row-fluid protected">
-                            <section class="span4">
-                                                                    <a href="../classes/BaseElement.html#method_SaveElementData" class="">SaveElementData()</a><br />
-                                                                    <a href="../classes/BaseElement.html#method_GetDatabaseValue" class="">GetDatabaseValue()</a><br />
-                                                                    <a href="../classes/BaseElement.html#method_GetElementDirectory" class="">GetElementDirectory()</a><br />
-                                                            </section>
-                            <section class="span4">
-                                                                    <a href="../classes/BaseElement.html#property_twigTemplate" class="">$twigTemplate</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_cssClasses" class="">$cssClasses</a><br />
-                                                            </section>
-                            <section class="span4">
-                                <em>N/A</em>
-                            </section>
-                        </section>
-                        <section class="row-fluid private">
-                            <section class="span4">
-                                                                    <em>No private methods found</em>
-                                                            </section>
-                            <section class="span4">
-                                                                    <a href="../classes/BaseElement.html#property_onSaveEvents" class="">$onSaveEvents</a><br />
-                                                                    <a href="../classes/BaseElement.html#property_onReadEvents" class="">$onReadEvents</a><br />
-                                                            </section>
-                            <section class="span4">
-                                <em>N/A</em>
-                            </section>
-                        </section>
-                    </section>
-                </div>
-                <aside class="span4 detailsbar">
-                                        
-                    
-                    <dl>
-                        <dt>File</dt>
-                            <dd><a href="../files/Core.Elements.TextArea.TextArea.html"><div class="path-wrapper">Core/Elements/TextArea/TextArea.php</div></a></dd>
-                                                <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">Default</div></dd>
-                                                <dt>Class hierarchy</dt>
-                            <dd class="hierarchy">
-                                                                                                                                                                                                                                                                                                
-                                        <div class="namespace-wrapper"><a href="../classes/BaseElement.html">\BaseElement</a></div>
-                                                                                                    <div class="namespace-wrapper">\TextArea</div>
-                            </dd>
+                    </div>
+                    <table class="table table-bordered">
+                                                                                    <tr>
+                                    <th>
+                                        package
+                                                                            </th>
+                                    <td>
+                                                                                    
+                                                                                <p>Default</p>
+                                    </td>
+                                </tr>
+                                                                                                                                                                                </table>
 
-                        
-                        
-                        
-                        
-                                                                        </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                                            <tr><td colspan="2"><em>None found</em></td></tr>
-                                        </table>
-                </aside>
-            </div>
-
-                        
-                                    <a id="properties" name="properties"></a>
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <h2>Properties</h2>
-                </div>
-                <aside class="span4 detailsbar"></aside>
-            </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_parent_slug" name="property_parent_slug" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$parent_slug</h3>
-                <pre class="signature">$parent_slug : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_id" name="property_id" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$id</h3>
-                <pre class="signature">$id : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_label" name="property_label" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$label</h3>
-                <pre class="signature">$label : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_permissions" name="property_permissions" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$permissions</h3>
-                <pre class="signature">$permissions : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_saveFunction" name="property_saveFunction" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$saveFunction</h3>
-                <pre class="signature">$saveFunction : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_saveNonce" name="property_saveNonce" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$saveNonce</h3>
-                <pre class="signature">$saveNonce : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_valueKey" name="property_valueKey" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$valueKey</h3>
-                <pre class="signature">$valueKey : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_twigTemplate" name="property_twigTemplate" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$twigTemplate</h3>
-                <pre class="signature">$twigTemplate : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_cssClasses" name="property_cssClasses" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$cssClasses</h3>
-                <pre class="signature">$cssClasses : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_onSaveEvents" name="property_onSaveEvents" class="anchor"></a>
-            <article class="property">
-                <h3 class="private ">$onSaveEvents</h3>
-                <pre class="signature">$onSaveEvents : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_onReadEvents" name="property_onReadEvents" class="anchor"></a>
-            <article class="property">
-                <h3 class="private ">$onReadEvents</h3>
-                <pre class="signature">$onReadEvents : </pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    <h3><i class="icon-custom icon-method"></i> Methods</h3>
+                                                                <a id="method___construct"></a>
+                        <div class="element clickable method public  method___construct inherited" data-toggle="collapse" data-target=".method___construct .collapse">
+                            <h2>__construct</h2>
+                            <pre>__construct( $id,  $label = &quot;&quot;,  $permissions,  $elementPath = &#039;&#039;,  $elementCssClasses = array()) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
 
                             
-                                    <a id="methods" name="methods"></a>
-            <div class="row-fluid">
-                <div class="span8 content class"><h2>Methods</h2></div>
-                <aside class="span4 detailsbar"></aside>
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$id</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$label</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$permissions</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$elementPath</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$elementCssClasses</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_EditView"></a>
+                        <div class="element clickable method protected  method_EditView inherited" data-toggle="collapse" data-target=".method_EditView .collapse">
+                            <h2>EditView</h2>
+                            <pre>EditView( $post) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$post</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_GetDatabaseValue"></a>
+                        <div class="element clickable method protected  method_GetDatabaseValue inherited" data-toggle="collapse" data-target=".method_GetDatabaseValue .collapse">
+                            <h2>GetDatabaseValue</h2>
+                            <pre>GetDatabaseValue( $post_id) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$post_id</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_GetElementDirectory"></a>
+                        <div class="element clickable method protected  method_GetElementDirectory inherited" data-toggle="collapse" data-target=".method_GetElementDirectory .collapse">
+                            <h2>GetElementDirectory</h2>
+                            <pre>GetElementDirectory() </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                    
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_ProcessPostData"></a>
+                        <div class="element clickable method public  method_ProcessPostData inherited" data-toggle="collapse" data-target=".method_ProcessPostData .collapse">
+                            <h2>ProcessPostData</h2>
+                            <pre>ProcessPostData( $post_id) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$post_id</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_ReadView"></a>
+                        <div class="element clickable method protected  method_ReadView inherited" data-toggle="collapse" data-target=".method_ReadView .collapse">
+                            <h2>ReadView</h2>
+                            <pre>ReadView( $post_id) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$post_id</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_RegisterOnReadEvent"></a>
+                        <div class="element clickable method public  method_RegisterOnReadEvent inherited" data-toggle="collapse" data-target=".method_RegisterOnReadEvent .collapse">
+                            <h2>RegisterOnReadEvent</h2>
+                            <pre>RegisterOnReadEvent( $class,  $method) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$class</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$method</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_RegisterOnSaveEvent"></a>
+                        <div class="element clickable method public  method_RegisterOnSaveEvent inherited" data-toggle="collapse" data-target=".method_RegisterOnSaveEvent .collapse">
+                            <h2>RegisterOnSaveEvent</h2>
+                            <pre>RegisterOnSaveEvent( $class,  $method) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$class</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$method</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                                            <a id="method_SaveElementData"></a>
+                        <div class="element clickable method protected  method_SaveElementData inherited" data-toggle="collapse" data-target=".method_SaveElementData .collapse">
+                            <h2>SaveElementData</h2>
+                            <pre>SaveElementData( $post_id,  $data) </pre>
+                            <div class="labels">
+                                <span class="label">inherited</span>                                                                                                                                                            </div>
+
+                            
+                            <div class="row collapse">
+                                <div class="detail-description">
+                                    <div class="long_description"></div>
+
+                                    <table class="table">
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                                    <tr>
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                                                                    </td>
+                                            </tr>
+                                                                            </table>
+
+                                                                            <h3>Arguments</h3>
+                                                                                    <div class="subelement argument">
+                                                <h4>$post_id</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                                    <div class="subelement argument">
+                                                <h4>$data</h4>
+                                                <code></code><p></p>
+                                            </div>
+                                                                            
+                                                                    </div>
+                            </div>
+
+                        </div>
+                    
+                    
+                                                                <h3><i class="icon-custom icon-property"></i> Properties</h3>
+                                                    <a id="property_parent_slug"> </a>
+                            <div class="element clickable property  public property_parent_slug inherited" data-toggle="collapse" data-target=".property_parent_slug .collapse">
+                                <h2>parent_slug</h2>
+                                <pre>parent_slug : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_id"> </a>
+                            <div class="element clickable property  public property_id inherited" data-toggle="collapse" data-target=".property_id .collapse">
+                                <h2>id</h2>
+                                <pre>id : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_label"> </a>
+                            <div class="element clickable property  public property_label inherited" data-toggle="collapse" data-target=".property_label .collapse">
+                                <h2>label</h2>
+                                <pre>label : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_permissions"> </a>
+                            <div class="element clickable property  public property_permissions inherited" data-toggle="collapse" data-target=".property_permissions .collapse">
+                                <h2>permissions</h2>
+                                <pre>permissions : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_twigTemplate"> </a>
+                            <div class="element clickable property  protected property_twigTemplate inherited" data-toggle="collapse" data-target=".property_twigTemplate .collapse">
+                                <h2>twigTemplate</h2>
+                                <pre>twigTemplate : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_cssClasses"> </a>
+                            <div class="element clickable property  protected property_cssClasses inherited" data-toggle="collapse" data-target=".property_cssClasses .collapse">
+                                <h2>cssClasses</h2>
+                                <pre>cssClasses : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_saveFunction"> </a>
+                            <div class="element clickable property  public property_saveFunction inherited" data-toggle="collapse" data-target=".property_saveFunction .collapse">
+                                <h2>saveFunction</h2>
+                                <pre>saveFunction : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_saveNonce"> </a>
+                            <div class="element clickable property  public property_saveNonce inherited" data-toggle="collapse" data-target=".property_saveNonce .collapse">
+                                <h2>saveNonce</h2>
+                                <pre>saveNonce : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_valueKey"> </a>
+                            <div class="element clickable property  public property_valueKey inherited" data-toggle="collapse" data-target=".property_valueKey .collapse">
+                                <h2>valueKey</h2>
+                                <pre>valueKey : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_onSaveEvents"> </a>
+                            <div class="element clickable property  private property_onSaveEvents inherited" data-toggle="collapse" data-target=".property_onSaveEvents .collapse">
+                                <h2>onSaveEvents</h2>
+                                <pre>onSaveEvents : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                    <a id="property_onReadEvents"> </a>
+                            <div class="element clickable property  private property_onReadEvents inherited" data-toggle="collapse" data-target=".property_onReadEvents .collapse">
+                                <h2>onReadEvents</h2>
+                                <pre>onReadEvents : </pre>
+                                <div class="labels">
+                                    <span class="label">inherited</span>                                                                    </div>
+                                <div class="row collapse">
+                                    <div class="detail-description">
+                                        <div class="long_description"></div>
+
+                                        <table class="table">
+                                                                                            <tr>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                    <td>
+                                                                                                            </td>
+                                                </tr>
+                                                                                    </table>
+
+                                                                                    <h3>Type(s)</h3>
+                                            <code></code>
+                                                                            </div>
+                                </div>
+                            </div>
+                                                            </div>
             </div>
+            <a id="\TextArea"></a>
+            <ul class="breadcrumb">
+                <li><a href="../index.html"><i class="icon-custom icon-class"></i></a></li>
+                    
+    
+    <li><span class="divider">\</span><a href="../namespaces/default.html">\</a></li>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_ReadView" name="method_ReadView" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">ReadView()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">ReadView(  <span class="argument">$post_id</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$post_id </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_EditView" name="method_EditView" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">EditView()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">EditView(  <span class="argument">$post</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$post </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_RegisterOnSaveEvent" name="method_RegisterOnSaveEvent" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">RegisterOnSaveEvent()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">RegisterOnSaveEvent(  <span class="argument">$class</span>,   <span class="argument">$method</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$class </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$method </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_RegisterOnReadEvent" name="method_RegisterOnReadEvent" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">RegisterOnReadEvent()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">RegisterOnReadEvent(  <span class="argument">$class</span>,   <span class="argument">$method</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$class </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$method </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_ProcessPostData" name="method_ProcessPostData" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">ProcessPostData()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">ProcessPostData(  <span class="argument">$post_id</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$post_id </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method___construct" name="method___construct" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">__construct()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(  <span class="argument">$id</span>,   <span class="argument">$label</span>,   <span class="argument">$permissions = null</span>,   <span class="argument">$elementPath = &#039;&#039;</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$id </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$label </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$permissions </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$elementPath </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_SaveElementData" name="method_SaveElementData" class="anchor"></a>
-            <article class="method">
-                <h3 class="protected ">SaveElementData()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">SaveElementData(  <span class="argument">$post_id</span>,   <span class="argument">$data</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$post_id </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$data </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_GetDatabaseValue" name="method_GetDatabaseValue" class="anchor"></a>
-            <article class="method">
-                <h3 class="protected ">GetDatabaseValue()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">GetDatabaseValue(  <span class="argument">$post_id</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$post_id </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_GetElementDirectory" name="method_GetElementDirectory" class="anchor"></a>
-            <article class="method">
-                <h3 class="protected ">GetElementDirectory()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">GetElementDirectory() </pre>
-                <p><em></em></p>
-                
-
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/BaseElement.html"><div class="path-wrapper">\BaseElement</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    </div>
-    </section>
-
-    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="source-view-label">TextArea.php</h3>
-        </div>
-        <div class="modal-body">
-            <pre data-src="../files/Core/Elements/TextArea/TextArea.php.txt" class="language-php line-numbers"></pre>
+                <li class="active"><span class="divider">\</span><a href="../classes/TextArea.html">TextArea</a></li>
+            </ul>
         </div>
     </div>
 
-    <footer class="row-fluid">
-        <section class="span10 offset2">
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <section class="row-fluid footer-sections">
-                        <section class="span4">
-                                                        <h1><i class="icon-code"></i></h1>
-                            <div>
-                                <ul>
-                                                                    </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-bar-chart"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-pushpin"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../reports/errors.html">Errors</a></li>
-                                    <li><a href="../reports/markers.html">Markers</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </section>
-                </section>
-            </section>
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <hr />
-                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on 
+    </div>
+
+        <footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by
+            <a href="http://glyphicons.com/">Glyphicons</a>.<br/>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and<br/>
+            generated on 
 Warning: date_default_timezone_get(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 89
 
 Call Stack:
-    0.0604    1873192   1. {main}() /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:0
-    0.0613    1869392   2. require('phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc') /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:10
-    0.1587   13145072   3. phpDocumentor\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc:23
-    0.1605   13402808   4. Symfony\Component\Console\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Application.php:183
-    0.1607   13403824   5. Symfony\Component\Console\Application->doRun() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:126
-    0.1608   13404744   6. Symfony\Component\Console\Application->doRunCommand() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:195
-    0.1609   13405216   7. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:874
-    0.1612   13411744   8. phpDocumentor\Command\Project\RunCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
-    0.8712   23572984   9. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Command/Project/RunCommand.php:275
-    0.8715   23576440  10. phpDocumentor\Transformer\Command\Project\TransformCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
-    0.9383   23915216  11. phpDocumentor\Console\Output\Output->writeTimedLog() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Command/Project/TransformCommand.php:206
-    0.9384   23915312  12. call_user_func_array:{phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59}() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
-    0.9384   23915888  13. phpDocumentor\Transformer\Transformer->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
-    0.9393   23937512  14. phpDocumentor\Transformer\Transformer->transformProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:141
-    1.3335   29876616  15. phpDocumentor\Transformer\Transformer->applyTransformationToProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:275
-    1.3337   29876872  16. phpDocumentor\Plugin\Twig\Writer\Twig->transform() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:312
-    2.0033   28500312  17. Twig_Environment->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Plugin/Twig/Writer/Twig.php:116
-    2.0037   28514512  18. Twig_Template->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Environment.php:293
-    2.0037   28531136  19. Twig_Template->display() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:274
-    2.0037   28532616  20. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
-    2.0037   28532616  21. __TwigTemplate_6179d7a55f90c6230b0101c3b1500f99c3fc2818effa27226e1b959c5bc83157->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
-    2.0037   28533144  22. Twig_Template->display() /tmp/phpdoc-twig-cache/61/79/d7a55f90c6230b0101c3b1500f99c3fc2818effa27226e1b959c5bc83157.php:34
-    2.0037   28534336  23. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
-    2.0037   28534336  24. __TwigTemplate_b630afcabe5d4cef7d0979afd2820c59f659130d924f9a6861c2e2ff795ac4ba->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
-    2.0441   28703568  25. twig_date_format_filter() /tmp/phpdoc-twig-cache/b6/30/afcabe5d4cef7d0979afd2820c59f659130d924f9a6861c2e2ff795ac4ba.php:383
-    2.0441   28703616  26. twig_date_converter() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:465
-    2.0441   28703616  27. Twig_Extension_Core->getTimezone() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:512
-    2.0441   28703800  28. date_default_timezone_get() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:89
+    0.0603    1873032   1. {main}() /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:0
+    0.0619    1869232   2. require('phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc') /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:10
+    0.1632   13145016   3. phpDocumentor\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc:23
+    0.1650   13402952   4. Symfony\Component\Console\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Application.php:183
+    0.1652   13403968   5. Symfony\Component\Console\Application->doRun() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:126
+    0.1654   13404888   6. Symfony\Component\Console\Application->doRunCommand() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:195
+    0.1654   13405360   7. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:874
+    0.1658   13412472   8. phpDocumentor\Command\Project\RunCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
+    0.8678   23725392   9. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Command/Project/RunCommand.php:275
+    0.8681   23728832  10. phpDocumentor\Transformer\Command\Project\TransformCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
+    0.9376   24071136  11. phpDocumentor\Console\Output\Output->writeTimedLog() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Command/Project/TransformCommand.php:206
+    0.9377   24071232  12. call_user_func_array:{phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59}() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
+    0.9377   24071808  13. phpDocumentor\Transformer\Transformer->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
+    0.9386   24093040  14. phpDocumentor\Transformer\Transformer->transformProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:141
+    1.2936   29834824  15. phpDocumentor\Transformer\Transformer->applyTransformationToProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:275
+    1.2938   29835080  16. phpDocumentor\Plugin\Twig\Writer\Twig->transform() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:312
+    2.2808   33004328  17. Twig_Environment->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Plugin/Twig/Writer/Twig.php:116
+    2.2813   33018544  18. Twig_Template->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Environment.php:293
+    2.2813   33035168  19. Twig_Template->display() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:274
+    2.2814   33036936  20. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
+    2.2814   33036936  21. __TwigTemplate_9e0789aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
+    2.2815   33039264  22. Twig_Template->display() /tmp/phpdoc-twig-cache/9e/07/89aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab.php:49
+    2.2815   33040736  23. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
+    2.2815   33040736  24. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
+    2.3141   33210648  25. Twig_Template->displayBlock() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:84
+    2.3141   33210776  26. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->block_footer() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:154
+    2.3141   33210904  27. twig_date_format_filter() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:301
+    2.3141   33210952  28. twig_date_converter() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:465
+    2.3141   33210952  29. Twig_Extension_Core->getTimezone() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:512
+    2.3141   33211136  30. date_default_timezone_get() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:89
 
-October 29th, 2016 at 12:25.
-                </section>
-            </section>
-        </section>
+Tue, 06 Dec 2016 23:10:39 +0000.<br/>
     </footer>
-</div>
-
-</body>
+    </body>
 </html>

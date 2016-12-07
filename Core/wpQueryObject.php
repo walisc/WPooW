@@ -26,10 +26,10 @@ class wpQueryObject
         return $this;
     }
 
-    public function OrderBy($fieldname, $asc_desc, $use_numbers)
+    public function OrderBy($fieldname, $asc_desc, $use_numbers=false)
     {
         #TODO: What if not meta Value
-        $this->queryArgs["orderby"] =  $use_numbers ? "meta_value meta_value_num" : "meta_value";
+        $this->queryArgs["orderby"] =  $use_numbers ? "meta_value_num" : "meta_value";
         $this->queryArgs["meta_key"] =  $this->postType->GetFieldDbKey($fieldname);
         $this->queryArgs["order"] =  $asc_desc; # ASC or DESC
         return $this;

@@ -24,12 +24,17 @@ class MultiSelect extends BaseElement
     function ReadView($post_id)
     {
         $value =$this->GetDatabaseValue($post_id);
+        $display_values = [];
 
-        if (array_key_exists($value, $this->options))
+        foreach ($value as $selected)
         {
-            $value = $this->options[$value];
+            if (array_key_exists($selected, $this->options))
+            {
+                array_push($display_values, $this->options[$selected]);
+            }
         }
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $value]);
+
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => implode(', ', $display_values)]);
     }
 
     function EditView( $post)

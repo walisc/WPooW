@@ -42,13 +42,17 @@ class MultiSelect extends BaseElement
        parent::EditView($post);
 
         $select_values = [];
+        $db_value = $this->GetDatabaseValue($post->ID);
 
-        foreach ($this->GetDatabaseValue($post->ID) as $selected_value => $selected_label)
+        if (is_array($db_value))
+        {
+        foreach ($db_value as $selected_value => $selected_label)
         {
             if (array_key_exists($selected_value, $this->options))
             {
                 array_push($select_values, $selected_value);
             }
+        }
         }
 
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
@@ -62,12 +66,12 @@ class MultiSelect extends BaseElement
         $data = $_POST[$this->id];
         $value_key_array = [];
 
-        foreach ($data as $key)
-        {
-            if (array_key_exists($key, $this->options))
-            {
-                $value_key_array[$key] = $this->options[$key];
+        if (is_array($data)) {
+            foreach ($data as $key) {
+                if (array_key_exists($key, $this->options)) {
+                    $value_key_array[$key] = $this->options[$key];
 
+                }
             }
         }
 

@@ -23,14 +23,14 @@ class MultiSelect extends BaseElement
 
     function ReadView($post_id)
     {
-        $value =$this->GetDatabaseValue($post_id);
+        $value = $this->GetDatabaseValue($post_id);
         $display_values = [];
 
-        foreach ($value as $selected)
+        foreach ($value as $selected_value => $selected_label)
         {
-            if (array_key_exists($selected, $this->options))
+            if (array_key_exists($selected_value, $this->options))
             {
-                array_push($display_values, $this->options[$selected]);
+                array_push($display_values, $selected_label);
             }
         }
 
@@ -41,17 +41,37 @@ class MultiSelect extends BaseElement
     {
        parent::EditView($post);
 
+        $select_values = [];
+
+        foreach ($this->GetDatabaseValue($post->ID) as $selected_value => $selected_label)
+        {
+            if (array_key_exists($selected_value, $this->options))
+            {
+                array_push($select_values, $selected_value);
+            }
+        }
+
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
                                                                                 "id" => $this->id,
-                                                                                "selected_option" => $this->GetDatabaseValue($post->ID) ]);
+                                                                                "selected_option" => $select_values ]);
     }
 
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);
         $data = $_POST[$this->id];
+        $value_key_array = [];
 
-        $this->SaveElementData($post_id, $data);
+        foreach ($data as $key)
+        {
+            if (array_key_exists($key, $this->options))
+            {
+                $value_key_array[$key] = $this->options[$key];
+
+            }
+        }
+
+        $this->SaveElementData($post_id, $value_key_array);
         
     }
 }

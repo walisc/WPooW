@@ -47,7 +47,7 @@ class wpQueryObject
             foreach ($this->postType->GetFields() as $field)
             {
                 #TODO: if not custom post
-                $returnRow[$field->id] = post_custom($field->valueKey);
+                $returnRow[$field->id] = get_post_meta(get_the_ID(),$field->valueKey, true);
             }
             yield  $returnRow;
 

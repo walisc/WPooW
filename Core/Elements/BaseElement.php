@@ -47,9 +47,9 @@ abstract class BaseElement
         update_post_meta($post_id, $this->valueKey, $processed_data);
     }
 
-    protected function GetDatabaseValue($post_id)
+    protected function GetDatabaseValue($post_id, $single = true)
     {
-        $db_value =  get_post_meta($post_id, $this->valueKey, true);
+        $db_value =  get_post_meta($post_id, $this->valueKey, $single);
 
         // Call Read Observer before reading/viewing the value
         foreach ($this->onReadEvents as $observor)

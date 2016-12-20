@@ -68,7 +68,7 @@ class MultiSelect extends BaseElement
 
         if (is_array($data)) {
             foreach ($data as $key) {
-                if (array_key_exists($key, $this->options)) {
+                if (array_key_exists($key, $this->options) and $key != "") { //TODO: Might need to think of better way to allow none selection
                     $value_key_array[$key] = $this->options[$key];
 
                 }

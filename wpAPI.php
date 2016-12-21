@@ -83,9 +83,9 @@ class wpAPI
      * @param bool $persist
      * @return PostType
      */
-    public function CreatePostType($page_slug, $title, $persist=false)
+    public function CreatePostType($page_slug, $title, $persist=false, $options=[])
     {
-        return new PostType($page_slug, $title , $persist);
+        return new PostType($page_slug, $title , $persist, $options);
 
     }
 

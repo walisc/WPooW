@@ -21,7 +21,8 @@ class PostType extends wpAPIBasePage
 
     protected $fields = [];
 
-    private $onSaveEvents = [];
+    private $BeforeSaveEvents = [];
+    private $AfterSaveEvents = [];
     private $onEditEvents = [];
     private $onViewEvents = [];
 
@@ -237,7 +238,7 @@ class PostType extends wpAPIBasePage
             $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
         }
 
-        foreach ($this->onSaveEvents as $observor)
+        foreach ($this->BeforeSaveEvents as $observor)
         {
 
             $processed_data =  call_user_func_array($observor, [$data]);
@@ -252,17 +253,35 @@ class PostType extends wpAPIBasePage
         {
             $fi->ProcessPostData($post_id);
         }
+
+        foreach ($this->AfterSaveEvents as $observor)
+        {
+             call_user_func_array($observor, [$data]);
+        }
     }
 
-    public function RegisterOnSaveEvent($method, $class=null)
+    public function RegisterBeforeSaveEvent($method, $class=null)
     {
         if ($class == null)
         {
-            array_push($this->onSaveEvents,  $method);
+            array_push($this->BeforeSaveEvents,  $method);
         }
         else
         {
-            array_push($this->onSaveEvents, [$class, $method]);
+            array_push($this->BeforeSaveEvents, [$class, $method]);
+
+        }
+    }
+
+    public function RegisterAfterSaveEvent($method, $class=null)
+    {
+        if ($class == null)
+        {
+            array_push($this->AfterSaveEvents,  $method);
+        }
+        else
+        {
+            array_push($this->AfterSaveEvents, [$class, $method]);
 
         }
     }

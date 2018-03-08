@@ -34,9 +34,15 @@ class wpAPI
         Twig_Autoloader::register();
         Elements_Autoloader::register();
 
+        define( 'URL_SEPARATOR',  '/' );
+
         define( 'WP_API_PATH_ABS', wpAPIUtilities::GetRealPath(dirname(__FILE__)) . '/' );
         define( 'WP_API_PATH_REL', str_replace(ABSPATH, '',  wpAPIUtilities::GetRealPath( __DIR__ )) . '/' );
         define( 'WP_API_ELEMENT_PATH_REL', WP_API_PATH_REL . "Core" . DIRECTORY_SEPARATOR . "Elements" .DIRECTORY_SEPARATOR);
+
+        define( 'WP_API_URI_PATH', wpAPIUtilities::GetWpAPUriLocation(dirname(__FILE__)) . URL_SEPARATOR);
+        define( 'WP_API_ELEMENT_URI_PATH', WP_API_URI_PATH . URL_SEPARATOR . "Core" . URL_SEPARATOR . "Elements" . URL_SEPARATOR);
+
 
 
     }

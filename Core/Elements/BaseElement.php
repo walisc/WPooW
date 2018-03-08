@@ -64,6 +64,11 @@ abstract class BaseElement
         return WP_API_ELEMENT_PATH_REL.  get_class($this) . DIRECTORY_SEPARATOR;
     }
 
+    protected function GetElementURIDirectory()
+    {
+        return WP_API_ELEMENT_URI_PATH.  get_class($this) . URL_SEPARATOR;
+    }
+
     // register events
     public function RegisterOnSaveEvent($class, $method)
     {

@@ -23,7 +23,7 @@ class Uploader extends BaseElement
     {
 
         wp_enqueue_media();
-        wp_register_script("wpAPIMediaUploader", DIRECTORY_SEPARATOR.  $this->GetElementDirectory()  . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
+        wp_register_script("wpAPIMediaUploader",  $this->GetElementURIDirectory()  . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
         
 
         if (empty($elementCssClasses))

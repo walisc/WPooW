@@ -240,11 +240,13 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->BeforeSaveEvents as $observor)
         {
-
+            //TODO: consider removing slug in $data
             foreach (call_user_func_array($observor, [$data]) as $key => $value)
             {
-                if (array_key_exists($key, $this->fields)) {
-                    $_POST[$key] = $value;
+                $field_key = sprintf("%s_%s", $this->slug, $key);
+                
+                if (array_key_exists($field_key, $this->fields)) {
+                    $_POST[$field_key] = $value;
                     $processed_data[$key] = $value;
                 }
             }

@@ -308,15 +308,13 @@ class wpAPIPermissions
      */
     public static function SetPermission($permissions = [])
     {
-        if (!is_array($permissions))
-        {
+        if (!is_array($permissions)) {
             throw new Exception("Permission should be an array with the 4 view states EditTable, EditPage, ViewTable, ViewPage");
         }
         $wP = new wpAPIPermissions();
 
 
-        foreach ($permissions as $pageState => $permission)
-        {
+        foreach ($permissions as $pageState => $permission) {
             $wP->permissionMatrix[$pageState] = $permission;
         }
         return $wP;
@@ -343,6 +341,22 @@ class wpAPIPermissions
     {
         return strpos($this->permissionMatrix[$pageState], $action);
     }
+
+    public function CanEdit($pageState)
+    {
+        return strpos($this->permissionMatrix[$pageState], 'u');
+    }
+
+    public function CanRead($pageState)
+    {
+        return strpos($this->permissionMatrix[$pageState], 'r');
+    }
+
+    public function CanCreate($pageState)
+    {
+        return strpos($this->permissionMatrix[$pageState], 'c');
+    }
+
 
 }
 

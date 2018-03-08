@@ -15,15 +15,15 @@ class Select extends BaseElement
     public $options = [];
 
 
-    function __construct($id, $label, $options, $permissions=null, $elementPath='')
+    function __construct($id, $label, $options, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
         $this->options = $options;
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        $value =$this->GetDatabaseValue($post_id);
+        $value =$this->GetDatabaseValue($post);
 
         if (array_key_exists($value, $this->options))
         {
@@ -38,7 +38,7 @@ class Select extends BaseElement
 
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
                                                                                 "id" => $this->id,
-                                                                                "selected_option" => $this->GetDatabaseValue($post->ID) ]);
+                                                                                "selected_option" => $this->GetDatabaseValue($post) ]);
     }
 
     function ProcessPostData($post_id)

@@ -15,14 +15,14 @@ class Link extends BaseElement
                             "link_url" => "_link_url"
                             ];
 
-    function __construct($id, $label, $permissions=null, $elementPath='')
+    function __construct($id, $label, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        $linkData = json_decode($this->GetDatabaseValue($post_id), true);
+        $linkData = json_decode($this->GetDatabaseValue($post), true);
         echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_label" => $linkData["url_label"]]);
     }
 
@@ -30,7 +30,7 @@ class Link extends BaseElement
     {
        parent::EditView($post);
 
-       $linkData = json_decode($this->GetDatabaseValue($post->ID), true);
+       $linkData = json_decode($this->GetDatabaseValue($post), true);
 
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
            "id" => $this->id,

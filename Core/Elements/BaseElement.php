@@ -25,9 +25,10 @@ abstract class BaseElement
     private $onReadEvents = [];
 
 
-    protected function ReadView($post_id)
+
+    protected function ReadView($post)
     {
-        echo $this->GetDatabaseValue($post_id);
+        echo $this->GetDatabaseValue($post);
     }
     protected function EditView( $post)
     {
@@ -47,8 +48,10 @@ abstract class BaseElement
         update_post_meta($post_id, $this->valueKey, $processed_data);
     }
 
-    protected function GetDatabaseValue($post_id, $single = true)
+    protected function GetDatabaseValue($post, $single = true)
     {
+        //When viewing the table/grid post_id is passed instead of the WP_POST object
+        $post_id = is_numeric($post) ? $post : $post->ID;
         $db_value =  get_post_meta($post_id, $this->valueKey, $single);
 
         // Call Read Observer before reading/viewing the value
@@ -91,11 +94,11 @@ abstract class BaseElement
         )){return;}
      }
 
-    function __construct($id, $label="", $permissions, $elementPath = '', $elementCssClasses=[])
+    function __construct($id, $label="", $permissions=[], $elementPath = '', $elementCssClasses=[])
     {
         $this->id = $id;
         $this->label = $label;
-        $this->permissions= $permissions == null ? wpAPIPermissions::SetPermission() : $permissions;
+        $this->permissions= wpAPIPermissions::SetPermission($permissions);
         $this->cssClasses = $elementCssClasses;
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);

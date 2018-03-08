@@ -19,7 +19,7 @@ class Uploader extends BaseElement
         "selected_file" => "_selected_file"
     ];
 
-    function __construct($id, $label, $permissions=null, $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
+    function __construct($id, $label, $permissions=[], $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
 
         wp_enqueue_media();
@@ -41,9 +41,9 @@ class Uploader extends BaseElement
         parent::__construct($id, $label, $permissions, $elementPath, $elementCssClasses);
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        $fileData = json_decode($this->GetDatabaseValue($post_id), true);
+        $fileData = json_decode($this->GetDatabaseValue($post), true);
         $fileData = $fileData != null ? $fileData : [];
 
         $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
@@ -72,7 +72,7 @@ class Uploader extends BaseElement
         wp_enqueue_script("wpAPIMediaUploader");
         wp_cache_set($wpAPIMediaUploaderBagCount, ++$mediaUploaderIndex);
         
-        $fileData = json_decode($this->GetDatabaseValue($post->ID), true);
+        $fileData = json_decode($this->GetDatabaseValue($post), true);
         $fileData = $fileData != null ? $fileData : [];
 
         $fileId = array_key_exists("id", $fileData) ? $fileData["id"] : "";
@@ -81,7 +81,7 @@ class Uploader extends BaseElement
         echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
             "id" => $this->id,
             "buttonText" => $this->buttonText,
-            "value" => $this->GetDatabaseValue($post->ID),
+            "value" => $this->GetDatabaseValue($post),
             "cssClass" => implode(" ", $this->cssClasses),
             "fileDetails" => [
             "filename" => $fileName,

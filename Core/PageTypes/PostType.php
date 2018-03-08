@@ -149,7 +149,7 @@ class PostType extends wpAPIBasePage
     public function AddField($aField)
     {
 
-        if ($aField->permissions->CheckPermissionAction($this->GetViewState(), 'r') !== false) {
+        if ($aField->permissions->CanRead($this->GetViewState()) !== false) {
 
 
             $aField->parent_slug = $this->slug;
@@ -171,7 +171,7 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->fields as $fi)
         {
-            if ($fi->permissions->CheckPermissionAction($this->GetViewState(), 'r') !== false) {
+            if ($fi->permissions->CanRead($this->GetViewState())  !== false) {
                 $postTypeFields[$fi->id] = $fi->label;
             }
         }
@@ -209,12 +209,11 @@ class PostType extends wpAPIBasePage
     {
         foreach ($this->fields as $fi)
         {
-            if (($this->GetViewState() == wpAPIPermissions::EditPage && $fi->permissions->CheckPermissionAction($this->GetViewState(), 'u') !== false)||
-                ($this->GetViewState() == wpAPIPermissions::AddPage && $fi->permissions->CheckPermissionAction($this->GetViewState(), 'c') !== false)){
+            if ( $fi->permissions->CanEdit($this->GetViewState()) !== false || $fi->permissions->CanCreate($this->GetViewState())  !== false){
 
                 add_meta_box($fi->id, $fi->label, [$fi, "EditView"], $this->slug);
             }
-            else
+            else if ($fi->permissions->CanRead($this->GetViewState()) !== false || $fi->permissions->CanRead($this->GetViewState())!== false)
             {
                 add_meta_box($fi->id, $fi->label, [$fi, "ReadView"], $this->slug);
             }
@@ -225,6 +224,7 @@ class PostType extends wpAPIBasePage
     function SaveFields($post_id)
     {
         $data = [];
+        $processed_data = [];
 
         foreach ($this->fields as $fi)
         {
@@ -241,22 +241,25 @@ class PostType extends wpAPIBasePage
         foreach ($this->BeforeSaveEvents as $observor)
         {
 
-            $processed_data =  call_user_func_array($observor, [$data]);
-
-            foreach ($processed_data as $key => $value)
+            foreach (call_user_func_array($observor, [$data]) as $key => $value)
             {
-                $_POST[$key] = $value;
+                if (array_key_exists($key, $this->fields)) {
+                    $_POST[$key] = $value;
+                    $processed_data[$key] = $value;
+                }
             }
         }
 
         foreach ($this->fields as $fi)
         {
-            $fi->ProcessPostData($post_id);
+            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST)) {
+                $fi->ProcessPostData($post_id);
+            }
         }
 
         foreach ($this->AfterSaveEvents as $observor)
         {
-             call_user_func_array($observor, [$data]);
+             call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
         }
     }
 

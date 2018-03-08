@@ -12,14 +12,14 @@
 class Checkbox extends BaseElement
 {
 
-    function __construct($id, $label, $permissions=null, $elementPath='')
+    function __construct($id, $label, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        $activeValue = $this->GetDatabaseValue($post_id) == "on" ? "checked" : "";
+        $activeValue = $this->GetDatabaseValue($post) == "on" ? "checked" : "";
         echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["active_value" => $activeValue]);
     }
 
@@ -27,7 +27,7 @@ class Checkbox extends BaseElement
     {
        parent::EditView($post);
 
-       $activeValue = $this->GetDatabaseValue($post->ID) == "on" ? "checked" : "";
+       $activeValue = $this->GetDatabaseValue($post) == "on" ? "checked" : "";
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["active_value" => $activeValue,
                                                                                 "id" => $this->id]);
     }

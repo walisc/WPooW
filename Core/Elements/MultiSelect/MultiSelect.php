@@ -15,15 +15,15 @@ class MultiSelect extends BaseElement
     public $options = [];
 
 
-    function __construct($id, $label, $options, $permissions=null, $elementPath='')
+    function __construct($id, $label, $options, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
         $this->options = $options;
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        $value = $this->GetDatabaseValue($post_id);
+        $value = $this->GetDatabaseValue($post);
         $display_values = [];
 
         foreach ($value as $selected_value => $selected_label)
@@ -42,7 +42,7 @@ class MultiSelect extends BaseElement
        parent::EditView($post);
 
         $select_values = [];
-        $db_value = $this->GetDatabaseValue($post->ID);
+        $db_value = $this->GetDatabaseValue($post);
 
         if (is_array($db_value))
         {

@@ -12,14 +12,14 @@
 class Text extends BaseElement
 {
 
-    function __construct($id, $label, $permissions=null, $elementPath='')
+    function __construct($id, $label, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
     }
 
-    function ReadView($post_id)
+    function ReadView($post)
     {
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post_id)]);
+        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post)]);
     }
 
     function EditView( $post)
@@ -28,7 +28,7 @@ class Text extends BaseElement
        echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
            "id" => $this->id,
            "label" => $this->label,
-           "value" => $this->GetDatabaseValue($post->ID)
+           "value" => $this->GetDatabaseValue($post)
        ]);
     }
 

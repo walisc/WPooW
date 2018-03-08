@@ -1,4 +1,7 @@
-# Wordpress API
+[![Run Status](https://api.shippable.com/projects/57e6376ddd566d0f00a7f62f/badge?branch=master)](https://app.shippable.com/github/walisc/wpAPI)
+[![Coverage Badge](https://api.shippable.com/projects/57e6376ddd566d0f00a7f62f/coverageBadge?branch=master)](https://app.shippable.com/github/walisc/wpAPI)
+
+# Wordpress Object Oriented Wrapper
 #### An OOP Wordpress wrapper for rapid development
 
 If you have ever had to create a custom theme in Wordpress you know how cumbersome it can be. This is a Wordpress API

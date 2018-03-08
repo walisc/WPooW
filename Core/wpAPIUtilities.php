@@ -25,7 +25,7 @@ class wpAPIUtilities
 
     public static function GetWpAPUriLocation($wpAPIPath)
     {
-        $templateDirectory = explode(DIRECTORY_SEPARATOR, get_template_directory());
+        $templateDirectory = explode(DIRECTORY_SEPARATOR, str_replace('/', DIRECTORY_SEPARATOR, get_template_directory())); //Bug with wordpress. Doesn't create the correct URL when on windows
         $wpAPIPath = explode(DIRECTORY_SEPARATOR, $wpAPIPath);
 
         foreach ($templateDirectory as $templatePathItem)

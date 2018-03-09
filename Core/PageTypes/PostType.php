@@ -254,7 +254,7 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->fields as $fi)
         {
-            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST)) {
+            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST) || $fi instanceof Checkbox) {
                 $fi->ProcessPostData($post_id);
             }
         }

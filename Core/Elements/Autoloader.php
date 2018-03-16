@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 8:35 PM
+ *
+ * @package wpAPI\Core\Elements
  */
 class Elements_Autoloader
 {

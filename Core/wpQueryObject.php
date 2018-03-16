@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/09/26
- * Time: 11:15 PM
+ * Class wpQueryObject
+ *
+ * Class responsible for reading data from the database.
+ *
+ * @package wpAPI\Core
+ *
  */
 class wpQueryObject
 {

@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/07/04
- * Time: 11:54 PM
+ * Class wpAPIObjects
+ *
+ * Class wpAPIObjects. Keeps AwpAPI objects created during initialization which can then be used later on on, for instance when rendering a page
+ *
+ * @package wpAPI\Core
+ *
  */
  class wpAPIObjects
 {

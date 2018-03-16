@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/07/04
- * Time: 10:04 PM
+ *
+ * Class SubMenu
+ * @package wpAPI\Core\Pages
  */
-
-
 class SubMenu extends wpAPIBasePage
 {
     protected $menu_title = '';

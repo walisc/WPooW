@@ -19,7 +19,7 @@ include_once 'Core/Elements/Autoloader.php';
  *
  * Forms the entry point of the wpAPI wrapper. Contains main methods for creating elements
  *
- * @namespace wpAPI
+ * @package wpAPI
  *
  */
 class wpAPI
@@ -104,7 +104,7 @@ class wpAPI
  * A wpAPI_VIEW can either be link to a twig template or be based on a template string
  *
  * Class wpAPI_VIEW
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 class wpAPI_VIEW
 {
@@ -212,7 +212,7 @@ class wpAPI_VIEW
  * Class WP_PERMISSIONS
  *
  * wrapper for the main wordpress permissions
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 class WP_PERMISSIONS
 {
@@ -262,7 +262,7 @@ class WP_PERMISSIONS
  * - editable if update permissions are true and the viewstate matches.
  * - editable if create permissions are true and the viewstate matches.
  *
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 
 

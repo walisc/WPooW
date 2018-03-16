@@ -1,14 +1,12 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/12
- * Time: 12:28 PM
- */
-
 $CURRENT_VIEW_STATE = wpAPIPermissions::EditPage;
 
+/**
+ *
+ * Base Page for all wpAPI admin back pages (PostType, Menu, or SubMenu)
+ * @package wpAPI\Core
+ */
 abstract class wpAPIBasePage
 {
 

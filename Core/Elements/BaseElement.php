@@ -1,12 +1,9 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:36 PM
+ *
+ * @package wpAPI\Core\Elements
  */
-
 abstract class BaseElement
 {
     //TODO: Have a way of checking that id is unique

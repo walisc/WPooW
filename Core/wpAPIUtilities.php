@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/09/06
- * Time: 7:35 PM
+ * Class wpAPIUtilities
+ *
+ * Utility class for the wpAPI project
+ *
+ * @package wpAPI\Core
+ *
  */
 class wpAPIUtilities
 {

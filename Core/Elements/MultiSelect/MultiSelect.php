@@ -1,14 +1,9 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:46 PM
+ *
+ * @package wpAPI\Core\Elements
  */
-
-
-
 class MultiSelect extends BaseElement
 {
     //Value -> label

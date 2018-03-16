@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/19
- * Time: 10:58 PM
+ *
+ * @package wpAPI\Core\Elements
  */
 class Uploader extends BaseElement
 {

@@ -1,11 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/11
- * Time: 4:18 PM
- */
 
+/**
+ *
+ * Celass PostType
+ * @package wpAPI\Core\Pages
+ */
 
 class PostType extends wpAPIBasePage
 {

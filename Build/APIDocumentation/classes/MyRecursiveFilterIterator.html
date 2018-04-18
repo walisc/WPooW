@@ -253,38 +253,38 @@
 Warning: date_default_timezone_get(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 89
 
 Call Stack:
-    0.0541    1874920   1. {main}() /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:0
-    0.0542    1871120   2. require('phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc') /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:10
-    0.1311   13147360   3. phpDocumentor\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc:23
-    0.1326   13405320   4. Symfony\Component\Console\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Application.php:183
-    0.1328   13406336   5. Symfony\Component\Console\Application->doRun() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:126
-    0.1329   13407256   6. Symfony\Component\Console\Application->doRunCommand() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:195
-    0.1329   13407728   7. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:874
-    0.1332   13414848   8. phpDocumentor\Command\Project\RunCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
-    0.7492   24372480   9. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Command/Project/RunCommand.php:275
-    0.7495   24375936  10. phpDocumentor\Transformer\Command\Project\TransformCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
-    0.8012   24735016  11. phpDocumentor\Console\Output\Output->writeTimedLog() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Command/Project/TransformCommand.php:206
-    0.8013   24735112  12. call_user_func_array:{phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59}() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
-    0.8013   24735688  13. phpDocumentor\Transformer\Transformer->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
-    0.8028   24756928  14. phpDocumentor\Transformer\Transformer->transformProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:141
-    1.0517   30230768  15. phpDocumentor\Transformer\Transformer->applyTransformationToProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:275
-    1.0519   30231024  16. phpDocumentor\Plugin\Twig\Writer\Twig->transform() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:312
-    1.5448   30230312  17. Twig_Environment->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Plugin/Twig/Writer/Twig.php:116
-    1.5450   30244824  18. Twig_Template->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Environment.php:293
-    1.5450   30261448  19. Twig_Template->display() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:274
-    1.5451   30263216  20. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
-    1.5451   30263216  21. __TwigTemplate_9e0789aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
-    1.5451   30265560  22. Twig_Template->display() /tmp/phpdoc-twig-cache/9e/07/89aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab.php:49
-    1.5451   30267032  23. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
-    1.5451   30267032  24. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
-    1.5492   30387320  25. Twig_Template->displayBlock() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:84
-    1.5492   30387448  26. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->block_footer() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:154
-    1.5492   30387576  27. twig_date_format_filter() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:301
-    1.5492   30387624  28. twig_date_converter() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:465
-    1.5492   30387624  29. Twig_Extension_Core->getTimezone() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:512
-    1.5492   30387808  30. date_default_timezone_get() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:89
+    0.0540    1874920   1. {main}() /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:0
+    0.0541    1871120   2. require('phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc') /root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar:10
+    0.1299   13147360   3. phpDocumentor\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/bin/phpdoc:23
+    0.1313   13405320   4. Symfony\Component\Console\Application->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Application.php:183
+    0.1315   13406336   5. Symfony\Component\Console\Application->doRun() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:126
+    0.1316   13407256   6. Symfony\Component\Console\Application->doRunCommand() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:195
+    0.1316   13407728   7. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Application.php:874
+    0.1319   13414848   8. phpDocumentor\Command\Project\RunCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
+    0.7373   24372224   9. Symfony\Component\Console\Command\Command->run() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Command/Project/RunCommand.php:275
+    0.7375   24375680  10. phpDocumentor\Transformer\Command\Project\TransformCommand->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/symfony/console/Symfony/Component/Console/Command/Command.php:253
+    0.7921   24734272  11. phpDocumentor\Console\Output\Output->writeTimedLog() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Command/Project/TransformCommand.php:206
+    0.7921   24734368  12. call_user_func_array:{phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59}() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
+    0.7921   24734944  13. phpDocumentor\Transformer\Transformer->execute() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Console/Output/Output.php:59
+    0.7932   24756224  14. phpDocumentor\Transformer\Transformer->transformProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:141
+    1.0400   30229592  15. phpDocumentor\Transformer\Transformer->applyTransformationToProject() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:275
+    1.0402   30229848  16. phpDocumentor\Plugin\Twig\Writer\Twig->transform() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Transformer/Transformer.php:312
+    1.5455   30227176  17. Twig_Environment->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/src/phpDocumentor/Plugin/Twig/Writer/Twig.php:116
+    1.5457   30241552  18. Twig_Template->render() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Environment.php:293
+    1.5457   30258176  19. Twig_Template->display() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:274
+    1.5457   30259944  20. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
+    1.5457   30259944  21. __TwigTemplate_9e0789aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
+    1.5458   30262272  22. Twig_Template->display() /tmp/phpdoc-twig-cache/9e/07/89aaf54e905ce82348427c240a06840e5dee67c6de7bd009f831f9cc75ab.php:49
+    1.5458   30263744  23. Twig_Template->displayWithErrorHandling() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:263
+    1.5458   30263744  24. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->doDisplay() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:289
+    1.5498   30383688  25. Twig_Template->displayBlock() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:84
+    1.5498   30383816  26. __TwigTemplate_8f38ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c->block_footer() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Template.php:154
+    1.5498   30383944  27. twig_date_format_filter() /tmp/phpdoc-twig-cache/8f/38/ef28c2b979592492aedc60b9bea3fd72899a538c52951e3f554f7963285c.php:301
+    1.5498   30383992  28. twig_date_converter() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:465
+    1.5498   30383992  29. Twig_Extension_Core->getTimezone() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:512
+    1.5498   30384176  30. date_default_timezone_get() phar:///root/src/github.com/walisc/wpAPI/Libraries/phpDocumentor/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php:89
 
-Wed, 18 Apr 2018 17:13:26 +0000.<br/>
+Wed, 18 Apr 2018 17:31:37 +0000.<br/>
     </footer>
     </body>
 </html>

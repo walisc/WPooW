@@ -9,7 +9,7 @@ before_script:
 
 script:
  - rm -r Build/*
- - composer run-script build-project-release"
+ - composer run-script build-project-release
 
 after_success:
  - git add -A

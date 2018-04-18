@@ -26,5 +26,5 @@ $build_project_details["type"] = $project_details["type"];
 $build_project_details["version"] = $project_details["version"];
 $build_project_details["build_date"] = $project_details["build_date"];
 
-fwrite(fopen("Build/project.json", "w") , json_encode($build_project_details));
+fwrite(fopen("./Build/project.json", "w") , json_encode($build_project_details));
 

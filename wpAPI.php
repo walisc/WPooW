@@ -13,6 +13,7 @@ include_once 'Core/PageTypes/Menu.php';
 
 include_once 'Libraries/twig/twig/lib/Twig/Autoloader.php';
 include_once 'Core/Elements/Autoloader.php';
+include_once 'Utilities/versionDetails.php';
 
 /**
  * Class wpAPI
@@ -93,6 +94,11 @@ class wpAPI
     {
         return new PostType($page_slug, $title , $persist, $options);
 
+    }
+
+    public function GetVersion()
+    {
+        new VersionDetails(json_decode(file_get_contents("composer.json"), true));
     }
 
 

@@ -8,12 +8,8 @@ before_script:
  - echo "phar.readonly = off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
- - current_version=$(cat Build/version.txt)
  - rm -r Build/*
- - touch Build/version.txt
- - echo $((current_version + 1)) > Build/version.txt
- - php Libraries/phpDocumentor/phpDocumentor.phar -d . -i Libraries/,Docs/,Build/ -t Build/APIDocumentation/ --template="responsive-twig"
- - php createPHAR.php
+ - composer run-script build-project-release"
 
 after_success:
  - git add -A

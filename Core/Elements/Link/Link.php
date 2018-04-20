@@ -23,7 +23,7 @@ class Link extends BaseElement
     function ReadView($post)
     {
         $linkData = json_decode($this->GetDatabaseValue($post), true);
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["url" => $linkData["url"], "url_label" => $linkData["url_label"]]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["url" => $linkData["url"], "url_label" => $linkData["url_label"]]);
     }
 
     function EditView( $post)
@@ -32,7 +32,7 @@ class Link extends BaseElement
 
        $linkData = json_decode($this->GetDatabaseValue($post), true);
 
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
+       echo $this->twigTemplate->render('/edit_view.mustache', [
            "id" => $this->id,
            "elementIds" => $this->elementIds,
            "link_value_url" => $linkData["url"],

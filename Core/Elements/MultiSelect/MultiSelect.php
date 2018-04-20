@@ -34,7 +34,7 @@ class MultiSelect extends BaseElement
             }
         }
 
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => implode(', ', $display_values)]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["value" => implode(', ', $display_values)]);
     }
 
     function EditView( $post)
@@ -55,7 +55,7 @@ class MultiSelect extends BaseElement
         }
         }
 
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
+       echo $this->twigTemplate->render('/edit_view.mustache', ["options" => $this->options,
                                                                                 "id" => $this->id,
                                                                                 "selected_option" => $select_values ]);
     }

@@ -20,7 +20,7 @@ class Checkbox extends BaseElement
     function ReadView($post)
     {
         $activeValue = $this->GetDatabaseValue($post) == "on" ? "checked" : "";
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["active_value" => $activeValue]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["active_value" => $activeValue]);
     }
 
     function EditView( $post)
@@ -28,7 +28,7 @@ class Checkbox extends BaseElement
        parent::EditView($post);
 
        $activeValue = $this->GetDatabaseValue($post) == "on" ? "checked" : "";
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["active_value" => $activeValue,
+       echo $this->twigTemplate->render('/edit_view.mustache', ["active_value" => $activeValue,
                                                                                 "id" => $this->id]);
     }
 

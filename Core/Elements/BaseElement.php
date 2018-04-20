@@ -106,7 +106,7 @@ abstract class BaseElement
 
         //TODO: Make this global
 
-        $loader = new Twig_Loader_Filesystem(__DIR__. $elementPath);
+        $loader = new Twig_Loader_Filesystem(dirname((new ReflectionClass($this))->getFileName()). $elementPath);
         $this->twigTemplate = new Twig_Environment($loader);
 
         wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);

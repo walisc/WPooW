@@ -29,14 +29,14 @@ class Select extends BaseElement
         {
             $value = $this->options[$value];
         }
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $value]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["value" => $value]);
     }
 
     function EditView( $post)
     {
        parent::EditView($post);
 
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', ["options" => $this->options,
+       echo $this->twigTemplate->render('/edit_view.mustache', ["options" => $this->options,
                                                                                 "id" => $this->id,
                                                                                 "selected_option" => $this->GetDatabaseValue($post) ]);
     }

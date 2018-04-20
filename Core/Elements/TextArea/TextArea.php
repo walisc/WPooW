@@ -19,13 +19,13 @@ class TextArea extends BaseElement
 
     function ReadView($post)
     {
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => $this->GetDatabaseValue($post)]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["value" => $this->GetDatabaseValue($post)]);
     }
 
     function EditView( $post)
     {
        parent::EditView($post);
-       echo $this->twigTemplate->render(get_class($this).'/edit_view.mustache', [
+       echo $this->twigTemplate->render('/edit_view.mustache', [
            "id" => $this->id,
            "label" => $this->label,
            "value" => $this->GetDatabaseValue($post)

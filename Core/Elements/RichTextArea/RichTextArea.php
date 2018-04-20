@@ -19,7 +19,7 @@ class RichTextArea extends BaseElement
 
     function ReadView($post)
     {
-        echo $this->twigTemplate->render(get_class($this).'/read_view.mustache', ["value" => html_entity_decode($this->GetDatabaseValue($post))]);
+        echo $this->twigTemplate->render('/read_view.mustache', ["value" => html_entity_decode($this->GetDatabaseValue($post))]);
     }
 
     function EditView( $post)
@@ -28,7 +28,7 @@ class RichTextArea extends BaseElement
 
         wp_editor(  html_entity_decode($this->GetDatabaseValue($post)) , "tinymce_".$this->id, array(
             'tinymce' => true
-        ) );
+        ) ); #TODO Consider making wpautop configurable
     }
 
     function ProcessPostData($post_id)

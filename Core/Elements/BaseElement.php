@@ -24,18 +24,26 @@ abstract class BaseElement
     private $onSaveEvents = [];
     private $onReadEvents = [];
 
+    protected $ScriptHandler = "wpAPIBaseElementJS";
 
-    protected function EnqueueElementScript($script_path, $shared_variable)
+
+    // for component
+    protected function EnqueueElementBaseScript($handle, $src, $shared_variable = [], $deps = [], $ver = false, $in_footer = false )
     {
-        $elementBagCount = sprintf("%s_element_bag_count", get_class($this));
+        $this->ScriptHandler = $handle;
+        wp_register_script($this->ScriptHandler ,  $src,  $deps, $ver, $in_footer);
 
-        wp_cache_add($elementBagCount, 1);
-        
-        $elementBagCountIndex =wp_cache_get($elementBagCount);
-        wp_localize_script($script_path, sprintf("%s_Data_bag_%s", get_class($this), $elementBagCountIndex), $shared_variable);
+        if (!empty($shared_variable)) {
+            wp_localize_script($this->ScriptHandler, sprintf("%s_Data_Bag", get_class($this)), $shared_variable);
+        }
+        wp_enqueue_script($this->ScriptHandler);
 
-        wp_enqueue_script($script_path);
-        wp_cache_set($elementBagCount, ++$elementBagCountIndex);
+    }
+
+    // for instance
+    protected function EnqueueElementScript($src_path, $shared_variables= [])
+    {
+        wp_add_inline_script($this->ScriptHandler, $this->twigTemplate->render($src_path, $shared_variables)) ;
     }
     
     protected function ReadView($post)
@@ -115,7 +123,9 @@ abstract class BaseElement
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);
         $this->valueKey = sprintf("%s_value_key", $this->id);
-
+        
+        wp_register_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
+        wp_enqueue_script($this->ScriptHandler);
         //TODO: Make this global
 
         $loader = new Twig_Loader_Filesystem(dirname((new ReflectionClass($this))->getFileName()). $elementPath);

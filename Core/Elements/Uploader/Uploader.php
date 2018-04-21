@@ -23,8 +23,7 @@ class Uploader extends BaseElement
     {
 
         wp_enqueue_media();
-        wp_register_script("wpAPIMediaUploader",  $this->GetElementURIDirectory()  . "wpAPIMediaUploader.js",  ["jquery"], "1.0.0", true);
-        
+        $this->EnqueueElementBaseScript("wpOOWUploader",  $this->GetElementURIDirectory()  . "wpOOWUploader.js",  [], ["jquery"], "1.0.0", true);
 
         if (empty($elementCssClasses))
         {
@@ -56,14 +55,13 @@ class Uploader extends BaseElement
     function EditView( $post)
     {
         parent::EditView($post);
-        
-        $this->EnqueueElementScript("wpAPIMediaUploader", array_merge(["id" =>$this->id,
-                                                                        "title" => $this->uploaderTitle,
-                                                                        "buttonText" => $this->buttonText,
-                                                                        "multiple" => $this->enableMultiple
-                                                                       ],$this->elementIds));
-        
-        
+
+        $this->EnqueueElementScript('/wpOOWUploader.element.js',  array_merge(["id" =>$this->id,
+                                                                                "title" => $this->uploaderTitle,
+                                                                                "buttonText" => $this->buttonText,
+                                                                                "multiple" => $this->enableMultiple
+                                                                            ],$this->elementIds));
+
         $fileData = json_decode($this->GetDatabaseValue($post), true);
         $fileData = $fileData != null ? $fileData : [];
 

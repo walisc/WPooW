@@ -56,21 +56,13 @@ class Uploader extends BaseElement
     function EditView( $post)
     {
         parent::EditView($post);
-
-        $wpAPIMediaUploaderBagCount = "wpAPI_uploaderJsData_bag_count";
         
-        wp_cache_add($wpAPIMediaUploaderBagCount, 1);
-        $mediaUploaderIndex =wp_cache_get($wpAPIMediaUploaderBagCount);
-
-        wp_localize_script("wpAPIMediaUploader", "uploaderJsData_bag_". $mediaUploaderIndex,
-                    array_merge(["id" =>$this->id,
-                    "title" => $this->uploaderTitle,
-                    "buttonText" => $this->buttonText,
-                    "multiple" => $this->enableMultiple
-                    ],$this->elementIds));
-
-        wp_enqueue_script("wpAPIMediaUploader");
-        wp_cache_set($wpAPIMediaUploaderBagCount, ++$mediaUploaderIndex);
+        $this->EnqueueElementScript("wpAPIMediaUploader", array_merge(["id" =>$this->id,
+                                                                        "title" => $this->uploaderTitle,
+                                                                        "buttonText" => $this->buttonText,
+                                                                        "multiple" => $this->enableMultiple
+                                                                       ],$this->elementIds));
+        
         
         $fileData = json_decode($this->GetDatabaseValue($post), true);
         $fileData = $fileData != null ? $fileData : [];

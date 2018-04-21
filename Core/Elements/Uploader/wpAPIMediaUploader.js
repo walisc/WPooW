@@ -5,9 +5,9 @@ jQuery(document).ready(function($) {
     i = 1;
 
 
-    while (window.hasOwnProperty("uploaderJsData_bag_"+i)) {
+    while (window.hasOwnProperty("Uploader_Data_bag_"+i)) {
 
-        uploaderJsData = window["uploaderJsData_bag_"+i];
+        uploaderJsData = window["Uploader_Data_bag_"+i];
 
         $("#" + uploaderJsData.id + uploaderJsData.upload_button).on("click", {p_uploaderJsData: uploaderJsData},  function (e) {
             //Tricky js. Needed to do this (pass the object) as it was using the global one, which will be set as the last element

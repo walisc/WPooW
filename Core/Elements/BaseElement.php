@@ -25,7 +25,19 @@ abstract class BaseElement
     private $onReadEvents = [];
 
 
+    protected function EnqueueElementScript($script_path, $shared_variable)
+    {
+        $elementBagCount = sprintf("%s_element_bag_count", get_class($this));
 
+        wp_cache_add($elementBagCount, 1);
+        
+        $elementBagCountIndex =wp_cache_get($elementBagCount);
+        wp_localize_script($script_path, sprintf("%s_Data_bag_%s", get_class($this), $elementBagCountIndex), $shared_variable);
+
+        wp_enqueue_script($script_path);
+        wp_cache_set($elementBagCount, ++$elementBagCountIndex);
+    }
+    
     protected function ReadView($post)
     {
         echo $this->GetDatabaseValue($post);

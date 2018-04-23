@@ -25,9 +25,10 @@ abstract class BaseElement
     private $onReadEvents = [];
 
     protected $ScriptHandler = "wpAPIBaseElementJS";
+    protected $CssHandler = "wpAPIBaseElementCss";
 
 
-    // for component
+    // for component. Use on constructor
     protected function EnqueueElementBaseScript($handle, $src, $shared_variable = [], $deps = [], $ver = false, $in_footer = false )
     {
         $this->ScriptHandler = $handle;
@@ -39,12 +40,25 @@ abstract class BaseElement
         wp_enqueue_script($this->ScriptHandler);
 
     }
-
-    // for instance
-    protected function EnqueueElementScript($src_path, $shared_variables= [])
+    
+    protected function EnqueueElementBaseCSS($handle, $src, $deps = array(), $ver = false, $media = 'all' )
     {
-        wp_add_inline_script($this->ScriptHandler, $this->twigTemplate->render($src_path, $shared_variables)) ;
+        $this->CssHandler = $handle;
+        wp_enqueue_style($this->CssHandler, $src, $deps, $ver, $media);
     }
+
+    // for instance. Use on element render. For read or write
+    protected function EnqueueElementScript($src_path, $shared_variables= [], $handler=null)
+    {
+        wp_add_inline_script($handler ? $handler : $this->ScriptHandler, $this->twigTemplate->render($src_path, $shared_variables)) ;
+    }
+
+    /*protected function EnqueueElementCSS($src_path, $shared_variables= [])
+    {
+        // This adds the css where the element is defined and is a anti-pattern. Don't use. Just here for reference sake
+        wp_styles()->registered[$this->CssHandler]->add_data( 'after', [$this->twigTemplate->render($src_path, $shared_variables)] );
+        wp_styles()->print_inline_style($this->CssHandler);
+    }*/
     
     protected function ReadView($post)
     {
@@ -124,8 +138,10 @@ abstract class BaseElement
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);
         $this->valueKey = sprintf("%s_value_key", $this->id);
         
-        wp_register_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
-        wp_enqueue_script($this->ScriptHandler);
+
+        wp_enqueue_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
+        wp_enqueue_style($this->CssHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.css",  ["wp-admin"], "1.0.0");
+
         //TODO: Make this global
 
         $loader = new Twig_Loader_Filesystem(dirname((new ReflectionClass($this))->getFileName()). $elementPath);

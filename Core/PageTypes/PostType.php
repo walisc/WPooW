@@ -130,7 +130,7 @@ class PostType extends wpAPIBasePage
     {
         if ($parent_slug != null)
         {
-            $this->show_in_menu = $parent_slug;
+            $this->show_in_menu = $this->props["show_in_menu"] ? $parent_slug : "";
         }
         parent::Render($parent_slug);
     }

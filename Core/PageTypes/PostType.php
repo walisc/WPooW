@@ -22,6 +22,7 @@ class PostType extends wpAPIBasePage
     protected $fields = [];
 
     private $BeforeSaveEvents = [];
+    private $BeforeDataFetch = [];
     private $AfterSaveEvents = [];
     private $onEditEvents = [];
     private $onViewEvents = [];
@@ -65,7 +66,7 @@ class PostType extends wpAPIBasePage
     {
         return new wpQueryObject($this);
     }
-    
+
     function Generate()
     {
         $postTypeArray = [];
@@ -82,10 +83,23 @@ class PostType extends wpAPIBasePage
         add_action('quick_edit_custom_box', [$this, "QuickEditFields"], 10, 2);
         add_action('save_post', [$this, "SaveFields"]);
 
+
+
         if ($this->persist)
         {
             WPAPIObjects::GetInstance()->AddObject($this->slug, $this);
         }
+
+    }
+
+    function BeforeDataFetch($query){
+        if ($query->query["post_type"]== $this->GetSlug())
+        {
+            foreach ($this->BeforeDataFetch as $observor) {
+                call_user_func_array($observor, [$query]);
+            }
+        }
+
 
     }
 
@@ -143,7 +157,7 @@ class PostType extends wpAPIBasePage
     public function GetFieldDbKey($field_id)
     {
 
-       return $this->fields[sprintf("%s_%s", $this->slug, $field_id)]->valueKey;
+        return $this->fields[sprintf("%s_%s", $this->slug, $field_id)]->valueKey;
     }
 
     public function AddField($aField)
@@ -244,7 +258,7 @@ class PostType extends wpAPIBasePage
             foreach (call_user_func_array($observor, [$data]) as $key => $value)
             {
                 $field_key = sprintf("%s_%s", $this->slug, $key);
-                
+
                 if (array_key_exists($field_key, $this->fields)) {
                     $_POST[$field_key] = $value;
                     $processed_data[$key] = $value;
@@ -261,7 +275,7 @@ class PostType extends wpAPIBasePage
 
         foreach ($this->AfterSaveEvents as $observor)
         {
-             call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
+            call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
         }
     }
 
@@ -289,6 +303,24 @@ class PostType extends wpAPIBasePage
             array_push($this->AfterSaveEvents, [$class, $method]);
 
         }
+    }
+
+    public function RegisterBeforeDataFetch($method, $class=null)
+    {
+        if (count($this->BeforeDataFetch) == 0) {
+            add_action('pre_get_posts', [$this, "BeforeDataFetch"]);
+        }
+        
+        if ($class == null)
+        {
+            array_push($this->BeforeDataFetch,  $method);
+        }
+        else
+        {
+            array_push($this->BeforeDataFetch, [$class, $method]);
+
+        }
+
     }
 
 

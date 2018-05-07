@@ -28,7 +28,7 @@ abstract class BaseElement
     protected $CssHandler = "wpAPIBaseElementCss";
 
 
-    // for component. Use on constructor
+    // for component. Use in BaseScriptsToLoad to load method
     protected function EnqueueElementBaseScript($handle, $src, $shared_variable = [], $deps = [], $ver = false, $in_footer = false )
     {
         $this->ScriptHandler = $handle;
@@ -41,6 +41,7 @@ abstract class BaseElement
 
     }
     
+    //Use in BaseScriptsToLoad to load method
     protected function EnqueueElementBaseCSS($handle, $src, $deps = array(), $ver = false, $media = 'all' )
     {
         $this->CssHandler = $handle;
@@ -137,10 +138,6 @@ abstract class BaseElement
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);
         $this->valueKey = sprintf("%s_value_key", $this->id);
-        
-
-        wp_enqueue_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
-        wp_enqueue_style($this->CssHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.css",  [""], "1.0.0");
 
         //TODO: Make this global
 
@@ -149,6 +146,21 @@ abstract class BaseElement
 
         wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);
 
+        add_action( 'admin_enqueue_scripts', [$this, "loadScripts" ] );
+
+    }
+
+    //override in element to base scripts
+    protected function BaseScriptsToLoad(){}
+
+    function loadScripts(){
+        wp_register_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
+        wp_enqueue_script($this->ScriptHandler);
+
+        wp_register_style($this->CssHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.css",  [""], "1.0.0");
+        wp_enqueue_style($this->CssHandler);
+
+        $this->BaseScriptsToLoad();
     }
 }
 

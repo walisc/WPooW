@@ -22,9 +22,6 @@ class Uploader extends BaseElement
     function __construct($id, $label, $permissions=[], $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
 
-        wp_enqueue_media();
-        $this->EnqueueElementBaseScript("wpOOWUploader",  $this->GetElementURIDirectory()  . "wpOOWUploader.js",  [], ["jquery"], "1.0.0", true);
-
         if (empty($elementCssClasses))
         {
             $elementCssClasses = [
@@ -38,6 +35,12 @@ class Uploader extends BaseElement
         $this->enableMultiple = $enableMultiple;
 
         parent::__construct($id, $label, $permissions, $elementPath, $elementCssClasses);
+    }
+
+    function BaseScriptsToLoad(){
+        wp_enqueue_media();
+        $this->EnqueueElementBaseScript("wpOOWUploader",  $this->GetElementURIDirectory()  . "wpOOWUploader.js",  [], ["jquery"], "1.0.0", true);
+
     }
 
     function ReadView($post)

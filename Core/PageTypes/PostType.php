@@ -93,7 +93,8 @@ class PostType extends wpAPIBasePage
     }
 
     function BeforeDataFetch($query){
-        if ($query->query["post_type"]== $this->GetSlug())
+
+        if (array_key_exists("post_type",$query->query) && $query->query["post_type"]== $this->GetSlug())
         {
             foreach ($this->BeforeDataFetch as $observor) {
                 call_user_func_array($observor, [$query]);
@@ -310,7 +311,7 @@ class PostType extends wpAPIBasePage
         if (count($this->BeforeDataFetch) == 0) {
             add_action('pre_get_posts', [$this, "BeforeDataFetch"]);
         }
-        
+
         if ($class == null)
         {
             array_push($this->BeforeDataFetch,  $method);

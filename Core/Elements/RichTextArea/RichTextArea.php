@@ -28,6 +28,10 @@ class RichTextArea extends BaseElement
         ) ); #TODO Consider making wpautop configurable
     }
 
+    /**
+     * Data is saved as html, having escaped the the html block. The html is bound to the tinymce editor element
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

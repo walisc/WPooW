@@ -9,7 +9,7 @@
  */
 class Text extends BaseElement
 {
-
+    
     function __construct($id, $label, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
@@ -30,6 +30,10 @@ class Text extends BaseElement
        ]);
     }
 
+    /**
+     * Text data is saved as a  string 
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

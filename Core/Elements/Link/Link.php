@@ -37,6 +37,18 @@ class Link extends BaseElement
        ]);
     }
 
+    //TODO: Add target property
+    /**
+     * Data is saved as a json string with the format
+     *
+     * ` {
+     *       url_label: [url_label], //The label of the link
+     *       url: [url], //The url it navigates to
+     *   }
+     *   `
+     *
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

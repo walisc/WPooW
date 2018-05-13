@@ -11,7 +11,14 @@ class Select extends BaseElement
     //Value -> label
     public $options = [];
 
-
+    /**
+     * Select constructor.
+     * @param $id - See BaseElement definitions
+     * @param string $label - See BaseElement definitions
+     * @param array $options - [value => label] array. Eg [value1 => label1, value2 => label2]
+     * @param array $permissions - See BaseElement definitions
+     * @param string $elementPath - See BaseElement definitions
+     */
     function __construct($id, $label, $options, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
@@ -38,6 +45,10 @@ class Select extends BaseElement
                                                                                 "selected_option" => $this->GetDatabaseValue($post) ]);
     }
 
+    /**
+     * Value of selected item is saved
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

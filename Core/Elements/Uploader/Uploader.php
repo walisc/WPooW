@@ -19,6 +19,17 @@ class Uploader extends BaseElement
         "selected_file" => "_selected_file"
     ];
 
+    /**
+     * Uploader constructor.
+     * @param $id - See BaseElement definitions
+     * @param string $label - See BaseElement definitions
+     * @param array $permissions - See BaseElement definitions
+     * @param string $uploaderTitle - The title of the media picker dialogue box
+     * @param string $buttonText - the text on the upload button on the media picker
+     * @param string $enableMultiple - Allowing for selecting multipe of items
+     * @param string $elementPath - See BaseElement definitions
+     * @param array $elementCssClasses - See BaseElement definitions
+     */
     function __construct($id, $label, $permissions=[], $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false", $elementPath='', $elementCssClasses=[])
     {
 
@@ -84,6 +95,18 @@ class Uploader extends BaseElement
         ]);
     }
 
+    /**
+     * Uploader data is saved as a json string with the following signature
+     *
+     * ` {
+     *       id: [id], //The field id in which the upload happened
+     *       url: [url], //The url of the file
+     *       filename: [name] // The name of the file
+     *   }
+     *   `
+     *
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

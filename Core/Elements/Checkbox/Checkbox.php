@@ -30,6 +30,11 @@ class Checkbox extends BaseElement
                                                                                 "id" => $this->id]);
     }
 
+    //TODO: Fix saving as on
+    /**
+     * Value saved as the string 'on'
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

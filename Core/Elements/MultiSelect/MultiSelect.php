@@ -12,6 +12,14 @@ class MultiSelect extends BaseElement
     public $options = [];
 
 
+    /**
+     * MultiSelect constructor.
+     * @param $id - See BaseElement definitions
+     * @param string $label - See BaseElement definitions
+     * @param array $options - [value => label] array. Eg [value1 => label1, value2 => label2]
+     * @param array $permissions - See BaseElement definitions
+     * @param string $elementPath - See BaseElement definitions
+     */
     function __construct($id, $label, $options, $permissions=[], $elementPath='')
     {
         parent::__construct($id, $label, $permissions, $elementPath);
@@ -57,6 +65,10 @@ class MultiSelect extends BaseElement
                                                                                 "selected_option" => $select_values ]);
     }
 
+    /**
+     * Data is saved as an array of [value => labels], Eg [value1 => label1, value2 => label2]
+     * @param $post_id
+     */
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);

@@ -1,12 +1,12 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:36 PM
- */
 
+/**
+ * Class BaseElement
+ * The base class used by all wpOOW elements which contains abstract classes that need to be overwritten
+ *
+ * @package wpAPI\Core\Elements
+ */
 abstract class BaseElement
 {
     //TODO: Have a way of checking that id is unique
@@ -29,6 +29,17 @@ abstract class BaseElement
 
 
     // for component. Use in BaseScriptsToLoad to load method
+    /**
+     * Used to add base script for the element. This script will be shared by all instances for this type.
+     * Only call this withing the BaseScriptsToLoad method as you will get `doing_it_wrong` word press error
+     *
+     * @param $handle
+     * @param $src
+     * @param array $shared_variable
+     * @param array $deps
+     * @param bool $ver
+     * @param bool $in_footer
+     */
     protected function EnqueueElementBaseScript($handle, $src, $shared_variable = [], $deps = [], $ver = false, $in_footer = false )
     {
         $this->ScriptHandler = $handle;
@@ -42,6 +53,16 @@ abstract class BaseElement
     }
     
     //Use in BaseScriptsToLoad to load method
+    /**
+     * Used to add base css for the element. The css will be shared by all instances for this type.
+     * Only call this withing the BaseScriptsToLoad method as you will get `doing_it_wrong` word press error
+     *
+     * @param $handle
+     * @param $src
+     * @param array $deps
+     * @param bool $ver
+     * @param string $media
+     */
     protected function EnqueueElementBaseCSS($handle, $src, $deps = array(), $ver = false, $media = 'all' )
     {
         $this->CssHandler = $handle;
@@ -49,27 +70,70 @@ abstract class BaseElement
     }
 
     // for instance. Use on element render. For read or write
+    /**
+     * Used to and a instance specific script. The script will be added for each instance of the element.
+     * Also not this script will be added inline
+     *
+     * @param $src_path
+     * @param array $shared_variables
+     * @param null $handler
+     */
     protected function EnqueueElementScript($src_path, $shared_variables= [], $handler=null)
     {
         wp_add_inline_script($handler ? $handler : $this->ScriptHandler, $this->twigTemplate->render($src_path, $shared_variables)) ;
     }
 
-    /*protected function EnqueueElementCSS($src_path, $shared_variables= [])
-    {
-        // This adds the css where the element is defined and is a anti-pattern. Don't use. Just here for reference sake
-        wp_styles()->registered[$this->CssHandler]->add_data( 'after', [$this->twigTemplate->render($src_path, $shared_variables)] );
-        wp_styles()->print_inline_style($this->CssHandler);
-    }*/
-    
+    /**
+     * Called when generating the read only version of the element is being rendered. You can the twig templating to render a more complex element
+     * And example of this can be seen below
+     *
+     *  `  function ReadView($post)
+     *      {
+     *      echo $this->twigTemplate->render('/read_view.mustache', ["value" => $this->GetDatabaseValue($post)]);
+     *      }
+     *  `
+     *
+     *  Note the render path is relative to he current location, so read_view.mustache will be in the same directory as element
+     *
+     * @param $post
+     */
     protected function ReadView($post)
     {
         echo $this->GetDatabaseValue($post);
     }
-    protected function EditView( $post)
+
+    /**
+     * Called when generating the edit version of the element is being rendered. You can the twig templating to render a more complex element
+     * And example of this can be seen below
+     *
+     *  `   function EditView( $post)
+     *      {
+     *          parent::EditView($post);
+     *          echo $this->twigTemplate->render('/edit_view.mustache', [
+     *          "id" => $this->id,
+     *          "label" => $this->label,
+     *          "value" => $this->GetDatabaseValue($post)
+     *          ]);
+     *      }
+     *  `
+     *
+     *  Note the render path is relative to he current location, so read_view.mustache will be in the same directory as element
+     *  Also note you need to call the parent method to generate the element wp_nonce, else it wont save correctly
+     *
+     * @param $post
+     */
+    protected function EditView($post)
     {
         wp_nonce_field($this->saveFunction, $this->saveNonce);
     }
 
+    /**
+     * Call this method to actually save the data in the database. This should be called within the ProcessPostData `methood`
+     * which is automatically called when data is posted back
+     *
+     * @param $post_id
+     * @param $data
+     */
     protected function SaveElementData($post_id, $data)
     {
         $processed_data = $data;
@@ -83,6 +147,13 @@ abstract class BaseElement
         update_post_meta($post_id, $this->valueKey, $processed_data);
     }
 
+    /**
+     * Method for getting the data value for the element for a given post id. Mainly used in the ReadView and EditView methods
+     *
+     * @param $post
+     * @param bool $single
+     * @return mixed
+     */
     protected function GetDatabaseValue($post, $single = true)
     {
         //When viewing the table/grid post_id is passed instead of the WP_POST object
@@ -90,6 +161,7 @@ abstract class BaseElement
         $db_value =  get_post_meta($post_id, $this->valueKey, $single);
 
         // Call Read Observer before reading/viewing the value
+        // TODO: Consider removing this
         foreach ($this->onReadEvents as $observor)
         {
             $db_value = wpAPIUtilities::CallUserFunc($observor[0], $observor[1], [$db_value, $post_id] );
@@ -97,29 +169,68 @@ abstract class BaseElement
         return $db_value;
     }
 
+    /**
+     * Method to the directory of the element folder
+     *
+     * @return string
+     */
     protected function GetElementDirectory()
     {
         return WP_API_ELEMENT_PATH_REL.  get_class($this) . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * Method the get the URI Directory of the element folder
+     *
+     * @return string
+     */
     protected function GetElementURIDirectory()
     {
         return WP_API_ELEMENT_URI_PATH.  get_class($this) . URL_SEPARATOR;
     }
 
     // register events
+    //TODO: Change this method signature. method should be the first parameter amd class should default to null
+    //TODO: Actually maybe consider removing them as you could always the RegisterBeforeSaveEvent/RegisterAfterSaveEvent in PostType
+     /**
+     * Method to register a before save method. This method will be called before data is saved. Useful if you want to modify some values, or auto populate them
+     *
+     * @param $class
+     * @param $method
+     */
     public function RegisterOnSaveEvent($class, $method)
     {
         array_push($this->onSaveEvents, [$class, $method ]);
     }
 
+    /**
+     * Method to register a before read method. This method will be called before data is rendered
+     *
+     * @param $class
+     * @param $method
+     */
     public function RegisterOnReadEvent($class, $method)
     {
-
         array_push($this->onReadEvents, [$class, $method ]);
     }
 
 
+    /**
+     * Called before saving data. Should be overriden by inheriting elements to process data accordingly, whilst still
+     * calling this base method. to ensure that it that data is being saved securely
+     * And example of this
+     *
+     *      ` function ProcessPostData($post_id)
+     *       {
+     *           parent::ProcessPostData($post_id);
+     *           $data = sanitize_text_field($_POST[$this->id]);
+     *
+     *           $this->SaveElementData($post_id, $data);
+     *
+     *       }`
+     *
+     * @param $post_id
+     */
     public function ProcessPostData($post_id)
     {
         if ((!isset($_POST[$this->saveNonce])
@@ -129,6 +240,16 @@ abstract class BaseElement
         )){return;}
      }
 
+    /**
+     * Constructor for the a base element
+     *
+     * BaseElement constructor.
+     * @param $id
+     * @param string $label
+     * @param array $permissions
+     * @param string $elementPath
+     * @param array $elementCssClasses
+     */
     function __construct($id, $label="", $permissions=[], $elementPath = '', $elementCssClasses=[])
     {
         $this->id = $id;
@@ -151,8 +272,17 @@ abstract class BaseElement
     }
 
     //override in element to base scripts
+    /**
+     * Called when wordpress enqueues scripts. Enqueue scripts using this method, else you will get a `doing_it_wrong` error
+     * This can be using in conjunction with the `EnqueueElementBaseScript` and the `EnqueueElementBaseCSS` method
+     *
+     */
     protected function BaseScriptsToLoad(){}
 
+    /**
+     * Direct method called by wordpress when loading scripts
+     *
+     */
     function loadScripts(){
         wp_register_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
         wp_enqueue_script($this->ScriptHandler);

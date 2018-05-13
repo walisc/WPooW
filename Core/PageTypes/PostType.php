@@ -1,12 +1,13 @@
 <?php
+
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/11
- * Time: 4:18 PM
+ * Class PostType
+ * Class responsible for creating the Custom post types that can be used for config
+ * This will appears as a menuitem  in wordpress
+ * 
+ * @package wpAPI\Core\PageType
  */
-
-
 class PostType extends wpAPIBasePage
 {
     protected $props = [
@@ -29,6 +30,12 @@ class PostType extends wpAPIBasePage
 
     private $persist = false;
 
+    /**
+     * @param $slug - the id you want to use for the posttype. Musct be unique
+     * @param $label - the label to use for the menu item
+     * @param bool $persist - If you want to be available when rendering pages
+     * @param array $options - extend the wordpress onptions for custom posttypes
+     */
     function __construct($slug, $label, $persist=false, $options = [])
     {
         parent::__construct($slug, $label);
@@ -55,6 +62,9 @@ class PostType extends wpAPIBasePage
 
     }
 
+    /**
+     *
+     */
     private function CreateProperties()
     {
         foreach ($this->props as $opt => $val){
@@ -62,11 +72,20 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    /**
+     * Get the query object that can be used to obtain data for this posttype
+     *
+     * @return wpQueryObject
+     */
     function Query()
     {
         return new wpQueryObject($this);
     }
 
+    /**
+     * Overrides the wpAPIBasePage option. Responsible for creating the custom posttype page to use
+     * Called when the specified render action is called (See the RenderHook method)
+     */
     function Generate()
     {
         $postTypeArray = [];
@@ -92,6 +111,10 @@ class PostType extends wpAPIBasePage
 
     }
 
+    /**
+     * Method called before data is fetched for the custom post type
+     * @param $query
+     */
     function BeforeDataFetch($query){
 
         if (array_key_exists("post_type",$query->query) && $query->query["post_type"]== $this->GetSlug())
@@ -104,6 +127,10 @@ class PostType extends wpAPIBasePage
 
     }
 
+    /**
+     * Method used to update the viewState. Used in conjunction with wpPermission, to determine rights
+     * @param null $screen
+     */
     function LoadViewState($screen=null)
     {
         $action = '';
@@ -136,11 +163,19 @@ class PostType extends wpAPIBasePage
 
     }
 
+    /**
+     * The wordpress action the link the rendering to. Defaults to the init action
+     * @return string
+     */
     function RenderHook()
     {
         return 'init';
     }
 
+    /**
+     * Sets extra properties and then calls the Generate method
+     * @param null $parent_slug
+     */
     function Render($parent_slug=null)
     {
         if ($parent_slug != null)
@@ -150,17 +185,30 @@ class PostType extends wpAPIBasePage
         parent::Render($parent_slug);
     }
 
+    /**
+     * Returns the list of fields in a post type
+     * @return array
+     */
     public function GetFields()
     {
         return $this->fields;
     }
 
+    /**
+     * Returns the Db Key value for a field. This is usually a bit different to the one we set
+     * @param $field_id
+     * @return mixed
+     */
     public function GetFieldDbKey($field_id)
     {
 
         return $this->fields[sprintf("%s_%s", $this->slug, $field_id)]->valueKey;
     }
 
+    /**
+     * Add a field to the posttype. These fields need to be of type BaseElement
+     * @param $aField
+     */
     public function AddField($aField)
     {
 
@@ -178,7 +226,12 @@ class PostType extends wpAPIBasePage
     }
 
     # Function that sets the columns for the post types
-    function SetFields( $fields)
+    /**
+     * Method called for wordpress manage%s_post_columns hook
+     * @param $fields
+     * @return array
+     */
+    function SetFields($fields)
     {
 
         $postTypeFields = [];
@@ -195,6 +248,11 @@ class PostType extends wpAPIBasePage
     }
 
     # Rendering the declared columns. This is equivalent to the Grid View.
+    /**
+     * Iterating through the available fields and getting the read view version
+     * @param $field
+     * @param $post_id
+     */
     function ViewFields($field, $post_id)
     {
         foreach ($this->fields as $fi)
@@ -207,6 +265,11 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    //TODO: Fix this
+    /**
+     * @param $field
+     * @param $post_type
+     */
     function QuickEditFields($field, $post_type)
     {
         foreach ($this->fields as $fi)
@@ -220,6 +283,9 @@ class PostType extends wpAPIBasePage
     }
 
     # Display the edit fields
+    /**
+     *Iterating through the available fields and getting the edit view version. Also takes into account permission set of the field
+     */
     function EditFields()
     {
         foreach ($this->fields as $fi)
@@ -236,6 +302,10 @@ class PostType extends wpAPIBasePage
     }
 
     # Save post type fields
+    /**
+     * Method responsible for saving/updating fields. Does this by calling the PostData method on each field
+     * @param $post_id
+     */
     function SaveFields($post_id)
     {
         $data = [];
@@ -280,6 +350,11 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    /**
+     * Method used to register before save events
+     * @param $method
+     * @param null $class
+     */
     public function RegisterBeforeSaveEvent($method, $class=null)
     {
         if ($class == null)
@@ -293,6 +368,11 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    /**
+     * Method used to register after save events
+     * @param $method
+     * @param null $class
+     */
     public function RegisterAfterSaveEvent($method, $class=null)
     {
         if ($class == null)
@@ -306,6 +386,11 @@ class PostType extends wpAPIBasePage
         }
     }
 
+    /**
+     * Method used to register before fetch events
+     * @param $method
+     * @param null $class
+     */
     public function RegisterBeforeDataFetch($method, $class=null)
     {
         if (count($this->BeforeDataFetch) == 0) {

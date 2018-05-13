@@ -1,23 +1,34 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/09/26
- * Time: 11:15 PM
+ * Class wpQueryObject
+ * Creates a query object that acts as a wrapper class to create wp queries with relevant properties for a post types
+ * @package wpAPI\Core
+ *
  */
 class wpQueryObject
 {
 
+
     private $queryArgs = [];
+
     private $postType;
 
+    /**
+     * wpQueryObject constructor.
+     * @param $postType
+     */
     function __construct($postType)
     {
         $this->postType = $postType;
     }
 
     #TODO and column logic
+    /**
+     * Set this initial properties for the query
+     * @param array $colums
+     * @return $this
+     */
     public function Select($colums = [])
     {
         $this->queryArgs["post_type"] =  $this->postType->GetSlug();
@@ -26,6 +37,14 @@ class wpQueryObject
         return $this;
     }
 
+    /**
+     * Set the return order of the data
+     * 
+     * @param $fieldname
+     * @param $asc_desc
+     * @param bool $use_numbers
+     * @return $this
+     */
     public function OrderBy($fieldname, $asc_desc, $use_numbers=false)
     {
         #TODO: What if not meta Value
@@ -36,6 +55,10 @@ class wpQueryObject
 
     }
 
+    /**
+     * Returns a generator that access the data for a posttype with relevant properties 
+     * @return Generator
+     */
     public function Fetch()
     {
         $loop = new WP_Query( $this->queryArgs );
@@ -54,6 +77,11 @@ class wpQueryObject
         endwhile;
     }
 }
+
+
+/**
+ * Class PostTypeRow
+ */
 
 #TODO: Really think about this. The proper way of implementing. The class is no longer generic
 class PostTypeRow extends ArrayObject

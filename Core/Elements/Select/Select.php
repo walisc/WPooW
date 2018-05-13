@@ -1,14 +1,11 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:46 PM
+ * Class Select
+ *
+ * @package wpAPI\Core\Elements\Select
  */
-
-
-
 class Select extends BaseElement
 {
     //Value -> label

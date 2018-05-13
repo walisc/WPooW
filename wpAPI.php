@@ -110,7 +110,7 @@ class wpAPI
  * A wpAPI_VIEW can either be link to a twig template or be based on a template string
  *
  * Class wpAPI_VIEW
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 class wpAPI_VIEW
 {
@@ -218,7 +218,7 @@ class wpAPI_VIEW
  * Class WP_PERMISSIONS
  *
  * wrapper for the main wordpress permissions
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 class WP_PERMISSIONS
 {
@@ -268,7 +268,7 @@ class WP_PERMISSIONS
  * - editable if update permissions are true and the viewstate matches.
  * - editable if create permissions are true and the viewstate matches.
  *
- * @package wpAPI\Core
+ * @package wpAPI\Base
  */
 
 
@@ -294,24 +294,25 @@ class wpAPIPermissions
 
     ];
 
-    // $permissions
-    // an array with viewstate -> permission  relations to be set for the element such as the field
-    // eg
-    //  [
-    //      "EditTable" = > "cr"
-    //      "EditPage" = > "cru"
-    //      "ViewTable" = > "cru"
-    //      "ViewPage" = > "cru"
-    //  ]
-    // Note:- for viewstates you can use the const i.e wpAPIPermissions::EditTable => "cru"
-    // Also note by default all viewstates have the permission cru.
-    // because of this you don't have to specify all viewstates. Only the one you want
-
     /**
-     * @param array $permissions
-     * @return wpAPIPermissions
-     * @throws Exception
-     */
+    * An array with viewstate -> permission  relations to be set for the element such as the field. Example Below
+    *
+    *       [
+    *           "EditTable" = > "cr"
+    *           "EditPage" = > "cru"
+    *           "ViewTable" = > "cru"
+    *           "ViewPage" = > "cru"
+    *       ]
+     *
+    * Note:- for viewstates you can use the const i.e wpAPIPermissions::EditTable => "cru"
+    * Also note by default all viewstates have the permission cru.
+    * because of this you don't have to specify all viewstates. Only the one you want
+    *
+    *
+    * @param array $permissions
+    * @return wpAPIPermissions
+    * @throws Exception
+    */
     public static function SetPermission($permissions = [])
     {
         if (!is_array($permissions)) {
@@ -328,6 +329,8 @@ class wpAPIPermissions
 
 
     /**
+     * Get the permission of a pagestate
+     *
      * @param $pageState
      * @return mixed
      */
@@ -339,6 +342,8 @@ class wpAPIPermissions
 
     //TODO: Rename this to check permission
     /**
+     * See is for the given page state an action is allow. Action can either be u(pdate), or r(ead), v(iew)
+     *
      * @param $pageState
      * @param $action
      * @return bool|int

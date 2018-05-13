@@ -1,14 +1,16 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/12
- * Time: 12:28 PM
- */
+
+
 
 $CURRENT_VIEW_STATE = wpAPIPermissions::EditPage;
 
+/**
+ * Class wpAPIBasePage
+ * The base page for the wpOOW application. Extended by PageTypes appropiately
+ *
+ * @package wpAPI\Core
+ */
 abstract class wpAPIBasePage
 {
 
@@ -23,11 +25,19 @@ abstract class wpAPIBasePage
         $this->label = $label;
     }
 
+    /**
+     * Get the page slug/id
+     * @return mixed
+     */
     public function GetSlug()
     {
         return $this->slug;
     }
 
+    /**
+     * Calls the generate for given PageType and  given renderhook
+     * @param $parent_slug
+     */
     public function Render($parent_slug)
     {
 
@@ -39,6 +49,10 @@ abstract class wpAPIBasePage
         add_action('current_screen', [$this, "LoadViewState"]);
     }
 
+    /**
+     * Set the viewstate of the currently viewed page.Called automatically with the PostType page type
+     * @param null $screen
+     */
     function LoadViewState($screen = null)
     {
         global $CURRENT_VIEW_STATE;
@@ -46,11 +60,19 @@ abstract class wpAPIBasePage
         $this->SetViewState($CURRENT_VIEW_STATE);
     }
 
+    /**
+     * Gets the view
+     * @return mixed
+     */
     protected function GetViewState()
     {
         return $this->viewState;
     }
 
+    /**
+     * Sets the viewstate. Used by none PostType
+     * @param $vs
+     */
     protected function SetViewState($vs)
     {
         global $CURRENT_VIEW_STATE;
@@ -59,7 +81,14 @@ abstract class wpAPIBasePage
     }
 
 
+    /**
+     * @return mixed
+     */
     abstract function Generate();
+
+    /**
+     * @return mixed
+     */
     abstract function RenderHook(); //return what render hook to use
 
 }

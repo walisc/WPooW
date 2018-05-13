@@ -1,14 +1,12 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:46 PM
+ * Class Checkbox
+ *
+ *
+ * @package wpAPI\Core\Elements\Checkbox
  */
-
-
-
 class Checkbox extends BaseElement
 {
 

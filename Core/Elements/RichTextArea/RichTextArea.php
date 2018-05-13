@@ -1,14 +1,11 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/08/13
- * Time: 7:46 PM
+ * Class RichTextArea
+ *
+ * @package wpAPI\Core\Elements\RichTextArea
  */
-
-
-
 class RichTextArea extends BaseElement
 {
 

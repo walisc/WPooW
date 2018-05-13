@@ -1,13 +1,13 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/07/04
- * Time: 10:05 PM
+ * Class Menu
+ * Custom page which uses the wpAPI_VIEW to render a page
+ * This page appears as a Submenu in the wordpress backend and added to the Menu Page
+ * 
+ * @package wpAPI\Core\PageType
  */
-
-
 class Menu extends SubMenu
 {
 

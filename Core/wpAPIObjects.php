@@ -1,17 +1,20 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/07/04
- * Time: 11:54 PM
+ * Class wpAPIObjects
+ * Global Cache of the wpOOW objects. Allows for them to be used in rendering views
+ * @package wpAPI\Core
  */
- class wpAPIObjects
+class wpAPIObjects
 {
 
     private $wpapi_objects = [];
 
     #TODO: Consider removing the method completely...add object directly
+    /**
+     * @return bool|mixed
+     */
     public static function GetInstance()
     {
 
@@ -19,6 +22,10 @@
         return wp_cache_get('wpAPIObjects');
     }
 
+    /**
+     * @param $key
+     * @param $object
+     */
     public function AddObject($key, $object)
     {
         //TODO: check if key already exists
@@ -27,11 +34,18 @@
         wp_cache_set('wpAPIObjects', $this);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function GetObject($key)
     {
         return $this->wpapi_objects[$key];
     }
 
+    /**
+     * @param $key
+     */
     public function RemoveObject($key)
     {
 

@@ -1,13 +1,13 @@
 <?php
 
+
 /**
- * Created by PhpStorm.
- * User: chidow
- * Date: 2016/07/04
- * Time: 10:04 PM
+ * Class SubMenu
+ * Custom page which uses the wpAPI_VIEW to render a page
+ * This page appears as a Submenu in the wordpress backend and added to the Menu Page
+ *
+ * @package wpAPI\Core\PageType
  */
-
-
 class SubMenu extends wpAPIBasePage
 {
     protected $menu_title = '';
@@ -24,12 +24,21 @@ class SubMenu extends wpAPIBasePage
 
     }
 
+    /**
+     * Add a child to the menu items represented by this page
+     * @param $child
+     */
     public function AddChild($child)
     {
         array_push($this->_children, $child);
     }
-    
 
+
+    /**
+     * Called by the BasePage for the appropriate RenderHook
+     * Calls the add_submenu_page method of wordpress, which then calls the GenerateView of the page
+     * @throws Exception
+     */
     public function Generate()
     {
         if ($this->parent_slug == '')
@@ -41,6 +50,10 @@ class SubMenu extends wpAPIBasePage
 
     }
 
+    /**
+     * Generates the view of the Page
+     * @throws Exception
+     */
     public function GenerateView()
     {
         if ($this->display_path_content == null)
@@ -50,6 +63,10 @@ class SubMenu extends wpAPIBasePage
         $this->display_path_content->Render();
     }
 
+    /**
+     * Render the page and it children
+     * @param null $parent_slug
+     */
     public function Render($parent_slug = null)
     {
         parent::Render($parent_slug);
@@ -62,6 +79,9 @@ class SubMenu extends wpAPIBasePage
 
     }
 
+    /**
+     * @return string
+     */
     function RenderHook()
     {
         return "admin_menu";

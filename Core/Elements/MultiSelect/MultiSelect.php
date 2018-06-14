@@ -31,11 +31,13 @@ class MultiSelect extends BaseElement
         $value = $this->GetDatabaseValue($post);
         $display_values = [];
 
-        foreach ($value as $selected_value => $selected_label)
-        {
-            if (array_key_exists($selected_value, $this->options))
+        if ($value){
+            foreach ($value as $selected_value => $selected_label)
             {
-                array_push($display_values, $selected_label);
+                if (array_key_exists($selected_value, $this->options))
+                {
+                    array_push($display_values, $selected_label);
+                }
             }
         }
 

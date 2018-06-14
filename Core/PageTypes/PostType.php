@@ -320,7 +320,9 @@ class PostType extends wpAPIBasePage
                 || (! current_user_can('edit_post', $post_id))
             )){continue;}
 
-            $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
+            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST) || $fi instanceof Checkbox) {
+                $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
+            }
         }
 
         foreach ($this->BeforeSaveEvents as $observor)

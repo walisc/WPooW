@@ -21,7 +21,7 @@ abstract class wpAPIBasePage
 
     function __construct($slug, $label)
     {
-        $this->slug = $slug;
+        $this->slug = sanitize_title_with_dashes($slug);
         $this->label = $label;
     }
 

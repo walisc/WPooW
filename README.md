@@ -4,43 +4,98 @@
 # Wordpress Object Oriented Wrapper
 #### An OOP Wordpress wrapper for rapid development
 
-If you have ever had to create a custom theme in Wordpress you know how cumbersome it can be. This is a Wordpress API
-wrapper that will enable you to create themes/plugins much faster in an object oriented way. Below is an example of how you can
-create a custom post page along with additional metaboxes in a few lines of code.
+If you have ever had to create a custom theme/plugin in Wordpress which requires a lot of backend configuration, this can be tedious task. This wrapper aims to simplify this process by providing a object-oriented way which abstracts most of these tasks. Below is a simple example showing you how you can easily create a custom posttype you can use to store information of books you have read.
 
-```<?php
+```php
+//functions.php
 
-include 'src/wpAPI/wpAPI.php';
+include 'wpAPI/wpAPI.php';q
 
-$wp_api = new wpAPI();
+$wpOOW = new wpAPI();
+$bookReviewPostType = $wpOOW->CreatePostType("_bookReview", "Book Review", true);
 
-$menu_base = $wp_api->CreateMenu("wpAPI",
-    "WP API", wpAPI_PERMISSIONS::MANAGE_OPTIONS,
-    new wpAPI_VIEW(wpAPI_VIEW::PATH, "src/wpAPI/Templates/example.mustache", []));
+$bookReviewPostType->AddField(new Text("_bookTitle", "Book Title"));
+$bookReviewPostType->AddField(new Text("_bookAuthor", "Book Author"));
+$bookReviewPostType->AddField(new Uploader("_bookImage", "Book Image"));
+$bookReviewPostType->AddField(new MultiSelect("_bookCategories", "Categories", ["Philosophy" => "Philosophy", "Auto-Biography" => "Auto-Biography", "Fiction" => "Fiction"]));
+$bookReviewPostType->AddField(new RichTextArea("_mySummary", "My Summary"));
+$bookReviewPostType->AddField(new Text("_myRating", "My Rating"));
 
-$sub_menu = $wp_api->CreateSubMenu("wpAPISubmenu", "wp API Submenu",
-    wpAPI_PERMISSIONS::MANAGE_OPTIONS,
-    new wpAPI_VIEW(wpAPI_VIEW::CONTENT, "In line html for submenu page", []));
-
-
-$post_page = $wp_api->CreatePostType("wpAPI_custom_post_type", "wpAPI Custom Post Type");
-
-$post_page->AddField(new Text("_email", "Your Email", new ElementPermission()));
-$post_page->AddField(new Text("_firstName", "Last Name", new ElementPermission()));
+$bookReviewPostType->Render();
 
 
-$menu_base->AddChild($sub_menu);
-
-$menu_base->AddChild($post_page);
-
-
-$menu_base->Render();
 ```
 
-The above will create the following, configuring all items properly in the background. i.e fields, saving and updating etc
+This will create a custom posttype page (available at login) that will look like
 
-New Post Type Page
-![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_view.jpg "New Post Type Page")
+![1529530655397](https://github.com/walisc/wpAPI/blob/master/static/images/intro_output_image_input.png, "Custom PostType Grid")
 
-Adding New Post Type
-![alt text](https://github.com/walisc/wpAPI/blob/master/Docs/images/wpAPI_addnew.jpg "Add New Post Type")
+to make a plugin
+
+![1528991852815](https://github.com/walisc/wpAPI/blob/master/static/images/intro_main_image_expanded.png, "Custom PostType - New")
+
+To acces the data added through the custim posttype, you can you a tradtion wordpress query `WP_QUERY` by reference you declared posttype id for the posttype property (in the case above it will be `_bookReview`). wpOOW  however provides a wrapper class which makes it easier to access this data. An example  how you would fetch is below
+
+```php+HTML
+<style>
+	.book_block{
+		display: inline-block;
+	}
+	.book_img{
+		float: left;
+		width: 50%;
+	}
+	.book_img  img{
+		height: 200px;
+		width: auto;
+	}
+
+	.book_details {
+		float: right;
+		width: 45%;
+		padding-left: 2%;
+	}
+
+	.book_details p {
+		font-size: 14px;
+		margin-bottom: 2px;
+		margin-top: 2px;
+		color: white;
+	}
+</style>
+
+<div class="wrap">
+   <?php
+      $bookReviews = wpAPIObjects::GetInstance()->GetObject("_bookReview");
+      foreach ($bookReviews->Query()->Select()->Fetch() as $book)
+      {
+
+         echo '<div class="book_block">';
+         echo ' <div class="book_img">';
+         echo '     <img src="'.json_decode( $book["_bookImage"])->url.'" alt="'.$book["_bookTitle"].'"  >';
+         echo '     </div>';
+         echo '     <div  class="book_details">';
+         echo "    <p>".$book["_bookTitle"]."</p>";
+         echo "    <p>".$book["_bookAuthor"]."</p>";
+         echo "    <p>". (is_array($book["_bookCategories"]) ? implode(',', $book["_bookCategories"]) : '')."</p>";
+         echo "    <p>".$book["_myRating"]."</p>";
+         echo ' </div>';
+         echo '</div>';
+
+      }
+   ?>
+
+</div>Result
+```
+
+
+
+This could be used to produce a webpage like: (below:- based on the Wordpress TwentySeventeen template )
+
+![1529530425830](https://github.com/walisc/wpAPI/blob/master/static/images/intro_output_image.png. "Sample HTML")
+
+
+
+
+
+

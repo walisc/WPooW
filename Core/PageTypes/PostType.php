@@ -320,9 +320,23 @@ class PostType extends wpAPIBasePage
                 || (! current_user_can('edit_post', $post_id))
             )){continue;}
 
-            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST) || $fi instanceof Checkbox) {
-                $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
+            if (array_key_exists($fi->id, $_POST)  || $fi instanceof Checkbox) {
+                if (is_array($_POST[$fi->id])) {
+                    $sanitized_array = [];
+                    foreach ($_POST[$fi->id] as $opt) {
+                        array_push($sanitized_array, sanitize_text_field($opt));
+                    }
+                    $data[$fi->id] = $sanitized_array;
+                }
+                else{
+                    $data[$fi->id] = sanitize_text_field($_POST[$fi->id]);
+                }
+
             }
+            elseif (array_key_exists("tinymce_".$fi->id, $_POST)) {
+                $data[$fi->id] = sanitize_textarea_field($_POST["tinymce_".$fi->id]);
+            }
+
         }
 
         foreach ($this->BeforeSaveEvents as $observor)

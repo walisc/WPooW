@@ -40,7 +40,7 @@ class wpAPIObjects
      */
     public function GetObject($key)
     {
-        return $this->wpapi_objects[$key];
+        return $this->wpapi_objects[sanitize_title_with_dashes($key)];
     }
 
     /**

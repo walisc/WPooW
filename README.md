@@ -9,7 +9,7 @@ If you have ever had to create a custom theme/plugin in Wordpress which requires
 ```php
 //functions.php
 
-include 'wpAPI/wpAPI.php';q
+include 'wpAPI/wpAPI.php';
 
 $wpOOW = new wpAPI();
 $bookReviewPostType = $wpOOW->CreatePostType("_bookReview", "Book Review", true);
@@ -28,15 +28,15 @@ $bookReviewPostType->Render();
 
 This will create a custom posttype page (available at login) that will look like
 
-![1529530655397](https://github.com/walisc/wpAPI/blob/master/static/images/intro_output_image_input.png, "Custom PostType Grid")
+![1529530655397](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image_input.png "Custom PostType Grid")
 
 to make a plugin
 
-![1528991852815](https://github.com/walisc/wpAPI/blob/master/static/images/intro_main_image_expanded.png, "Custom PostType - New")
+![1528991852815](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_main_image_expanded.png "Custom PostType - New")
 
 To acces the data added through the custim posttype, you can you a tradtion wordpress query `WP_QUERY` by reference you declared posttype id for the posttype property (in the case above it will be `_bookReview`). wpOOW  however provides a wrapper class which makes it easier to access this data. An example  how you would fetch is below
 
-```php+HTML
+```php
 <style>
 	.book_block{
 		display: inline-block;
@@ -92,7 +92,7 @@ To acces the data added through the custim posttype, you can you a tradtion word
 
 This could be used to produce a webpage like: (below:- based on the Wordpress TwentySeventeen template )
 
-![1529530425830](https://github.com/walisc/wpAPI/blob/master/static/images/intro_output_image.png. "Sample HTML")
+![1529530425830](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image.png "Sample HTML produced")
 
 
 

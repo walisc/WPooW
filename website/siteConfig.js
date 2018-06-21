@@ -8,8 +8,9 @@
 const siteConfig = {
   title: 'wpOOW' /* title for your website */,
   tagline: 'Wordpress Object Oriented Wrapper',
-  url: 'https://wpoow.devchid.com' ,
+  url: 'http://wpoow.devchid.com' ,
   baseUrl: '/',
+
 
   projectName: 'wpOOW',
   organizationName: 'BatanaSoftware',
@@ -63,8 +64,8 @@ const siteConfig = {
   onPageNav: 'separate',
 
   /* Open Graph and Twitter card images */
-  ogImage: 'img/docusaurus.png',
-  twitterImage: 'img/docusaurus.png',
+  ogImage: 'images/intro_code_meta_main.png',
+  description:'This Wordpress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. '
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...

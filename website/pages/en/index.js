@@ -59,7 +59,7 @@ const Logo = props => (
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.title}
-    <small>{siteConfig.tagline}</small>
+    <small>Wordpress Object Oriented Wrapper</small>
   </h2>
 );
 

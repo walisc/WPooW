@@ -4,10 +4,11 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Wordpress Object Oriented Wrapper",
-    "Example": "Example",
-    "GettingStarted": "GettingStarted",
+    "GettingStarted": "Getting Started",
     "Introduction": "Introduction",
-    "Docs": "Docs"
+    "Docs": "Docs",
+    "GitHub": "GitHub",
+    "Contact": "Contact"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

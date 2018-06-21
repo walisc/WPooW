@@ -1,7 +1,5 @@
 {
   "docs": {
-    "Introduction": ["Introduction"],
-    "GettingStarted": ["GettingStarted"],
-    "Example": ["Example"]
+    "Introduction": ["Introduction"]
   }
 }

@@ -15,7 +15,7 @@ const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(process.cwd() + '/siteConfig.js');
 
 function imgUrl(img) {
-  return siteConfig.baseUrl + 'img/' + img;
+  return siteConfig.baseUrl + 'images/' + img;
 }
 
 function docUrl(doc, language) {
@@ -63,27 +63,15 @@ const ProjectTitle = props => (
   </h2>
 );
 
-const PromoSection = props => (
-  <div className="section promoSection">
-    <div className="promoRow">
-      <div className="pluginRowBlock">{props.children}</div>
-    </div>
-  </div>
-);
+
 
 class HomeSplash extends React.Component {
   render() {
     let language = this.props.language || '';
     return (
       <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')} />
         <div className="inner">
           <ProjectTitle />
-          <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
-          </PromoSection>
         </div>
       </SplashContainer>
     );
@@ -95,75 +83,40 @@ const Block = props => (
     padding={['bottom', 'top']}
     id={props.id}
     background={props.background}>
-    <GridBlock align="center" contents={props.children} layout={props.layout} />
+    <GridBlock className="CustomGridItem" align="center" contents={props.children} layout={props.layout} />
   </Container>
 );
 
 const Features = props => (
-  <Block layout="fourColumn">
+  <Block layout="fourColumn"  >
     {[
-      {
-        content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
+        {
+            content: '',
+            image: imgUrl('intro_code.png'),
+            imageAlign: 'top',
+            title: 'Easily create custom PostTypes',
+        },
+        {
+        content: '',
+        image: imgUrl('intro_output_image_input.png'),
         imageAlign: 'top',
-        title: 'Feature One',
-      },
-      {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature Two',
-      },
+        title: 'Display custom PostType data easily in html',
+      }
+
     ]}
   </Block>
 );
 
-const FeatureCallout = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
-    <h2>Feature Callout</h2>
-    <MarkdownBlock>These are features of this project</MarkdownBlock>
-  </div>
-);
 
-const LearnHow = props => (
-  <Block background="light">
-    {[
-      {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
-      },
-    ]}
-  </Block>
-);
-
-const TryOut = props => (
-  <Block id="try">
-    {[
-      {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
-      },
-    ]}
-  </Block>
-);
 
 const Description = props => (
-  <Block background="dark">
-    {[
-      {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
-      },
-    ]}
-  </Block>
+<div className="descriptionWrapper darkBackground">
+    <div className="inner wrapper">
+        <h2>This Wordpress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. </h2>
+    </div>
+</div>
+
+
 );
 
 const Showcase = props => {
@@ -204,12 +157,8 @@ class Index extends React.Component {
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <Features />
-          <FeatureCallout />
-          <LearnHow />
-          <TryOut />
           <Description />
-          <Showcase language={language} />
+          <Features />
         </div>
       </div>
     );

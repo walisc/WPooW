@@ -19,18 +19,18 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'Introduction', label: 'Docs'}
+    {doc: 'Introduction', label: 'Docs'},
+    {href: 'https://github.com/walisc/wpAPI', label: 'GitHub' },
+    {href: 'mailto:chido@batanasoftware.com', label: 'Contact' }
   ],
 
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
   favicon: 'img/favicon.png',
 
   /* colors for website */
   colors: {
-    primaryColor: '#2E8555',
-    secondaryColor: '#205C3B',
+    primaryColor: '#0087be',
+    secondaryColor: '#00aadc',
   },
 
   /* custom fonts for website */

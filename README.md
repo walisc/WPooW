@@ -94,7 +94,9 @@ This could be used to produce a webpage like: (below:- based on the Wordpress Tw
 
 ![1529530425830](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image.png "Sample HTML produced")
 
+**Note:-**
 
+This library is to be used for creating WordPress plugins and themes. It's not a plugin in and off itself. If you are not a developer you might not want to use this library.
 
 
 

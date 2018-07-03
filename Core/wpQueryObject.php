@@ -70,7 +70,7 @@ class wpQueryObject
             foreach ($this->postType->GetFields() as $field)
             {
                 #TODO: if not custom post
-                $returnRow[$field->id] = get_post_meta(get_the_ID(),$field->valueKey, true);
+                $returnRow[$field->id] = $field->FormatForFetch(get_post_meta(get_the_ID(),$field->valueKey, true), get_the_ID());
             }
             yield  $returnRow;
 

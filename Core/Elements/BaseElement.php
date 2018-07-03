@@ -292,6 +292,14 @@ abstract class BaseElement
 
         $this->BaseScriptsToLoad();
     }
+
+    /**
+     * Formats the value for the data used on fetch
+     *
+     */
+    function FormatForFetch($value, $recordId){
+        return $value;
+    }
 }
 
 

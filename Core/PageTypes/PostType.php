@@ -320,7 +320,7 @@ class PostType extends wpAPIBasePage
                 || (! current_user_can('edit_post', $post_id))
             )){continue;}
 
-            if (array_key_exists($fi->id, $_POST)  || $fi instanceof Checkbox) {
+            if (array_key_exists($fi->id, $_POST)) {
                 if (is_array($_POST[$fi->id])) {
                     $sanitized_array = [];
                     foreach ($_POST[$fi->id] as $opt) {
@@ -336,33 +336,34 @@ class PostType extends wpAPIBasePage
             elseif (array_key_exists("tinymce_".$fi->id, $_POST)) {
                 $data[$fi->id] = sanitize_textarea_field($_POST["tinymce_".$fi->id]);
             }
+            else{
+                $data[$fi->id] = null;
+            }
 
         }
 
-        foreach ($this->BeforeSaveEvents as $observor)
-        {
-            //TODO: consider removing slug in $data
-            foreach (call_user_func_array($observor, [$data]) as $key => $value)
-            {
-                $field_key = sprintf("%s_%s", $this->slug, $key);
+        if (count($data) > 0) {
+            foreach ($this->BeforeSaveEvents as $observor) {
+                //TODO: consider removing slug in $data
+                foreach (call_user_func_array($observor, [$data]) as $key => $value) {
+                    $field_key = sprintf("%s_%s", $this->slug, $key);
 
-                if (array_key_exists($field_key, $this->fields)) {
-                    $_POST[$field_key] = $value;
-                    $processed_data[$key] = $value;
+                    if (array_key_exists($field_key, $this->fields)) {
+                        $_POST[$field_key] = $value;
+                        $processed_data[$key] = $value;
+                    }
                 }
             }
-        }
 
-        foreach ($this->fields as $fi)
-        {
-            if (array_key_exists($fi->id, $_POST) ||  array_key_exists("tinymce_".$fi->id, $_POST) || $fi instanceof Checkbox) {
-                $fi->ProcessPostData($post_id);
+            foreach ($this->fields as $fi) {
+                if (array_key_exists($fi->id, $_POST) || array_key_exists("tinymce_" . $fi->id, $_POST) || $fi instanceof Checkbox) {
+                    $fi->ProcessPostData($post_id);
+                }
             }
-        }
 
-        foreach ($this->AfterSaveEvents as $observor)
-        {
-            call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
+            foreach ($this->AfterSaveEvents as $observor) {
+                call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
+            }
         }
     }
 

@@ -38,8 +38,7 @@ class Checkbox extends BaseElement
     function ProcessPostData($post_id)
     {
         parent::ProcessPostData($post_id);
-        $data = sanitize_text_field($_POST[$this->id]);
-
+        $data = array_key_exists($this->id, $_POST) ? sanitize_text_field($_POST[$this->id]) : "";
         $this->SaveElementData($post_id, $data);
         
     }

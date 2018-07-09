@@ -1,6 +1,8 @@
 {
   "docs": {
     "Introduction": ["Introduction"],
-    "Getting Started": ["GettingStarted"]
+    "Getting Started": ["GettingStarted"],
+    "Page Type": ["pt-introduction", "pt-posttypes"],
+    "Data Access": ["da-introduction", "da-posttypes"]
   }
 }

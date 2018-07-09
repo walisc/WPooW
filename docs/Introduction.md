@@ -1,4 +1,6 @@
-If you have ever had to create a custom theme/plugin in Wordpress which requires a lot of backend configuration, this can be tedious task. This wrapper aims to simplify this process by providing a object-oriented way which abstracts most of these tasks. Below is a simple example showing you how you can easily create a custom posttype you can use to store information of books you have read.
+If you have had to create a custom theme/plugin in WordPress which requires a lot of backend configuration, this can be tedious task.
+This wrapper aims to simplify this process by providing an object-oriented way which abstracts most of these tasks.
+Below is a simple example showing you how you can easily create a Custom Post Type you can use to store information of books you have read.
 
 ```php
 //functions.php
@@ -20,15 +22,15 @@ $bookReviewPostType->Render();
 
 ```
 
-This will create a custom posttype page (available at login) that will look like
+This will create a Custom Post Type page (available at login) that will look like
 
-![1529530655397](/images/intro_output_image_input.png)
+![intro_images](/images/intro_output_image_input.png)
 
 to make a plugin
 
-![1528991852815](/images/intro_main_image_expanded.png)
+![intro_images_expanded](/images/intro_main_image_expanded.png)
 
-To acces the data added through the custim posttype, you can you a tradtion wordpress query `WP_QUERY` by reference you declared posttype id for the posttype property (in the case above it will be `_bookReview`). wpOOW  however provides a wrapper class which makes it easier to access this data. An example  how you would fetch is below 
+To access the data added through the Custom Post Type data, you can you use a traditional WordPress query `WP_QUERY` by reference you declared Post Type id  (in the case above it will be `_bookReview`). wpOOW  however, provides a wrapper class which makes it easier to access this data. An example  how you would fetch is below
 
 ```php+HTML
 <style>
@@ -84,7 +86,7 @@ To acces the data added through the custim posttype, you can you a tradtion word
 
 
 
-This could be used to produce a webpage like: (below:- based on the Wordpress TwentySeventeen template )
+This could be used to produce a web page like: (below:- based on the WordPress TwentySeventeen template )
 
 ![1529530425830](/images/intro_output_image.png)
 

@@ -4,12 +4,18 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Wordpress Object Oriented Wrapper",
+    "da-posttypes": "Post Type",
+    "da-introduction": "Overview",
     "GettingStarted": "Getting Started",
     "Introduction": "Introduction",
+    "pt-posttypes": "Post Types",
+    "pt-introduction": "Overview",
     "Docs": "Docs",
     "GitHub": "GitHub",
     "Contact": "Contact",
-    "Getting Started": "Getting Started"
+    "Getting Started": "Getting Started",
+    "Page Type": "Page Type",
+    "Data Access": "Data Access"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

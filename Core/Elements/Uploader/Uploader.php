@@ -119,6 +119,6 @@ class Uploader extends BaseElement
     function FormatForFetch($value, $recordId){
         #TODO Maybe create a hook that allows you modify this output
         //This is mainly for backward compatibility. Imaages uploaded with http now useing https
-        return strpos(get_site_url(), "https") ? str_replace("http", "https", $value) : $value;
+        return strpos($value, "https") == false && is_ssl() ? str_replace("http", "https", $value) : $value;
     }
 }

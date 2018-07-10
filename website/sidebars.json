@@ -3,6 +3,7 @@
     "Introduction": ["Introduction"],
     "Getting Started": ["GettingStarted"],
     "Page Type": ["pt-introduction", "pt-posttypes"],
+    "Menus": ["menus"],
     "Data Access": ["da-introduction", "da-posttypes"]
   }
 }

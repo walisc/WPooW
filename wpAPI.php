@@ -59,7 +59,7 @@ class wpAPI
      * @param null $position
      * @return Menu
      */
-    public function CreateMenu($page_slug, $menu_title, $capability, $display_path, $icon='', $position=null)
+    public function CreateMenu($page_slug, $menu_title, $capability=WP_PERMISSIONS::MANAGE_OPTIONS, $display_path=null, $icon='', $position=null)
     {
         return new Menu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
 
@@ -151,7 +151,7 @@ class wpAPI_VIEW
      * @param $path_content
      * @param $data
      */
-    function __construct($type, $path_content, $data)
+    function __construct($type, $path_content, $data=[])
     {
         $this->type = $type;
         $this->path_content = $path_content;

@@ -334,7 +334,8 @@ class PostType extends wpAPIBasePage
 
             }
             elseif (array_key_exists("tinymce_".$fi->id, $_POST)) {
-                $data[$fi->id] = sanitize_textarea_field($_POST["tinymce_".$fi->id]);
+                //TODO: Consider using sanitize_textarea_field for late version
+                $data[$fi->id] = sanitize_text_field($_POST["tinymce_".$fi->id]);
             }
             else{
                 $data[$fi->id] = null;

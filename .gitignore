@@ -1,3 +1,4 @@
 Build/
 /website/node_modules/
 /website/build/
+/website/siteConfig.local.js

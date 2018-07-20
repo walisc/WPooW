@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+//the config exact same format as this file
+var localConfig = require("./siteConfig.local")
+
 const siteConfig = {
   title: 'wpOOW' /* title for your website */,
   tagline: 'Wordpress Object Oriented Wrapper',
   url: 'http://wpoow.devchid.com' ,
   baseUrl: '/',
-
+  gaTrackingId: localConfig.gaTrackingId,
 
   projectName: 'wpOOW',
   organizationName: 'BatanaSoftware',

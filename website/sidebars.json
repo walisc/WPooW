@@ -4,6 +4,18 @@
     "Getting Started": ["GettingStarted"],
     "Page Type": ["pt-introduction", "pt-posttypes"],
     "Menus": ["menus"],
-    "Data Access": ["da-introduction", "da-posttypes"]
+    "Data Access": ["da-introduction", "da-posttypes"],
+    "Elements": ["elements-introduction",
+                       "elements-checkbox",
+                       "elements-date",
+                       "elements-muilti_select",
+                       "elements-richtextarea",
+                       "elements-select",
+                       "elements-text",
+                       "elements-textarea",
+                       "elements-uploader"],
+    "Custom Elements":["custom_elements_create"],
+    "Video Example": ["video_tutorial"],
+    "Other Notes": ["other_notes"]
   }
 }

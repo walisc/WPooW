@@ -14,7 +14,10 @@
                        "elements-text",
                        "elements-textarea",
                        "elements-uploader"],
-    "Custom Elements":["custom_elements_create"],
+    "Custom Elements":["custom_elements-create",
+                            "custom_elements-using_twig",
+                            "custom_elements-using_javascript",
+                            "custom_elements-full_example"],
     "Video Example": ["video_tutorial"],
     "Other Notes": ["other_notes"]
   }

@@ -78,9 +78,9 @@ abstract class BaseElement
      * @param array $shared_variables
      * @param null $handler
      */
-    protected function EnqueueElementScript($src_path, $shared_variables= [], $handler=null)
+    protected function EnqueueElementScript($src, $shared_variables= [], $handler=null)
     {
-        wp_add_inline_script($handler ? $handler : $this->ScriptHandler, $this->twigTemplate->render($src_path, $shared_variables)) ;
+        wp_add_inline_script($handler ? $handler : $this->ScriptHandler, $this->twigTemplate->render($src, $shared_variables)) ;
     }
 
     /**

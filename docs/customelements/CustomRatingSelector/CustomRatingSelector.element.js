@@ -1,29 +1,48 @@
 ( function () {
         var scaleValues = {}
 
-        jQuery( "#{{element_id}}_main > div" ).each(function() {
+        $( "#{{element_id}}_main > div" ).each(function() {
             // read initial values from markup and remove that
-            var value =30
+            var value = $(this).text();
             $( this ).empty().slider({
+                value: value,
                 range: "min",
                 animate: true,
                 orientation: "horizontal",
                 create: function() {
                     var setValue = $( this ).slider( "value" );
 
-                    updateMainScore($(this).attr("id"), setValue)
+                    updateMainScore(this, setValue)
                     $( this ).children("span").text( setValue );
                 },
                 slide: function( event, ui ) {
 
-                    updateMainScore($(this).attr("id"), ui.value)
+                    updateMainScore(this, ui.value)
                     $( this ).children("span").text( ui.value );
                 }
             });
         });
 
-        function updateMainScore(id, value) {
-            scaleValues[id] = value;
+        $( "#{{element_id}}_read_view > div" ).each(function() {
+            // read initial values from markup and remove that
+            var value = $(this).text();
+            $( this ).empty().slider({
+                disabled: true,
+                value: value,
+                range: "min",
+                animate: true,
+                orientation: "horizontal",
+                create: function() {
+                    var setValue = $( this ).slider( "value" );
+                    updateMainScore(this, setValue)
+                    $( this ).children("span").text( setValue );
+                }
+            });
+        });
+
+        function updateMainScore(score_elements, value) {
+
+            scaleValues[$(score_elements).attr("id").replace("{{element_id}}_", "")] = value;
 
             var totalScores = Object.keys(scaleValues).reduce(function (total, key) {
                 return total+scaleValues[key]
@@ -31,8 +50,8 @@
 
             var trueScore = Math.round(totalScores/Object.keys(scaleValues).length)
 
-            jQuery("#{{element_id}}_score_total").text(trueScore)
-            jQuery("#{{element_id}}_value").val(JSON.stringify(scaleValues))
+            $(score_elements).parent().children("h1").html("Score: <span>" +trueScore+"</span>")
+            $("#{{element_id}}_value").val(JSON.stringify(scaleValues))
 
         }
 

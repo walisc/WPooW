@@ -1,0 +1,9 @@
+<h1 id="{{ element_id }}_score_total"></h1>
+<div id="{{ element_id }}_main" class="rating_selector">
+    {% for key, value in options %}
+       <div id="{{ element_id }}_{{ key }}">
+           <div class="ui-slider-handle custom-handle"></div>
+       </div>
+    {% endfor %}
+</div>
+<input type="hidden" id="{{element_id}}_value" name="{{element_id}}" value="" /> 

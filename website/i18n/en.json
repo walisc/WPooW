@@ -6,7 +6,7 @@
     "tagline": "Wordpress Object Oriented Wrapper",
     "custom_elements-create": "Creating Custom Element",
     "custom_elements-full_example": "Full Example",
-    "custom_elements-using_javascript": "Using Javascript (and Css)",
+    "custom_elements-using_javascript": "Using Javascript (and CSS)",
     "custom_elements-using_twig": "Using Twig for templating",
     "da-posttypes": "Post Type",
     "da-introduction": "Overview",
@@ -35,9 +35,7 @@
     "Menus": "Menus",
     "Data Access": "Data Access",
     "Elements": "Elements",
-    "Custom Elements": "Custom Elements",
-    "Video Example": "Video Example",
-    "Other Notes": "Other Notes"
+    "Custom Elements": "Custom Elements"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

@@ -76,7 +76,7 @@ abstract class BaseElement
      *
      * @param $src_path
      * @param array $shared_variables
-     * @param null $handler
+     * @param null $handler - has to be registered!
      */
     protected function EnqueueElementScript($src, $shared_variables= [], $handler=null)
     {

@@ -16,9 +16,6 @@
                        "elements-uploader"],
     "Custom Elements":["custom_elements-create",
                             "custom_elements-using_twig",
-                            "custom_elements-using_javascript",
-                            "custom_elements-full_example"],
-    "Video Example": ["video_tutorial"],
-    "Other Notes": ["other_notes"]
+                            "custom_elements-using_javascript"]
   }
 }

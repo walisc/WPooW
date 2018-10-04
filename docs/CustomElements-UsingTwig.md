@@ -2,7 +2,7 @@
 id: custom_elements-using_twig
 title: Using Twig for templating
 ---
-For more complex elements you might might want to use a template. WpOOw comes embedded with the [twig](https://twig.symfony.com/) template
+For more complex elements you might might want to use a template. wpOOW comes embedded with the [twig](https://twig.symfony.com/) template
 engine (which is used to render the predefined elements). The template engine can also be used to render your
 custom elements.
 
@@ -31,5 +31,3 @@ function EditView( $post)
  In the examples above we are saying use the template `read_view.twig` / `edit_view.twig` to render this elements
  with the parameter value...etc. The location of the template files should relative to the php file of your
  custom element
-
- //map

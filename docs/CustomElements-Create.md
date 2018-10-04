@@ -103,9 +103,3 @@ This method definitions of each of these methods are highlighted below
         $this->SaveElementData($post_id, $data);
     }
     ```
-
-//Once you have created you element you can simple include
-Note
-twig Elements
-javascript
-full example

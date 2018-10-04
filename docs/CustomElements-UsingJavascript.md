@@ -3,12 +3,12 @@ id: custom_elements-using_javascript
 title: Using Javascript (and CSS)
 ---
 Sometimes you need to create elements that use javascript. Such is the case if you are using some compound/interactive
-UI. When you element uses javascript you need to use the `EnqueueElementBaseScript` and the `EnqueueElementScript`
-methods.
+UI element. When your element uses javascript you need to use the `EnqueueElementBaseScript` and the `EnqueueElementScript`
+methods to enqueue the appropriate scripts.
 
 The `EnqueueElementBaseScript` method is used to enqueue scripts that will be used by all instance of your element
  type (more like a shared library). **Note:-** This method should only be used in the `BaseScriptsToLoad` method, which
- you will have to overwrite. If you don't you will get a `doing_it_wrong` WordPress error. And example of this is
+ you will have to overwrite from the BaseElements class. If you don't you will get a `doing_it_wrong` WordPress error. And example of this is
  below:-
 
  ```php
@@ -44,7 +44,7 @@ The `EnqueueElementBaseScript` method is used to enqueue scripts that will be us
 **Important Notes:-**
 
 * When you custom element use javascript to get the parsed value, you should set this value to a hidden input field
-in you read/edit view that has the name set to you element id. This will allow wpOOW to pick use the value correctly
+in you read/edit view that has the name set to you element id. This will allow wpOOW to pick up the value correctly
 when a post is made
 * All javascript that are enqueued using the the `EnqueueElementBaseScript` or `EnqueueElementScript` go through the
 twig template engine. This means you can use twig template placeholders in your javascript. This is useful for passing

@@ -12,12 +12,12 @@
                 create: function() {
                     var setValue = $( this ).slider( "value" );
 
-                    updateMainScore(this, setValue)
+                    UpdateMainScore(this, setValue)
                     $( this ).children("span").text( setValue );
                 },
                 slide: function( event, ui ) {
 
-                    updateMainScore(this, ui.value)
+                    UpdateMainScore(this, ui.value)
                     $( this ).children("span").text( ui.value );
                 }
             });
@@ -34,13 +34,14 @@
                 orientation: "horizontal",
                 create: function() {
                     var setValue = $( this ).slider( "value" );
-                    updateMainScore(this, setValue)
+                    UpdateMainScore(this, setValue)
                     $( this ).children("span").text( setValue );
                 }
             });
         });
 
-        function updateMainScore(score_elements, value) {
+
+        function UpdateMainScore(score_elements, value) {
 
             scaleValues[$(score_elements).attr("id").replace("{{element_id}}_", "")] = value;
 

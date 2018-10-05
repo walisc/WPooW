@@ -1,0 +1,11 @@
+.rating_selector_simple {
+    width:70%; margin:25px
+}
+
+.custom-handle_simple {
+    width: 3em;
+    height: 1.6em;
+    top: 50%;
+    text-align: center;
+    line-height: 1.6em;
+}

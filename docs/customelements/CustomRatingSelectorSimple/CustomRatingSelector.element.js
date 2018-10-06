@@ -1,8 +1,11 @@
 ( function() {
     $( "#{{ element_id }}_edit_view" ).each(function(){
         var value = $(this).children("div").text()
+
+        //set the hidden input value. This input value is what is sent back when a post occurs
         $("#{{element_id}}_value").val(value)
 
+        // Initialize the slider
         $(this).slider({
             value: value,
             slide: function( event, ui ) {
@@ -20,6 +23,5 @@
         });
 
     })
-
 })();
 

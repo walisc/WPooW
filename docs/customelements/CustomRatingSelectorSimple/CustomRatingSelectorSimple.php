@@ -22,8 +22,7 @@ class CustomRatingSelectorSimple extends BaseElement{
     function EditView($post)
     {
         parent::EditView($post);
-
-
+        
         $this->EnqueueElementScript("/CustomRatingSelector.element.js", ["element_id" => $this->id]);
 
         echo $this->twigTemplate->render("/edit_view.twig", [

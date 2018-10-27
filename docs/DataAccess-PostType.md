@@ -22,8 +22,8 @@ foreach ($bookReviews->Query()->Select()->Fetch() as $book)
     Description:
          Used to specify the columns you want returned. Returns all columns if nothing is specified
 
-    Paramters:
-        $colums:
+    Parameters:
+        $column:
             Type: array
             Description: Array of PostType field/column names to return
 
@@ -34,19 +34,19 @@ foreach ($bookReviews->Query()->Select()->Fetch() as $book)
 
     ```yaml
     Description:
-        Used to specify field to order by
+        Used to specify the field to order by
 
-    Paramters:
+    Parameters:
         $fieldname:
             Type: string
-            Decription: PostType field name you want to order by
+            Description: PostType field name you want to order by
         $asc_desc:
             Type: string
             Description: ASC for ascending order based on the fieldname and DESC for descending
             order based on the fieldname
         $fieldname:
             Type: boolean
-            Description: if you want to treat the value from the colum as a number when ordering,
+            Description: if you want to treat the value from the column as a number when ordering,
             else treat as a string
 
     Returns: WPooWQueryObject
@@ -56,7 +56,7 @@ foreach ($bookReviews->Query()->Select()->Fetch() as $book)
 
     ```yaml
     Description:
-         Excutes the generated wp_query and yeilds the result
+         Executes the generated wp_query and yields the result
 
     Returns: Generator
     ```

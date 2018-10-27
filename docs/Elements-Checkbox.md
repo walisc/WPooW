@@ -3,7 +3,7 @@ id: elements-checkbox
 title: Checkbox
 ---
 
-Checkbox element for boolean items
+Checkbox element for boolean items.
 
 | Read View     | Edit View     |
 | ------------- | ------------- |
@@ -16,7 +16,7 @@ Constructor
  * @param $id
  * @param string $label - the label of the element
  * @param array $permissions - View, edit, read rights of the elemenet.
-                               See wpOOWPermissions in the Overview section.
+                               See WpooWPermissions in the Overview section.
  *
 **/
 

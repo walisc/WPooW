@@ -2,7 +2,7 @@
 id: elements-muilti_select
 title: MultiSelect
 ---
-MultiSelect element for selecting multiple item from a list of values
+MultiSelect element for selecting multiple items from a list of values.
 
 | Read View     | Edit View     |
 | ------------- | ------------- |
@@ -15,6 +15,8 @@ Constructor
  * @param $id - See BaseElement definitions
  * @param string $label - See BaseElement definitions
  * @param array $options - A value => label array. Eg [value1 => label1, value2 => label2]
+ * @param array $permissions - View, edit, read rights of the elemenet.
+                              See WpooWPermissions in the Overview section.
  */
 function __construct($id, $label, $options, $permissions=[])
 ```

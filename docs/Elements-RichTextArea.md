@@ -3,7 +3,7 @@ id: elements-richtextarea
 title: RichText Area
 ---
 
-Textbox element for RichText content. This uses WordPress's wp_editor[L], which in turn uses Tinymce editor
+Textbox element for RichText content. This uses WordPress's [wp_editor](https://codex.wordpress.org/Function_Reference/wp_editor), which in turn uses the Tinymce editor.
 
 | Read View     | Edit View     |
 | ------------- | ------------- |
@@ -16,7 +16,7 @@ Constructor
  * @param $id
  * @param string $label - the label of the element
  * @param array $permissions - View, edit, read rights of the elemenet.
-                               See wpOOWPermissions in the Overview section.
+                               See WPooWPermissions in the Overview section.
  *
 **/
 
@@ -41,5 +41,5 @@ foreach ($bookReviewPostType->Query()->Select()->Fetch() as $row)
 }
 ```
 
-Note:- [wpautop](https://codex.wordpress.org/Function_Reference/wpautop) is a WordPress functions which changes double line-breaks in the text into HTML paragraphs (```<p>...</p>```).
+[wpautop](https://codex.wordpress.org/Function_Reference/wpautop) is a WordPress functions which changes double line-breaks in the text into HTML paragraphs (```<p>...</p>```).
 [html_entity_decode](http://php.net/manual/en/function.html-entity-decode.php) convert all HTML entities to their applicable characters.

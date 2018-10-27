@@ -9,10 +9,10 @@ title: Post Types
 
 Post Type pages are in essence [Custom Post Types](https://codex.wordpress.org/Post_Types) in WordPress.
 You could create a custom post type in Wordpress directly, but this is a bit cumbersome and slightly
-confusing. WPoow abstracts all the nitty-gritties involved in creating custom post types,
+confusing. WPooW abstracts all the nitty-gritties involved in creating custom post types,
 including saving and updating the custom post type created.
 
-To create a PostType Page use the `CreatePostType` method associated with the WPoow library. The definition
+To create a PostType Page use the `CreatePostType` method associated with the WPooW library. The definition
 of this is below:-
 
 ```php
@@ -48,7 +48,7 @@ The `Render` method is responsible for actually displaying the Custom PostType c
     Description:
         Add a field element to the PostType
 
-    Paramters:
+    Parameters:
         $aField:
             Type: WPooW/BaseElement
     ```
@@ -79,7 +79,7 @@ The `Render` method is responsible for actually displaying the Custom PostType c
         in needs to expect an array (which will have the $field => $value pair of the Custom
         PostType's columns.
 
-    Paramters:
+    Parameters:
         $method:
             Type: string
             Description: Method to call in the class or global scope
@@ -107,10 +107,10 @@ The `Render` method is responsible for actually displaying the Custom PostType c
     Description:
         Used to register a method that is called before a Custom PostType query is run. This is useful
         if you want to modify the query in any way, for instance, change the return order.
-        The method you pass in needs to expect a wp_query objet. No need to return the wp_query
+        The method you pass in needs to expect a wp_query object. No need to return the wp_query
         object as it is passed by reference.
 
-    Paramters:
+    Parameters:
         $method:
             Type: string
             Description: Method to call in the class or global scope
@@ -141,7 +141,7 @@ The `Render` method is responsible for actually displaying the Custom PostType c
         An example of this is setting a id field.  The method you pass in needs to expect an
         array (which will have the $field => $value pair of the custom PostType's columns.
 
-    Paramters:
+    Parameters:
         $method:
             Type: string
             Description: Method to call in the class or global scope

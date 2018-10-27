@@ -3,7 +3,7 @@ id: elements-date
 title: Date
 ---
 
-Date element for date values. The used the browsers standard datetime picker, hence will appear
+Date element for date values. This uses the browser's standard datetime picker, hence will appear
  slightly different on each browser.
 
 | Read View     | Edit View     |
@@ -17,7 +17,7 @@ Constructor
  * @param $id
  * @param string $label - the label of the element
  * @param array $permissions - View, edit, read rights of the elemenet.
-                               See wpOOWPermissions in the Overview section.
+                               See WpooWPermissions in the Overview section.
  *
 **/
 
@@ -43,5 +43,5 @@ foreach ($bookReviewPostType->Query()->Select()->Fetch() as $row)
 }
 ```
 
-**Note:-** for the wpOOW Datetime element we declare it using the class `wpAPIDateTime`. This is because php already has
-it own `DateTime` class, which would result in a conflict between the two.
+**Note:-** for the WPooW Datetime element we declare it using the class `wpAPIDateTime`. This is because php already has
+it's own `DateTime` class, which would result in a conflict between the two.

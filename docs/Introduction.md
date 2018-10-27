@@ -7,8 +7,8 @@ Below is a simple example showing you how you can easily create a Custom [PostTy
 
 include 'wpAPI/wpAPI.php';
 
-$WPoow = new wpAPI();
-$bookReviewPostType = $WPoow->CreatePostType("_bookReview", "Book Review", true);
+$WPooW = new wpAPI();
+$bookReviewPostType = $WPooW->CreatePostType("_bookReview", "Book Review", true);
 
 $bookReviewPostType->AddField(new Text("_bookTitle", "Book Title"));
 $bookReviewPostType->AddField(new Text("_bookAuthor", "Book Author"));
@@ -31,7 +31,7 @@ This will create a custom page (available via wp-admin). See below:-
 ![intro_images_expanded](/images/intro_main_image_expanded.png)
 <center>*Fig2: Adding new custom type*</center>
 
-To access the data added through the custom PostType, you can use a traditional WordPress query ([`WP_QUERY`](https://codex.wordpress.org/Class_Reference/WP_Query) ) by referencing your declared PostType id  (in the case above, it will be `_bookReview`). WPoow  however, provides a wrapper class which makes it easier to access this data. An example of how you would fetch this data using the WPoow library is below:-
+To access the data added through the custom PostType, you can use a traditional WordPress query ([`WP_QUERY`](https://codex.wordpress.org/Class_Reference/WP_Query) ) by referencing your declared PostType id  (in the case above, it will be `_bookReview`). WPooW  however, provides a wrapper class which makes it easier to access this data. An example of how you would fetch this data using the WPooW library is below:-
 
 ```php+HTML
 <style>

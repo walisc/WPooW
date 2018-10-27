@@ -16,6 +16,8 @@ Constructor
  * @param $id - See BaseElement definitions
  * @param string $label - See BaseElement definitions
  * @param array $options - A value => label array. Eg [value1 => label1, value2 => label2]
+ * @param array $permissions - View, edit, read rights of the elemenet.
+                              See WpooWPermissions in the Overview section.
  */
 function __construct($id, $label, $options, $permissions=[])
 ```

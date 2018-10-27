@@ -3,7 +3,7 @@ id: elements-textarea
 title: Text Area
 ---
 
-TextArea element. Similar to the [Text Element](/docs/elements-text.html), with a larger area to capture content.
+TextArea element. Similar to the [Text Element](/docs/elements-text.html), with a larger, resizeable area to capture content.
 
 | Read View     | Edit View     |
 | ------------- | ------------- |

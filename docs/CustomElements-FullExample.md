@@ -2,7 +2,7 @@
 id: custom_elements-full_example
 title: Full Example
 ---
-Below is an example in which we replace the rating control with a slider
+Below is an example in which we replace the rating text element in our example with a slider.
 
 ```php
 class CustomRatingSelectorSimple extends BaseElement{
@@ -50,8 +50,8 @@ class CustomRatingSelectorSimple extends BaseElement{
 }
 ```
 
-As can be seen from the example above we are using jquery-ui slider component. This means we are going to have to download
-these files and add the components folder. There is also a additional css file we will use to style our slider. The content
+As can be seen from the example above we are using the jquery-ui slider component. This means we are going to have to download
+these files and add them to the components folder. There is also an additional css file we will use to style our slider. The content
 of that css file is below:-
 
 ```css
@@ -68,8 +68,8 @@ of that css file is below:-
     }
 ```
 
-As one would expect when using a jquery library, there is need to usually a need to initialize some javascript somewhere.
-For this component we will need to initialize the javascript for both the read_view and edit_view. The javascript we use
+As one would expect when using a jquery library, there is need to usually initialize some javascript somewhere.
+For this component we will need to initialize the javascript for both the read_view and edit_view. The javascript we will use
 is highlighted below:-
 
 ```js
@@ -101,7 +101,7 @@ is highlighted below:-
 })();
 ```
 
-Lastly we need to create our read_view and edit_view templates. This are highlighted below:-
+Lastly we need to create our read_view and edit_view templates. These are highlighted below:-
 
 ```twig
 <!-- Read View -->
@@ -120,8 +120,8 @@ Lastly we need to create our read_view and edit_view templates. This are highlig
 
 ```
 
-And that's it! I added this at the root of my plugin, but you can theoretically add it anywhere, resulting in a file
-structure as follows:-
+And that's it! I added this at the root of my plugin (but you can theoretically add it anywhere) resulting in a file
+structure that looks like this:-
 
 ```bash
 wpoowbookreviewer
@@ -139,8 +139,8 @@ wpoowbookreviewer
 └── wpoowbookreviewer.php
 ```
 
-All we need to do now is use our custom component in creating a post type. To do this we replace the `_myRating` element
-creation with our new component, after including it.
+All we need to do now is use our custom component in creating our PostType. To do this we replace the `_myRating` element
+creation with our new component (after including it).
 
 ```php
 
@@ -155,7 +155,7 @@ function CreateBookReviewPostType(){
 
 ```
 
-The final element looks something like this
+The final element looks something like this:-
 
 | Edit View     | Read View     |
 | ------------- | ------------- |

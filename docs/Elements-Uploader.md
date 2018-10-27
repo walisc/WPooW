@@ -3,7 +3,7 @@ id: elements-uploader
 title: Uploader
 ---
 
-Uploader element. This element can be used to store media elements such and pictures. The upload element uses
+Uploader element. This element can be used to store media items such as pictures. The upload element uses
 WordPress's Media Library to upload media and store it appropriately.
 
 The data saved using the Uploader element is saved as a json object with the properties `id`, `url`, `filename`.

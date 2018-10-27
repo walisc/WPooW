@@ -1,14 +1,14 @@
-If you have had to create a custom theme/plugin in WordPress which requires a lot of backend configuration, this can be tedious task.
-This wrapper aims to simplify this process by providing an object-oriented way which abstracts most of these tasks.
-Below is a simple example showing you how you can easily create a Custom Post Type you can use to store information of books you have read.
+If you have had to create a custom theme/plugin in WordPress (which requires quite a bit of configuration), you know this can be quite cumbersome. 
+This wrapper aims to simplify this process by providing an object-oriented library which abstracts most of the tasks associated with this.
+Below is a simple example showing you how you can easily create a Custom [PostType](https://codex.wordpress.org/Post_Types) using this wrapper.
 
 ```php
 //functions.php
 
-include 'wpAPI/wpAPI.php';q
+include 'wpAPI/wpAPI.php';
 
-$wpOOW = new wpAPI();
-$bookReviewPostType = $wpOOW->CreatePostType("_bookReview", "Book Review", true);
+$WPoow = new wpAPI();
+$bookReviewPostType = $WPoow->CreatePostType("_bookReview", "Book Review", true);
 
 $bookReviewPostType->AddField(new Text("_bookTitle", "Book Title"));
 $bookReviewPostType->AddField(new Text("_bookAuthor", "Book Author"));
@@ -22,15 +22,16 @@ $bookReviewPostType->Render();
 
 ```
 
-This will create a Custom Post Type page (available at login) that will look like
+This will create a custom page (available via wp-admin). See below:-
 
 ![intro_images](/images/intro_output_image_input.png)
+<center>*Fig1: Grid Layout of new custom type*</center>
 
-to make a plugin
 
 ![intro_images_expanded](/images/intro_main_image_expanded.png)
+<center>*Fig2: Adding new custom type*</center>
 
-To access the data added through the Custom Post Type data, you can you use a traditional WordPress query `WP_QUERY` by reference you declared Post Type id  (in the case above it will be `_bookReview`). wpOOW  however, provides a wrapper class which makes it easier to access this data. An example  how you would fetch is below
+To access the data added through the custom PostType, you can use a traditional WordPress query ([`WP_QUERY`](https://codex.wordpress.org/Class_Reference/WP_Query) ) by referencing your declared PostType id  (in the case above, it will be `_bookReview`). WPoow  however, provides a wrapper class which makes it easier to access this data. An example of how you would fetch this data using the WPoow library is below:-
 
 ```php+HTML
 <style>
@@ -85,14 +86,14 @@ To access the data added through the Custom Post Type data, you can you use a tr
 ```
 
 
-
-This could be used to produce a web page like: (below:- based on the WordPress TwentySeventeen template )
+Modifying the WordPress TwentySeventeen theme template our web page could look like:- 
 
 ![1529530425830](/images/intro_output_image.png)
 
 **Note:-**
 
-This library is to be used for creating WordPress plugins and themes. It's not a plugin in and off itself. If you are not a developer you might not want to use this library.
+This library is designed to be used by developers for creating WordPress themes and plugins. It is not a plugin or a theme in and off itself. Use with care.
+
 
 
 

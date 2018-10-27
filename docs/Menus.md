@@ -5,13 +5,13 @@ title: Menus
 
 When creating a plugin or a theme the chances of only having one menu item is rare.
 In most cases you will have a parent menu item which consist of other sub menus for
- configuring your plugin/theme
+ configuring your plugin/theme.
 
-The Menu interface allows you to create a parent menu item and then append Page Types to it
-as sub menus
+The Menu interface allows you to create a parent menu item and then append PageTypes to it
+as sub menus.
 
-Building on our example from earlier, let say you want to have another Post Type to
-give summaries of authors and their books. Using similar code to the one in the Getting Started section we can have something like
+Building on our example from earlier, let's say you want to have another PostType to
+give summaries of authors and their books. Using similar code to the one in the Getting Started section we can have something like:-
 
 ```php
 
@@ -37,13 +37,12 @@ function CreateAuthorSummariesPostPage(){
 
 
 This would however create two menu items, and a user would find it difficult to distinguish
-which menu item belong to your plugin/theme.
+which menu item belongs to your plugin/theme.
 
 ![book_author_summary_image](/images/menu_book_author_summary_image.png)
 
-menu_combined.png
 Using the Menu interface we could group these two items under one Menu for which will have
-our plugin name. An example of the is below
+our plugin name. An example of this is below:-
 
 ```php
 
@@ -91,24 +90,24 @@ our plugin name. An example of the is below
 ...
 ```
 
-This would produce a menu item like
+This would produce a menu item like:-
 
 ![book_author_summary_combined_image](/images/menu_combined.png)
 
-Creating the menu item is done through the `CreateMenu` $wpOOW API method. The definition of this is below
+Creating the menu item is done through the `CreateMenu` WPooW API method. The definition of this is below
 
 ```php
 
 /**
  * Create a new menu option that can be added to the wp-admin menu.
  *
- * @param $page_slug - whcih will be the id of the menu item
+ * @param $page_slug - which will be the id of the menu item
  * @param $menu_title - the title of the menu item
  * @param $capability - WordPress capabilities required to access this menu item
  * @param $display_path - uses wpAPI_VIEW. can link to a jinja template or render content passed to it
                           as html. This Page will be shown as the root of the menu item (i.e when you
                           click the menu item to expand it). This will be deprecated soon. To be replaced
-                          with wpOOW Static Pages
+                          with WPooW Static Pages
  * @param string $icon - this icon of the menu item
  * @param null $position - the position of the menu item
  *

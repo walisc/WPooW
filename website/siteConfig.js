@@ -9,8 +9,8 @@
 var localConfig = require("./siteConfig.local")
 
 const siteConfig = {
-  title: 'wpOOW' /* title for your website */,
-  tagline: 'Wordpress Object Oriented Wrapper',
+  title: 'WPooW' /* title for your website */,
+  tagline: 'WordPress Object Oriented Wrapper',
   url: 'http://wpoow.devchid.com' ,
   baseUrl: '/',
   gaTrackingId: localConfig.gaTrackingId,
@@ -68,7 +68,7 @@ const siteConfig = {
 
   /* Open Graph and Twitter card images */
   ogImage: 'images/intro_code_meta_main.png',
-  description:'This Wordpress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. '
+  description:'This WordPress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. '
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...

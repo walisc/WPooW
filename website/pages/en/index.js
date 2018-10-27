@@ -59,7 +59,7 @@ const Logo = props => (
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.title}
-    <small>Wordpress Object Oriented Wrapper</small>
+    <small>WordPress Object Oriented Wrapper</small>
   </h2>
 );
 
@@ -97,10 +97,10 @@ const Features = props => (
             title: 'Easily create custom PostTypes',
         },
         {
-        content: '',
-        image: imgUrl('intro_output_image_input.png'),
-        imageAlign: 'top',
-        title: 'Display custom PostType data easily in html',
+            content: '',
+            image: imgUrl('intro_output_image_input.png'),
+            imageAlign: 'top',
+            title: 'Display custom PostType data easily in html',
       }
 
     ]}
@@ -112,7 +112,7 @@ const Features = props => (
 const Description = props => (
 <div className="descriptionWrapper darkBackground">
     <div className="inner wrapper">
-        <h2>This Wordpress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. </h2>
+        <h2>This WordPress Object Oriented Wrapper aims to simplify the process of creating custom plugins and themes by providing a object-oriented api which abstracts common tasks associated with this. </h2>
     </div>
 </div>
 

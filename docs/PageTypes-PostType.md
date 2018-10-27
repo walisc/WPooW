@@ -9,11 +9,11 @@ title: Post Types
 
 Post Type pages are in essence [Custom Post Types](https://codex.wordpress.org/Post_Types) in WordPress.
 You could create a custom post type in Wordpress directly, but this is a bit cumbersome and slightly
-confusing. WpOOW abstracts all the nitty-gritties involved in creating custom post types,
-include saving and updating the custom post type created.
+confusing. WPoow abstracts all the nitty-gritties involved in creating custom post types,
+including saving and updating the custom post type created.
 
-To create a PostType Page using the `CreatePostType` method associated with the $wpOOW API. The definition
-of this is below
+To create a PostType Page use the `CreatePostType` method associated with the WPoow library. The definition
+of this is below:-
 
 ```php
 /**
@@ -34,8 +34,8 @@ Usage example below
 $bookReviewPostType = $wpOOW->CreatePostType("_bookReview", "Book Review", true);
 ```
 
-This will create a Post Type with the default columns for Custom Post Type. You can specify
-your own fields by using the `AddField` method. wpOOW has a few field types you can use (See element types).
+This will create a Custom PostType with the default columns set. You can specify
+your own fields/add columns, by using the `AddField` method. WPooW has a few field types you can use (See element types below).
 
 The `Render` method is responsible for actually displaying the Custom PostType created.
 
@@ -46,20 +46,20 @@ The `Render` method is responsible for actually displaying the Custom PostType c
 
     ```yaml
     Description:
-        Added a field element to the Post Type
+        Add a field element to the PostType
 
     Paramters:
         $aField:
-            Type: wpOOW/BaseElement
+            Type: WPooW/BaseElement
     ```
 
 * ### Query()
 
     ```yaml
     Description:
-         Gets the query object for the Post Type. See Data Access
+         Gets the query object for the PostType. See Data Access below
 
-    Returns: wpOOWQueryObject
+    Returns: WPooWQueryObject
     ```
 
 
@@ -67,17 +67,17 @@ The `Render` method is responsible for actually displaying the Custom PostType c
 
     ```yaml
     Description:
-         Responsible for rendering the Custom Post Type
+         Responsible for rendering the Custom PostType
     ```
 * ### RegisterAfterSaveEvent ( $method,  $class = null)
 
     ```yaml
      Description:
-        Class to register methods that are called after saving data for a custom Post Type.
-        This is useful if you required to do some additional operation once data saving has
-        been confirmed. An example of this could be sending an email.  The method you pass
-        in needs to expect an array (which will have the $field => $value pair of the custom
-        post type.
+        Used to register methods that are called after saving data for a Custom PostType.
+        This is useful if you required to do some additional operations once your data is saved. 
+        An example of this could be sending an email.  The method you pass
+        in needs to expect an array (which will have the $field => $value pair of the Custom
+        PostType's columns.
 
     Paramters:
         $method:
@@ -105,7 +105,7 @@ The `Render` method is responsible for actually displaying the Custom PostType c
 
     ```yaml
     Description:
-        Register a method that is called before a custom post query is run. This is useful
+        Used to register a method that is called before a Custom PostType query is run. This is useful
         if you want to modify the query in any way, for instance, change the return order.
         The method you pass in needs to expect a wp_query objet. No need to return the wp_query
         object as it is passed by reference.
@@ -136,10 +136,10 @@ The `Render` method is responsible for actually displaying the Custom PostType c
 
     ```yaml
     Description:
-        Class to register methods that are called before saving data for a custom Post Type.
-        This is useful if you required to do some additional operation before saving the data.
+        Used to register methods that are called before saving data for a custom PostType.
+        This is useful if you required to do some additional operations before saving the data.
         An example of this is setting a id field.  The method you pass in needs to expect an
-        array (which will have the $field => $value pair of the custom post type.
+        array (which will have the $field => $value pair of the custom PostType's columns.
 
     Paramters:
         $method:

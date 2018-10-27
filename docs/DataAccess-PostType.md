@@ -3,8 +3,8 @@ id: da-posttypes
 title: Post Type
 ---
 
-Accessing data saved through a Post Type Page is done through the `Query` method of the Post Type. This returns a object of type wpOOWQueryObject,
-which use a linq type syntax to fetch data. The `Fetch` method is the last method called, which executes the query and returns the data.
+Accessing data saved through a PostType Page is done through the `Query` method of the created PostType page. This returns a object of type WPooWQueryObject,
+which uses a linq type syntax to fetch data. The `Fetch` method is the last method called, which executes the query and returns the data.
 
 ```php
 $bookReviews = wpAPIObjects::GetInstance()->GetObject("_bookReview");
@@ -20,26 +20,26 @@ foreach ($bookReviews->Query()->Select()->Fetch() as $book)
 
     ```yaml
     Description:
-         Used to specify thee columns you want returned. Returns all columns if nothing specified
+         Used to specify the columns you want returned. Returns all columns if nothing is specified
 
     Paramters:
         $colums:
             Type: array
-            Description: Array of Post Type fieldname
+            Description: Array of PostType field/column names to return
 
-    Returns: wpOOWQueryObject
+    Returns: WPooWQueryObject
     ```
 
 * ### OrderBy($fieldname, $asc_desc, $use_numbers=false)
 
     ```yaml
     Description:
-         Added a field element to the Post Type
+        Used to specify field to order by
 
     Paramters:
         $fieldname:
             Type: string
-            Decription: Post Type field name you want to order by
+            Decription: PostType field name you want to order by
         $asc_desc:
             Type: string
             Description: ASC for ascending order based on the fieldname and DESC for descending
@@ -49,7 +49,7 @@ foreach ($bookReviews->Query()->Select()->Fetch() as $book)
             Description: if you want to treat the value from the colum as a number when ordering,
             else treat as a string
 
-    Returns: wpOOWQueryObject
+    Returns: WPooWQueryObject
     ```
 
 * ### Fetch()

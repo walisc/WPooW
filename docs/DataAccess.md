@@ -4,7 +4,5 @@ title: Overview
 ---
 
 In WordPress the are ways to access/manipulate the data saved in the database. These methods can be used to access the data
-saved by declared wpOOW Page Types'. wpOOW does however have wrapper class linked to a declared Page Type which makes
- it easier to manipulating data saved through a declared wpOOW Page Types
-
- Note on access Page Type from frontend
+saved by the declared WPooW PageTypes'. The WPooW library does however have wrapper class for this which you can use with declared PageTypes. This making
+ it easier to access data saved through a declared WPooW PageTypes.

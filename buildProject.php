@@ -1,6 +1,6 @@
 <?php
 
-include 'versionDetails.php';
+include 'Utilities/versionDetails.php';
 
 $project_details = json_decode(file_get_contents("composer.json"), true); //This get run by composer, so needs to be relative to composer itself
 
@@ -31,7 +31,7 @@ $build_directory = sprintf(".%s%s",DIRECTORY_SEPARATOR, "Build");
 if (!file_exists($build_directory)) {
     mkdir($build_directory, 0777, true);
 }
-foreach(["Core", "Libraries"] as $cp_dir){
+foreach(["Core", "Libraries", "Utilities"] as $cp_dir){
     RecursiveCopy(sprintf(".%s%s", DIRECTORY_SEPARATOR, $cp_dir), sprintf(".%s%s%s%s",DIRECTORY_SEPARATOR, $build_directory, DIRECTORY_SEPARATOR, $cp_dir));
 }
 
@@ -78,5 +78,3 @@ foreach ($files as $name => $file)
     }
 }
 $zip->close();
-
-rmdir($build_directory);

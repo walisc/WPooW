@@ -1,1 +1,1 @@
-{"name":"wpOOW","description":"WordPress Object Oriented Wrapper","keywords":["Wordpress","Object Oriented Programming"],"license":"GLP-3.0","type":"library","version":"1.2.0.17","build_date":"2018-10-29 23:46:01","scripts":{"build-project-release":["php Utilities\/buildProject.php"]}}
+{"name":"wpOOW","description":"WordPress Object Oriented Wrapper","keywords":["Wordpress","Object Oriented Programming"],"license":"GLP-3.0","type":"library","version":"1.2.0.19","build_date":"2018-10-30 00:10:42","scripts":{"build-project-release":["php buildProject.php"]}}

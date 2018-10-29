@@ -154,7 +154,7 @@ abstract class BaseElement
      * @param bool $single
      * @return mixed
      */
-    protected function GetDatabaseValue($post, $single = true)
+    public function GetDatabaseValue($post, $single = true)
     {
         //When viewing the table/grid post_id is passed instead of the WP_POST object
         $post_id = is_numeric($post) ? $post : $post->ID;

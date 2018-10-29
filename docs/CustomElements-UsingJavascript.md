@@ -67,7 +67,7 @@ values from your code.
  * @param bool $ver - file version, for browser caching
  * @param bool $in_footer - add to the footer or header of html
  */
-protected function EnqueueElementBaseScript($handle, $src, $shared_variable = [],
+protected function EnqueueElementBaseScript($handler, $src, $shared_variable = [],
                                             $deps = [], $ver = false, $in_footer = false )
 
 ```
@@ -83,6 +83,9 @@ protected function EnqueueElementBaseScript($handle, $src, $shared_variable = []
  */
 protected function EnqueueElementScript($src, $shared_variables= [], $handler=null)
 ```
+
+**Important Note:-**
+For `EnqueueElementScript` the handler has to have been registered (i.e [wp_register_script](https://developer.wordpress.org/reference/functions/wp_register_script/)) else your script won't be added. In most cases this you don't need to specify this (as it will be assigned to the default handler of the element). Only specify this if you know what you are doing. 
 
 # Using CSS in your custom element
 

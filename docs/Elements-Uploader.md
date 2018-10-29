@@ -22,7 +22,7 @@ Constructor
  * @param array $permissions - See BaseElement definitions
  * @param string $uploaderTitle - The title of the media picker dialogue box
  * @param string $buttonText - the text on the upload button on the media picker
- * @param string $enableMultiple - Allowing for selecting multipe of items
+ * @param string $enableMultiple - Allowing for selecting multiple of items
  */
 function __construct($id, $label, $permissions=[], $uploaderTitle = "Select Item to Upload", $buttonText= "Upload", $enableMultiple = "false")
 ```

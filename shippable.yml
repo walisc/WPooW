@@ -1,19 +1,17 @@
 language: php
 
 php:
-  - 5.6
+  - 7.2
 
 before_script:
- - sudo apt-get install graphviz
- - echo "phar.readonly = off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - sudo apt-get install php-zip
 
 script:
  - rm -r Build/*
  - composer run-script build-project-release
 
 after_success:
- - git add -A
- - git commit -a -m "Build Commit. Version number bumped"
+ - git commit composer.php Build.zip -m "Build Commit. Version number bumped"
  - git push git@github.com:walisc/wpAPI.git HEAD
 
 notifications:

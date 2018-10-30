@@ -29,7 +29,7 @@ Usage example
 ```php
 
 // Declaring
-$mySummaryDetails = new Checkbox("_mySummary", "My Summary")
+$mySummaryDetails = new RichTextArea("_mySummary", "My Summary")
 $bookReviewPostType->AddField($mySummaryDetails);
 
 

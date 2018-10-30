@@ -22,9 +22,12 @@ class wpAPIDateTime extends BaseElement
     function EditView( $post)
     {
        parent::EditView($post);
+       $db_dateTime = $this->GetDatabaseValue($post) == null ?  date("Y-m-d\TH:i:s", time()) : $this->GetDatabaseValue($post);
+    
+       
        echo $this->twigTemplate->render('/edit_view.mustache', [
            "id" => $this->id,
-           "value" => $this->GetDatabaseValue($post)
+           "value" => $db_dateTime
        ]);
     }
 

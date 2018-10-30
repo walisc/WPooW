@@ -27,11 +27,11 @@ $bookReviewPostType->Render();
 
 This will create a custom page (available via wp-admin). See below:-
 
-![intro_images](/images/intro_output_image_input.png)
+![intro_images](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image_input.png)
 <center>*Fig1: Grid Layout of new custom type*</center>
 
 
-![intro_images_expanded](/images/intro_main_image_expanded.png)
+![intro_images_expanded](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_main_image_expanded.png)
 <center>*Fig2: Adding new custom type*</center>
 
 To access the data added through the custom PostType, you can use a traditional WordPress query ([`WP_QUERY`](https://codex.wordpress.org/Class_Reference/WP_Query) ) by referencing your declared PostType id  (in the case above, it will be `_bookReview`). WPooW  however, provides a wrapper class which makes it easier to access this data. An example of how you would fetch this data using the WPooW library is below:-
@@ -91,7 +91,7 @@ To access the data added through the custom PostType, you can use a traditional 
 
 Modifying the WordPress TwentySeventeen theme template our web page could look like:- 
 
-![1529530425830](/images/intro_output_image.png)
+![1529530425830](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image.png)
 
 **Note:-**
 

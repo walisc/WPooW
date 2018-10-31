@@ -98,7 +98,8 @@ class wpAPI
 
     public function GetVersion()
     {
-        new VersionDetails(json_decode(file_get_contents("composer.json"), true));
+        $composerFile = dirname(__FILE__) .DIRECTORY_SEPARATOR . "composer.json";
+        return new VersionDetails(json_decode(file_get_contents($composerFile), true));
     }
 
 

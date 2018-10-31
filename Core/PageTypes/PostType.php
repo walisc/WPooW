@@ -17,7 +17,8 @@ class PostType extends wpAPIBasePage
         "capability_type" => "post",
         "hierarchical" => false,
         "menu_position" => 30,
-        "supports" => ["title"]
+        "supports" => ["title"],
+        "menu_icon" => null
     ];
 
     protected $fields = [];

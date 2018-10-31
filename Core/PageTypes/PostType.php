@@ -344,6 +344,10 @@ class PostType extends wpAPIBasePage
 
         }
 
+        foreach ($data as $key => $value){
+            $processed_data[$key] = $value;
+        }
+
         if (count($data) > 0) {
             foreach ($this->BeforeSaveEvents as $observor) {
                 //TODO: consider removing slug in $data
@@ -364,7 +368,7 @@ class PostType extends wpAPIBasePage
             }
 
             foreach ($this->AfterSaveEvents as $observor) {
-                call_user_func_array($observor, [$processed_data == [] ? $data : $processed_data]);
+                call_user_func_array($observor, [$processed_data]);
             }
         }
     }

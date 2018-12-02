@@ -25,6 +25,7 @@ const siteConfig = {
   headerLinks: [
     {doc: 'Introduction', label: 'Docs'},
     {href: 'https://github.com/walisc/wpAPI', label: 'GitHub' },
+    {href: 'https://github.com/walisc/WPooWWorkshop', label: 'WordCamp CapeTown 2018 - Talk Material' },
     {href: 'mailto:chido@batanasoftware.com', label: 'Contact' }
   ],
 

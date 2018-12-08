@@ -1,6 +1,9 @@
 <?php
 
-
+namespace  WPooW\Core\PageTypes;
+use WPooW\Core\BasePage;
+use WPooW\Auth\WPooWPermissions;
+use WPooW\Core\ObjectCache;
 /**
  * Class PostType
  * Class responsible for creating the Custom post types that can be used for config
@@ -8,7 +11,7 @@
  * 
  * @package wpAPI\Core\PageType
  */
-class PostType extends wpAPIBasePage
+class PostType extends BasePage
 {
     protected $props = [
         "labels" => [],
@@ -107,7 +110,7 @@ class PostType extends wpAPIBasePage
 
         if ($this->persist)
         {
-            WPAPIObjects::GetInstance()->AddObject($this->slug, $this);
+            ObjectCache::GetInstance()->AddObject($this->slug, $this);
         }
 
     }
@@ -151,14 +154,14 @@ class PostType extends wpAPIBasePage
 
 
         if ($action == "add"){
-            $this->SetViewState(wpAPIPermissions::AddPage);
+            $this->SetViewState(WPooWPermissions::AddPage);
         }
         elseif ($action== "edit"){
 
-            $this->SetViewState(wpAPIPermissions::EditPage);
+            $this->SetViewState(WPooWPermissions::EditPage);
         }
         else{
-            $this->SetViewState(wpAPIPermissions::ViewTable);
+            $this->SetViewState(WPooWPermissions::ViewTable);
         }
 
 

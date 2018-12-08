@@ -1,6 +1,6 @@
 <?php
 
-
+use WPooW\Core\Elements\BaseElement;
 /**
  * Class RichTextArea
  *

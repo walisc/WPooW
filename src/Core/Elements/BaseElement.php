@@ -1,6 +1,8 @@
 <?php
 
-
+namespace WPooW\Core\Elements;
+use WPooW\Auth\WPooWPermissions;
+use WPooW\Core\ObjectCache;
 /**
  * Class BaseElement
  * The base class used by all wpOOW elements which contains abstract classes that need to be overwritten
@@ -254,7 +256,7 @@ abstract class BaseElement
     {
         $this->id = $id;
         $this->label = $label;
-        $this->permissions= wpAPIPermissions::SetPermission($permissions);
+        $this->permissions= WPooWPermissions::SetPermission($permissions);
         $this->cssClasses = $elementCssClasses;
         $this->saveFunction = sprintf("save_data_%s",  $this->id);
         $this->saveNonce = sprintf("%s_meta_box_nonce",$this->id);
@@ -262,10 +264,10 @@ abstract class BaseElement
 
         //TODO: Make this global
 
-        $loader = new Twig_Loader_Filesystem(dirname((new ReflectionClass($this))->getFileName()). $elementPath);
-        $this->twigTemplate = new Twig_Environment($loader);
+        $loader = new \Twig_Loader_Filesystem(dirname((new \ReflectionClass($this))->getFileName()). $elementPath);
+        $this->twigTemplate = new \Twig_Environment($loader);
 
-        wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);
+        ObjectCache::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);
 
         add_action( 'admin_enqueue_scripts', [$this, "loadScripts" ] );
 

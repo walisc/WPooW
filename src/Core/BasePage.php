@@ -1,9 +1,11 @@
 <?php
 
 
+namespace WPooW\Core;
 
+use WPooW\Auth\WPooWPermissions;
 
-$CURRENT_VIEW_STATE = wpAPIPermissions::EditPage;
+$CURRENT_VIEW_STATE = WPooWPermissions::EditPage;
 
 /**
  * Class wpAPIBasePage
@@ -11,7 +13,7 @@ $CURRENT_VIEW_STATE = wpAPIPermissions::EditPage;
  *
  * @package wpAPI\Core
  */
-abstract class wpAPIBasePage
+abstract class BasePage
 {
 
     protected $slug;

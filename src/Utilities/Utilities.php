@@ -1,12 +1,13 @@
 <?php
 
+namespace WPooW\Utilities;
 
 /**
  * Class wpAPIUtilities
  * Utilities class for the wpOOW library
  * @package wpAPI\Core
  */
-class wpAPIUtilities
+class Utilities
 {
     /**
      * @param $className

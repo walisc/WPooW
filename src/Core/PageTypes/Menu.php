@@ -1,6 +1,6 @@
 <?php
 
-
+namespace  WPooW\Core\PageTypes;
 /**
  * Class Menu
  * Custom page which uses the wpAPI_VIEW to render a page

@@ -1,0 +1,17 @@
+Breaking changes
+
+1) Changed to namespace
+- Need to use WPooW\WPooW
+
+2) wpAPI_VIEW changed to StaticPage (with namespace WPooW\Core\PageTypes\StaticPage)
+3) Access it through WPooW->pages->StaticPage
+
+4) WPooWPermissions access with WPooW\Auth\WPooWPermissions
+5) WPPermission now access through WPooW\Auth\WPPermission
+6) WP_PERMISSIONS -> changes to WPPermission
+
+depreacted.
+
+1) WPooW->CreateMenu depreacted. Use WPooW->menues->CreateMenu
+
+2) WPooW->CreatePostType depreacted.. Use WPooW->pages->CreatePostType

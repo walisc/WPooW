@@ -1,12 +1,14 @@
 <?php
 
+namespace WPooW\Core\Elements;
 /**
  * Created by PhpStorm.
  * User: chidow
  * Date: 2016/08/13
  * Time: 8:35 PM
  */
-class Elements_Autoloader
+
+class Autoloader
 {
     private $baseDir;
 

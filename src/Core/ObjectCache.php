@@ -1,12 +1,12 @@
 <?php
 
-
+namespace WPooW\Core;
 /**
  * Class wpAPIObjects
  * Global Cache of the wpOOW objects. Allows for them to be used in rendering views
  * @package wpAPI\Core
  */
-class wpAPIObjects
+class ObjectCache
 {
 
     private $wpapi_objects = [];
@@ -18,7 +18,7 @@ class wpAPIObjects
     public static function GetInstance()
     {
 
-        wp_cache_add('wpAPIObjects', new wpAPIObjects());
+        wp_cache_add('wpAPIObjects', new ObjectCache());
         return wp_cache_get('wpAPIObjects');
     }
 

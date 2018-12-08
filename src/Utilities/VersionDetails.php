@@ -1,5 +1,7 @@
 <?php
 
+namespace WPooW\Utilities;
+
 class VersionDetails{
 
     public $major_number = 0;

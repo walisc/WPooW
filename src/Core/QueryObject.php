@@ -1,12 +1,13 @@
 <?php
 
+namespace WPooW\Core;
 /**
  * Class wpQueryObject
  * Creates a query object that acts as a wrapper class to create wp queries with relevant properties for a post types
  * @package wpAPI\Core
  *
  */
-class wpQueryObject
+class QueryObject
 {
 
 

@@ -1,5 +1,8 @@
 <?php
 
+namespace  WPooW\Core\PageTypes;
+use WPooW\Core\BasePage;
+use WPooW\Core\PageTypes\StaticPage;
 
 /**
  * Class SubMenu
@@ -8,7 +11,7 @@
  *
  * @package wpAPI\Core\PageType
  */
-class SubMenu extends wpAPIBasePage
+class SubMenu extends BasePage
 {
     protected $menu_title = '';
     protected $capability = '';
@@ -20,7 +23,7 @@ class SubMenu extends wpAPIBasePage
         parent::__construct($page_slug, $menu_title);
         $this->menu_title = $menu_title;
         $this->capability = $capability;
-        $this->display_path_content = $display_path_content == null ? new wpAPI_VIEW(wpAPI_VIEW::CONTENT, $menu_title) : $display_path_content;
+        $this->display_path_content = $display_path_content == null ? new StaticPage(StaticPage::CONTENT, $menu_title) : $display_path_content;
 
     }
 

@@ -16,6 +16,9 @@ use WPooW\Core\PageTypes\SubMenu;
 use WPooW\Core\PageTypes\Menu;
 
 use WPooW\Auth\WPPermissions;
+use WPooW\Utilities\CONSTS;
+
+use WPooW\Core\Menus\BaseMenu;
 
 /**
  * Class wpAPI
@@ -32,8 +35,8 @@ class WPooW
      *
      */
 
-    public $PageTypes;
-    public $Menus;
+    public $PageTypesApi;
+    public $MenusApi;
 
     function __construct()
     {
@@ -50,8 +53,8 @@ class WPooW
         define( 'WP_API_ELEMENT_URI_PATH', WP_API_URI_PATH  . "Core" . URL_SEPARATOR . "Elements" . URL_SEPARATOR);
 
 
-        $this->PageTypes = new PageTypesApi();
-        $this->Menus = new MenusApi();
+        $this->PageTypesApi = new PageTypesApi();
+        $this->MenusApi = new MenusApi();
 
 
 
@@ -66,10 +69,10 @@ class WPooW
     /**
      * @deprecated
      */
-    public function CreateMenu($page_slug, $menu_title, $capability=WPPermissions::MANAGE_OPTIONS, $display_path=null, $icon='', $position=null)
+    public function CreateMenu($page_slug, $menu_title, $capability=CONSTS::WP_AUTH_MANAGE_OPTIONS, $display_path=null, $icon='', $position=null)
     {
         trigger_error('Method ' . __METHOD__ . ' is deprecated. Please use $WPooW->Menus->CreateMenu', E_USER_DEPRECATED);
-        return new Menu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
+        return new BaseMenu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
 
     }
 

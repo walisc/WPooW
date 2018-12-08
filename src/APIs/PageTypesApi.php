@@ -3,15 +3,9 @@
 namespace WPooW\APIs;
 
 use WPooW\Core\PageTypes\PostType;
-use WPooW\Core\PageTypes\SubMenu;
-use WPooW\Core\PageTypes\Menu;
+use WPooW\Core\PageTypes\StaticPage;
 
 class PageTypesApi {
-
-    
-    public function CreateStaticPage(){
-
-    }
 
     /**
      *
@@ -27,6 +21,9 @@ class PageTypesApi {
         return new PostType($page_slug, $title , $persist, $options);
 
     }
-    
+
+    public function CreateStaticPage($page_type, $path_content, $data=[]){
+        return new StaticPage($page_type, $path_content, $data);
+    }       
 
 }

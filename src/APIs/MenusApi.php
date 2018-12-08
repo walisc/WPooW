@@ -2,6 +2,11 @@
 
 namespace WPooW\APIs;
 
+use WPooW\Utilities\CONSTS;
+use WPooW\Core\Menus\BaseMenu;
+use WPooW\Core\Menus\SubMenu;
+
+
 class MenusApi{
 
     //TODO: Id validation. Also note Id/slug cannot be to long
@@ -16,9 +21,9 @@ class MenusApi{
      * @param null $position
      * @return Menu
      */
-    public function CreateMenu($page_slug, $menu_title, $capability=WP_PERMISSIONS::MANAGE_OPTIONS, $display_path=null, $icon='', $position=null)
+    public function CreateMenu($page_slug, $menu_title, $capability=CONSTS::WP_AUTH_MANAGE_OPTIONS, $display_path=null, $icon='', $position=null)
     {
-        return new Menu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
+        return new BaseMenu($page_slug, $menu_title ,$capability,$display_path, $icon,$position);
 
     }
 

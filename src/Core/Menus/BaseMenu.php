@@ -1,6 +1,6 @@
 <?php
 
-namespace  WPooW\Core\PageTypes;
+namespace  WPooW\Core\Menus;
 /**
  * Class Menu
  * Custom page which uses the wpAPI_VIEW to render a page
@@ -8,7 +8,7 @@ namespace  WPooW\Core\PageTypes;
  * 
  * @package wpAPI\Core\PageType
  */
-class Menu extends SubMenu
+class BaseMenu extends SubMenu
 {
 
     protected $icon;

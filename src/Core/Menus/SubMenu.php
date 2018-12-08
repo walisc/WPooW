@@ -1,6 +1,6 @@
 <?php
 
-namespace  WPooW\Core\PageTypes;
+namespace  WPooW\Core\Menus;
 use WPooW\Core\BasePage;
 use WPooW\Core\PageTypes\StaticPage;
 

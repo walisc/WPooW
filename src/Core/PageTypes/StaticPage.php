@@ -1,104 +1,34 @@
 <?php
 
 namespace WPooW\Core\PageTypes;
+use WPooW\Core\BasePage;
+use WPooW\Core\Menus\SubMenu;
+use WPooW\Core\Menus\BaseMenu;
 
-class StaticPage{
-    /**
-     * Constant that lets StaticPage know that it should render the page based on a twig template file
-     */
-    CONST PATH = 1;
-    /**
-     * Constant that lets StaticPage know that it should render the page based on a template string
-     */
-    CONST CONTENT = 2;
+class StaticPage extends BasePage{
+   
+    protected $page_template;
+    protected $capabilities;
+    protected $position;
 
-    /**
-     * Either StaticPage::PATH or StaticPage::CONTENT
-     * @var
-     */
-    private $type;
-
-    /**
-     * When StaticPage::PATH is used for type this links to the path of the twig template
-     * When StaticPage::CONTENT is used for type this is used as a string template for rendering the page
-     * @var
-     */
-
-    private $path_content;
-
-    /**
-     *
-     * key, value array to use in the twig template/string
-     *
-     * @var array
-     */
-    private $data = [];
-
-    /**
-     * StaticPage constructor.
-     * @param $type
-     * @param $path_content
-     * @param $data
-     */
-    function __construct($type, $path_content, $data=[])
+    function __construct($page_slug, $page_title, $capabilities, $page_template, $icon = '', $position=null)
     {
-        $this->type = $type;
-        $this->path_content = $path_content;
-        $this->data = array_merge($this->data, $data);
-
+        parent::__construct($page_slug, $page_title);
+        $this->page_template = $page_template;
+        $this->capabilities = $capabilities;
+        $this->icon = $icon;
+        $this->position = $position;
     }
 
-    /**
-     *
-     * Method that renders the twig template
-     *
-     */
-    function Render()
+    function Render($parent_slug=null)
     {
-        
-        if ($this->type == self::PATH)
-        {
-            //TODO: Make this global
-
-            $loader = new Twig_Loader_Filesystem(ABSPATH);
-            $twig = new Twig_Environment($loader);
-
-            echo $twig->render($this->path_content, $this->data);
+        if ($parent_slug != null){
+            (new SubMenu(parent_slug, $this->label, $this->capability, $this->page_template))->Render(parent_slug);
         }
-        else if ($this->type == self::CONTENT)
-        {
-
-            $loader = new Twig_Loader_Array(array(
-                'page.html' => $this->path_content,
-            ));
-
-            $twig = new Twig_Environment($loader);
-
-            echo $twig->render('page.html', $this->data);
-
-        }
-
-
-
+        else{
+            (new BaseMenu($this->slug, $this->label, $this->capabilities, $this->page_template, $this->icon, $this->position))->Render();
+        }     
     }
 
-    /**
-     *
-     * Allows you to set the key, value data to be used when rendering the view.
-     * The data can either be appended to already existing data, or replace already existing data.
-     *
-     * @param $data
-     * @param bool $append
-     */
-    function SetData($data, $append=true)
-    {
-        if ($append) {
-            $this->data = array_merge($this->data, $data);
-        }
-        else
-        {
-            $this->data = $data;
-        }
-
-    }
+    
 }

@@ -2,7 +2,7 @@
 
 namespace  WPooW\Core\Menus;
 use WPooW\Core\BasePage;
-use WPooW\Core\PageTypes\StaticPage;
+use WPooW\Utilities\HTMLTemplate;
 
 /**
  * Class SubMenu
@@ -23,7 +23,7 @@ class SubMenu extends BasePage
         parent::__construct($page_slug, $menu_title);
         $this->menu_title = $menu_title;
         $this->capability = $capability;
-        $this->display_path_content = $display_path_content == null ? new StaticPage(StaticPage::CONTENT, $menu_title) : $display_path_content;
+        $this->display_path_content = $display_path_content == null ? new HTMLTemplate(HTMLTemplate::CONTENT, $menu_title) : $display_path_content;
 
     }
 

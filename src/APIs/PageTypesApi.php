@@ -22,8 +22,8 @@ class PageTypesApi {
 
     }
 
-    public function CreateStaticPage($page_type, $path_content, $data=[]){
-        return new StaticPage($page_type, $path_content, $data);
+    public function CreateStaticPage($page_slug, $page_title, $capabilities, $page_template, $icon = '', $position=null){
+        return new StaticPage($$page_slug, $page_title, $capabilities, $page_template, $icon = '', $position=null);
     }       
 
 }

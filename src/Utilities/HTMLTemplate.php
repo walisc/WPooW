@@ -61,19 +61,19 @@ class HTMLTemplate{
         {
             //TODO: Make this global
 
-            $loader = new Twig_Loader_Filesystem(ABSPATH);
-            $twig = new Twig_Environment($loader);
+            $loader = new \Twig_Loader_Filesystem(ABSPATH);
+            $twig = new \Twig_Environment($loader);
 
             echo $twig->render($this->path_content, $this->data);
         }
         else if ($this->type == self::CONTENT)
         {
 
-            $loader = new Twig_Loader_Array(array(
+            $loader = new \Twig_Loader_Array(array(
                 'page.html' => $this->path_content,
             ));
 
-            $twig = new Twig_Environment($loader);
+            $twig = new \Twig_Environment($loader);
 
             echo $twig->render('page.html', $this->data);
 

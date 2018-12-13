@@ -23,7 +23,7 @@ class StaticPage extends BasePage{
     function Render($parent_slug=null)
     {
         if ($parent_slug != null){
-            (new SubMenu($parent_slug, $this->label, $this->capability, $this->page_template))->Render($parent_slug);
+            (new SubMenu($this->slug, $this->label, $this->capabilities, $this->page_template))->Render($parent_slug);
         }
         else{
             (new BaseMenu($this->slug, $this->label, $this->capabilities, $this->page_template, $this->icon, $this->position))->Render();

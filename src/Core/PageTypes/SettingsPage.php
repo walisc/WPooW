@@ -13,6 +13,7 @@ class SettingsPage extends BasePage{
     protected $capabilities;
     protected $position;
     protected $BeforeSaveEvent = [];
+    protected $page_sections = [];
 
     function __construct($page_slug, $page_title, $capabilities, $heading="", $page_template=null, $icon = '', $position=null)
     {
@@ -23,9 +24,13 @@ class SettingsPage extends BasePage{
         $this->position = $position;
     }
 
-    protected function GetDBName(){
-        return sprintf("wpoow_options_page_%s", $this->slug);
+    protected function GetPageNonceId(){
+        return sprintf("wpoow_options_page_nonce_%s", $this->slug);
     } 
+
+    protected function GetPageId(){
+        return sprintf("wpoow_options_page_%s", $this->slug);
+    }
 
     protected function BeforeSave($data){
         $new_data=[];
@@ -87,10 +92,54 @@ class SettingsPage extends BasePage{
     }
 
     function PrepareSettings(){
-        register_setting($this->GetDBName(), $this->GetDBName(), [$this, "BeforeSave"] ); 
+        register_setting($this->GetPageNonceId(), $this->GetPageNonceId(), [$this, "BeforeSave"] );
+        foreach($this->page_sections as $page_section){
+            add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this->GetPageId());
+            $page_section->RenderFields();
+        }
+    }
+
+    function AddSection($slug, $title, $page_template=null, $fields=[] ){
+        $newSections = new SettingsSection($slug, $title, $page_template, $this->GetPageId(), $fields);
+        array_push($this->page_sections, $newSections);
+        return $newSections;
     }
 
 
+}
+
+class SettingsSection{
+
+    public $id;
+    public $slug;
+    public $sectionsFields;
+    public $title = "";
+    public $page_template = null;
+
+
+    function __construct($slug, $title, $page_template, $parent_page_id, $fields){
+        $this->slug = $slug;
+        $this->title = $title;
+        $this->page_template = $page_template;
+        $this->id = sprintf("%s_%s", $parent_page_id, $slug);
+        $this->sectionsFields = $fields; //TODO: this might copy by reference
+    }
+
+    function AddField($aField){
+        array_push($this->sectionsFields, $aField);
+    }
+
+    function RenderFields(){
+        foreach($this->sectionsFields as $aField){
+            
+        }
+    }
+
+    function GenerateView(){
+        if ($this->page_template != null)
+        {
+            $this->page_template->Render();
+        }
         
-    
+    }
 }

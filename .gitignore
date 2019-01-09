@@ -6,3 +6,4 @@ Build/
 ./idea
 vendor/
 composer.lock
+.vscode/

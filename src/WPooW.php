@@ -1,7 +1,6 @@
 <?php
 
 namespace WPooW;
-include_once __DIR__.'/../vendor/autoload.php';
 
 use WPooW\APIs\PageTypesApi;
 use WPooW\APIs\MenusApi;

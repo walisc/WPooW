@@ -24,8 +24,9 @@ class SettingsPage extends BasePage{
         $this->position = $position;
     }
 
-    protected function GetPageNonceId(){
-        return sprintf("wpoow_options_page_nonce_%s", $this->slug);
+    //TODO: Id's tp long maybe make them shorter
+    protected function GetPageRegistryId(){
+        return sprintf("wpoow_options_page_registry_id_%s", $this->slug);
     } 
 
     protected function GetPageId(){
@@ -92,9 +93,10 @@ class SettingsPage extends BasePage{
     }
 
     function PrepareSettings(){
-        register_setting($this->GetPageNonceId(), $this->GetPageNonceId(), [$this, "BeforeSave"] );
+        register_setting($this->GetPageRegistryId(), $this->GetPageRegistryId(), [$this, "BeforeSave"] );
+        //TODO: if no section, create one
         foreach($this->page_sections as $page_section){
-            add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this->GetPageId());
+            add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this);
             $page_section->RenderFields();
         }
     }
@@ -115,23 +117,30 @@ class SettingsSection{
     public $sectionsFields;
     public $title = "";
     public $page_template = null;
+    public $parent_page;
 
 
-    function __construct($slug, $title, $page_template, $parent_page_id, $fields){
+    function __construct($slug, $title, $page_template, $parent_page, $fields){
         $this->slug = $slug;
         $this->title = $title;
         $this->page_template = $page_template;
-        $this->id = sprintf("%s_%s", $parent_page_id, $slug);
+        $this->id = sprintf("%s_%s", $parent_page->GetPageId(), $slug);
         $this->sectionsFields = $fields; //TODO: this might copy by reference
+        $this->parent_page = $parent_page;
     }
 
     function AddField($aField){
+        $aField->id = sprintf("%s_%s", $this->id, $aField->id);
         array_push($this->sectionsFields, $aField);
     }
 
     function RenderFields(){
+        $set_options = get_options();
         foreach($this->sectionsFields as $aField){
-            
+            add_setting_field($aField->id, $aField->label, [$aField, "OptionsPageView"],  $this->parent_page->GetPageId(), [
+                'options' => $set_options,
+                'options_page_id' => $this->parent_page->GetPageRegistryId()
+            ] );
         }
     }
 

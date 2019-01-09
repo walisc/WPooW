@@ -129,6 +129,11 @@ abstract class BaseElement
         wp_nonce_field($this->saveFunction, $this->saveNonce);
     }
 
+    protected function OptionsPageView($options_args)
+    {
+        echo $options_args["options"][$options_args["options_page_id"]];
+    }
+
     /**
      * Call this method to actually save the data in the database. This should be called within the ProcessPostData `methood`
      * which is automatically called when data is posted back

@@ -94,15 +94,15 @@ class SettingsPage extends BasePage{
 
     function PrepareSettings(){
         register_setting($this->GetPageRegistryId(), $this->GetPageRegistryId(), [$this, "BeforeSave"] );
-        //TODO: if no section, create one
+        //TODO: if no section, create one, add field directly
         foreach($this->page_sections as $page_section){
-            add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this);
+            add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this->GetPageId());
             $page_section->RenderFields();
         }
     }
 
     function AddSection($slug, $title, $page_template=null, $fields=[] ){
-        $newSections = new SettingsSection($slug, $title, $page_template, $this->GetPageId(), $fields);
+        $newSections = new SettingsSection($slug, $title, $page_template,  $fields, $this);
         array_push($this->page_sections, $newSections);
         return $newSections;
     }
@@ -120,7 +120,7 @@ class SettingsSection{
     public $parent_page;
 
 
-    function __construct($slug, $title, $page_template, $parent_page, $fields){
+    function __construct($slug, $title, $page_template, $fields, $parent_page){
         $this->slug = $slug;
         $this->title = $title;
         $this->page_template = $page_template;

@@ -14,16 +14,21 @@ class SettingsPage extends BasePage{
     protected $position;
     protected $BeforeSaveEvent = [];
     protected $page_sections = [];
+    protected $heading;
+    protected $description;
 
-    function __construct($page_slug, $page_title, $capabilities, $heading="", $page_template=null, $icon = '', $position=null)
+    function __construct($page_slug, $page_title, $capabilities, $heading="", $description="", $page_template=null, $icon = '', $position=null)
     {
         parent::__construct($page_slug, $page_title);
         $this->page_template = $page_template;
         $this->capabilities = $capabilities;
         $this->icon = $icon;
         $this->position = $position;
+        $this->heading = $heading;
+        $this->description = $description;
     }
 
+    function RenderHook(){}
     //TODO: Id's tp long maybe make them shorter
     protected function GetPageRegistryId(){
         return sprintf("wpoow_options_page_registry_id_%s", $this->slug);
@@ -66,7 +71,7 @@ class SettingsPage extends BasePage{
             $this->parent_slug = $parent_slug;
         }
 
-        add_action('admin_init',  [$this, "PrepareSetting"]);
+        add_action('admin_init',  [$this, "PrepareSettings"]);
         add_action('admin_menu', [$this, "Generate"], 8); 
         add_action('current_screen', [$this, "LoadViewState"]);
     }
@@ -74,10 +79,10 @@ class SettingsPage extends BasePage{
     function Generate(){
         // options-general.php makes it fall on setting
         if ($parent_slug != null){
-            add_submenu_page($this->parent_slug, $this->label, $this->label, $this->capability , $this->slug, [$this, "GenerateView"]);
+            add_submenu_page($this->parent_slug, $this->label, $this->label, $this->capabilities , $this->slug, [$this, "GenerateView"]);
         }
         else{
-            add_menu_page($this->menu_title, $this->label,   $this->capability, $this->slug, [$this, "GenerateView"], $this->icon, $this->position);
+            add_menu_page($this->label, $this->label,   $this->capabilities, $this->slug, [$this, "GenerateView"], $this->icon, $this->position);
         }
 
     }
@@ -86,9 +91,19 @@ class SettingsPage extends BasePage{
 
         if ($this->page_template == null)
         {
-            echo "Setting template";
+            echo "<div>";
+            echo $this->heading != "" ? sprintf("<h2>%s</h2>", $this->heading) : "";
+            echo $this->description != "" ? sprintf("<p>%s</p>", $this->description) : "";
+            echo "<form action='options.php' method='post'>";
+            settings_fields($this->GetPageRegistryId());
+            do_settings_sections($this->GetPageId());
+            echo "<input name='Submit' type='Submit' value='".esc_attr('Save Changes')."'/>";
+            echo "</form></div>";
         }
-        $this->page_template->Render();
+        else{
+            $this->page_template->Render();
+        }
+        
         
     }
 

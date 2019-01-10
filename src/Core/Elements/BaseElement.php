@@ -3,6 +3,7 @@
 namespace WPooW\Core\Elements;
 use WPooW\Auth\WPooWPermissions;
 use WPooW\Core\ObjectCache;
+use WPooW\Utilities\CONSTS;
 /**
  * Class BaseElement
  * The base class used by all wpOOW elements which contains abstract classes that need to be overwritten
@@ -14,6 +15,7 @@ abstract class BaseElement
     //TODO: Have a way of checking that id is unique
     public $parent_slug;
     public $id;
+    public $option_id; //used for options page
     public $label;
     public $permissions;
     protected $twigTemplate;
@@ -22,6 +24,8 @@ abstract class BaseElement
     public $saveFunction;
     public $saveNonce;
     public $valueKey;
+    public $pageType;
+
 
     private $onSaveEvents = [];
     private $onReadEvents = [];
@@ -129,10 +133,10 @@ abstract class BaseElement
         wp_nonce_field($this->saveFunction, $this->saveNonce);
     }
 
-    protected function OptionsPageView($options_args)
-    {
-        echo $options_args["options"][$options_args["options_page_id"]];
-    }
+    // function OptionsPageView($options_args=null)
+    // {
+    //     echo $options_args["options"][$this->id];
+    // }
 
     /**
      * Call this method to actually save the data in the database. This should be called within the ProcessPostData `methood`
@@ -163,17 +167,23 @@ abstract class BaseElement
      */
     public function GetDatabaseValue($post, $single = true)
     {
-        //When viewing the table/grid post_id is passed instead of the WP_POST object
-        $post_id = is_numeric($post) ? $post : $post->ID;
-        $db_value =  get_post_meta($post_id, $this->valueKey, $single);
-
-        // Call Read Observer before reading/viewing the value
-        // TODO: Consider removing this
-        foreach ($this->onReadEvents as $observor)
-        {
-            $db_value = wpAPIUtilities::CallUserFunc($observor[0], $observor[1], [$db_value, $post_id] );
+        if($this->pageType == CONSTS::ELEMENT_PAGE_TYPE_SETTING_PAGE){
+            return array_key_exists($this->option_id, $post["options"]) ? $post["options"][$this->option_id] : null;
         }
-        return $db_value;
+        else{        
+            //When viewing the table/grid post_id is passed instead of the WP_POST object
+            $post_id = is_numeric($post) ? $post : $post->ID;
+            $db_value =  get_post_meta($post_id, $this->valueKey, $single);
+
+            // Call Read Observer before reading/viewing the value
+            // TODO: Consider removing this
+            foreach ($this->onReadEvents as $observor)
+            {
+                $db_value = wpAPIUtilities::CallUserFunc($observor[0], $observor[1], [$db_value, $post_id] );
+            }
+            return $db_value;
+        }
+        
     }
 
     /**

@@ -5,7 +5,7 @@ namespace  WPooW\Core\PageTypes;
 use WPooW\Core\BasePage;
 use WPooW\Auth\WPooWPermissions;
 use WPooW\Core\ObjectCache;
-
+use WPooW\Utilities\CONSTS;
 
 class SettingsPage extends BasePage{
 
@@ -30,11 +30,11 @@ class SettingsPage extends BasePage{
 
     function RenderHook(){}
     //TODO: Id's tp long maybe make them shorter
-    protected function GetPageRegistryId(){
+    function GetPageRegistryId(){
         return sprintf("wpoow_options_page_registry_id_%s", $this->slug);
     } 
 
-    protected function GetPageId(){
+    function GetPageId(){
         return sprintf("wpoow_options_page_%s", $this->slug);
     }
 
@@ -92,7 +92,7 @@ class SettingsPage extends BasePage{
         if ($this->page_template == null)
         {
             echo "<div>";
-            echo $this->heading != "" ? sprintf("<h2>%s</h2>", $this->heading) : "";
+            echo $this->heading != "" ? sprintf("<h1>%s</h1>", $this->heading) : "";
             echo $this->description != "" ? sprintf("<p>%s</p>", $this->description) : "";
             echo "<form action='options.php' method='post'>";
             settings_fields($this->GetPageRegistryId());
@@ -116,7 +116,7 @@ class SettingsPage extends BasePage{
         }
     }
 
-    function AddSection($slug, $title, $page_template=null, $fields=[] ){
+    function AddSection($slug, $title, $fields=[], $page_template=null ){
         $newSections = new SettingsSection($slug, $title, $page_template,  $fields, $this);
         array_push($this->page_sections, $newSections);
         return $newSections;
@@ -129,7 +129,7 @@ class SettingsSection{
 
     public $id;
     public $slug;
-    public $sectionsFields;
+    public $sectionsFields = [];
     public $title = "";
     public $page_template = null;
     public $parent_page;
@@ -140,20 +140,24 @@ class SettingsSection{
         $this->title = $title;
         $this->page_template = $page_template;
         $this->id = sprintf("%s_%s", $parent_page->GetPageId(), $slug);
-        $this->sectionsFields = $fields; //TODO: this might copy by reference
         $this->parent_page = $parent_page;
+        foreach ($fields as $aField){$this->AddField($aField);}
+                
     }
 
     function AddField($aField){
-        $aField->id = sprintf("%s_%s", $this->id, $aField->id);
+        $aField->option_id = sprintf("%s_%s", $this->id, $aField->id);
+        $aField->id = sprintf("%s[%s]", $this->parent_page->GetPageRegistryId(), $aField->option_id);
+        $aField->pageType = CONSTS::ELEMENT_PAGE_TYPE_SETTING_PAGE;
         array_push($this->sectionsFields, $aField);
     }
 
     function RenderFields(){
-        $set_options = get_options();
+        $set_options = get_option($this->parent_page->GetPageRegistryId());
+        
         foreach($this->sectionsFields as $aField){
-            add_setting_field($aField->id, $aField->label, [$aField, "OptionsPageView"],  $this->parent_page->GetPageId(), [
-                'options' => $set_options,
+            add_settings_field($aField->option_id, $aField->label, [$aField, "EditView"],  $this->parent_page->GetPageId(), $this->id, [
+                'options' => $set_options == null ? [] : $set_options,
                 'options_page_id' => $this->parent_page->GetPageRegistryId()
             ] );
         }

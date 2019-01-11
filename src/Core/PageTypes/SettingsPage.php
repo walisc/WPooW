@@ -29,10 +29,6 @@ class SettingsPage extends BasePage{
     }
 
     function RenderHook(){}
-    //TODO: Id's tp long maybe make them shorter
-    function GetPageRegistryId(){
-        return sprintf("wpoow_options_page_registry_id_%s", $this->slug);
-    } 
 
     function GetPageId(){
         return sprintf("wpoow_options_page_%s", $this->slug);
@@ -95,7 +91,7 @@ class SettingsPage extends BasePage{
             echo $this->heading != "" ? sprintf("<h1>%s</h1>", $this->heading) : "";
             echo $this->description != "" ? sprintf("<p>%s</p>", $this->description) : "";
             echo "<form action='options.php' method='post'>";
-            settings_fields($this->GetPageRegistryId());
+            settings_fields($this->GetPageId());
             do_settings_sections($this->GetPageId());
             echo "<input name='Submit' type='Submit' value='".esc_attr('Save Changes')."'/>";
             echo "</form></div>";
@@ -108,7 +104,7 @@ class SettingsPage extends BasePage{
     }
 
     function PrepareSettings(){
-        register_setting($this->GetPageRegistryId(), $this->GetPageRegistryId(), [$this, "BeforeSave"] );
+        register_setting($this->GetPageId(), $this->GetPageId(), [$this, "BeforeSave"] );
         //TODO: if no section, create one, add field directly
         foreach($this->page_sections as $page_section){
             add_settings_section($page_section->id, $page_section->title, [$page_section, "GenerateView"], $this->GetPageId());
@@ -145,20 +141,21 @@ class SettingsSection{
                 
     }
 
+    //TODO: Add style
     function AddField($aField){
-        $aField->option_id = sprintf("%s_%s", $this->id, $aField->id);
-        $aField->id = sprintf("%s[%s]", $this->parent_page->GetPageRegistryId(), $aField->option_id);
+        $aField->option_id = $aField->id;
+        $aField->id = sprintf("%s[%s]", $this->parent_page->GetPageId(), $aField->option_id);
         $aField->pageType = CONSTS::ELEMENT_PAGE_TYPE_SETTING_PAGE;
         array_push($this->sectionsFields, $aField);
     }
 
     function RenderFields(){
-        $set_options = get_option($this->parent_page->GetPageRegistryId());
+        $set_options = get_option($this->parent_page->GetPageId());
         
         foreach($this->sectionsFields as $aField){
             add_settings_field($aField->option_id, $aField->label, [$aField, "EditView"],  $this->parent_page->GetPageId(), $this->id, [
                 'options' => $set_options == null ? [] : $set_options,
-                'options_page_id' => $this->parent_page->GetPageRegistryId()
+                'options_page_id' => $this->parent_page->GetPageId()
             ] );
         }
     }

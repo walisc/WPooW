@@ -73,7 +73,7 @@ class SettingsPage extends BasePage{
     }
 
     function Generate(){
-        // options-general.php makes it fall on setting
+        // options-general.php makes it fall on setting    
         if ($parent_slug != null){
             add_submenu_page($this->parent_slug, $this->label, $this->label, $this->capabilities , $this->slug, [$this, "GenerateView"]);
         }
@@ -152,6 +152,7 @@ class SettingsSection{
     function RenderFields(){
         $set_options = get_option($this->parent_page->GetPageId());
         
+        //TODO: add documentation on pagetype for readview (switch between posttype and options page)
         foreach($this->sectionsFields as $aField){
             add_settings_field($aField->option_id, $aField->label, [$aField, "EditView"],  $this->parent_page->GetPageId(), $this->id, [
                 'options' => $set_options == null ? [] : $set_options,

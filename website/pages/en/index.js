@@ -119,6 +119,19 @@ const Description = props => (
 
 );
 
+const VersionUpdate = props => (
+  <div className="versionComingSoonWrapper ">
+    <h1>Version 2.0 Coming Soon</h1>
+    <ul>
+      <li>Easier installation via composer</li>
+      <li>&nbsp;| new API for creating setting/options pages</li>
+      <li>&nbsp;| new API for creating static pages</li>
+      <li>&nbsp;| Improvements to the overall API</li>
+    </ul>
+  </div>
+  
+);
+
 const Showcase = props => {
   if ((siteConfig.users || []).length === 0) {
     return null;
@@ -157,8 +170,11 @@ class Index extends React.Component {
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <Description />
-          <Features />
+        <VersionUpdate />
+         <Description />
+         <Features />
+          
+          
         </div>
       </div>
     );

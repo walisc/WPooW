@@ -29,3 +29,21 @@
 .CustomGridItem .blockImage{
     max-width: 100%;
 }
+
+.versionComingSoonWrapper{
+    text-align: center;
+    padding-top:10px;
+    padding-bottom:10px;
+    background-color: #6fb9d8;
+    color: #fff;
+}
+
+.versionComingSoonWrapper li{
+    display: inline-block;
+
+}
+
+.versionComingSoonWrapper h1{
+    margin: 0px;
+}
+

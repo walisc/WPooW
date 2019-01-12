@@ -21,6 +21,7 @@ if (!$resultDic["WPooWLinked"]){
     fwrite(fopen($testPluginPath."composer.json", "w") , json_encode($testPluginDetails));
     echo "\n";
     exec("composer install -d ". $resultDic["pluginPathDir"]);
+    Logger::INFO("WPooW project linked successfully");
 
 }
 

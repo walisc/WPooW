@@ -4,7 +4,7 @@ namespace WPooWTests\TestCases;
 
 class ElementCreator {
     public static function CreateTestElements(){
-        $testFilesItre = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(sprintf("%s%s%s", __DIR__, DIRECTORY_SEPARATOR, "testCases")));
+        $testFilesItre = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(sprintf("%s%s", __DIR__, DIRECTORY_SEPARATOR)));
         $testFile = [];
 
         foreach($testFilesItre as $file){

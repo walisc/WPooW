@@ -7,3 +7,4 @@ Build/
 vendor/
 composer.lock
 .vscode/
+tests/WPooWTestPlugin/composer.json

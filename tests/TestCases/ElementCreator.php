@@ -1,10 +1,8 @@
 <?php 
 
-namespace WPooWTests;
+namespace WPooWTests\TestCases;
 
-use PHPUnit\Framework\TestCase;
-
-class WPooWTests {
+class ElementCreator {
     public static function CreateTestElements(){
         $testFilesItre = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(sprintf("%s%s%s", __DIR__, DIRECTORY_SEPARATOR, "testCases")));
         $testFile = [];
@@ -13,9 +11,9 @@ class WPooWTests {
 
             if(!$file->isDir()){
                 if (preg_match('/Test\.php/', $file->getFileName() )){
-                    include $file->getPathname();
-                    $testsClass = str_replace(".php","", $file->getFileName());
-                    $testFile::LoadElements();
+                    //include $file->getPathname();
+                    //$testsClass = str_replace(".php","", $file->getFileName());
+                   // $testFile::LoadElements();
                 }
             }
         }

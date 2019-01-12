@@ -33,6 +33,12 @@ function wpoow_testing_request(){
 
 }
 
+if (file_exists( sprintf("%s%s%s%s%s", __DIR__, DIRECTORY_SEPARATOR, "vendor", DIRECTORY_SEPARATOR, "autoload.php")))
+{
+    include sprintf("%s%s%s%s%s", __DIR__, DIRECTORY_SEPARATOR, "vendor", DIRECTORY_SEPARATOR, "autoload.php");
+    if (class_exists("WPooW\WPooW")){
+        include_once 'vendor/autoload.php';
+        \WPooWTests\TestCases\ElementCreator::CreateTestElements();
+    }
+}
 
-include_once 'vendor/autoload.php';
-\WPooWTests\WPooWTests::CreateTestElements();

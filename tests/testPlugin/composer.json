@@ -1,0 +1,18 @@
+{
+    "name": "devchido/wpoow_test_plugin",
+    "authors": [
+        {
+            "name": "Chido",
+            "email": "chido@batanasoftware.com"
+        }
+    ],
+    "require":  {
+		"wpoow": "@dev"
+    },    
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../WPooW"
+        }
+    ]
+}

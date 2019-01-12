@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-4": {
-            "WPooW\\": "src/"
+            "WPooW\\": "src/",
+            "WPooWTests\\": "tests/"
         }
     },
     "require-dev": {

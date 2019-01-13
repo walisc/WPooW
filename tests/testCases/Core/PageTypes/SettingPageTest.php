@@ -1,9 +1,21 @@
 <?php
 declare(strict_types=1);
 
+use WPooWTests\TestCases\BaseTestCase;
+use WPooW\Utilities\CONSTS;
 
+final class SettingPageTest extends BaseTestCase{
 
-final class SettingPageTest extends TestCase{
+    function LoadElements($WPooW)
+    {
+        $wc_cm_setting_new = $WPooW->PageTypesApi->CreateSettingsPage("_wc_setting3",  "Settings344", CONSTS::WP_AUTH_MANAGE_OPTIONS, "Test Setting", "test setting for wpoow settings");
+        $newSection = $wc_cm_setting_new->AddSection("_secone", "Section One");
+        $newSection->AddField( new Text("_name", "Name"));
+        $newSection->AddField( new TextArea("_description", "Description"));
+        $newSection->AddField( new Uploader("_logo", "Logo"));
+        $newSection->AddField( new Text("_url", "Url"));
+        $wc_cm_setting_new->Render();
+    }
 
     function testCanCreateSettingPage(): void{
 

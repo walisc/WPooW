@@ -22,41 +22,60 @@ if (!$resultDic["WPooWLinked"]){
 }
 
 // 2. installing Selenium dependencies
-if (!file_exists("./bin"))
+$binPath = sprintf("%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin");
+$driverPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "chromeDrivers.zip");
+$seleniumPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "seleniumServer.jar");
+
+$seleniumUrl = "http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar";
+$driverUrl = "https://chromedriver.storage.googleapis.com/2.45/chromedriver_%s.zip";
+
+if (!file_exists($binPath))
 {
-    mkdir("./bin");
+    mkdir($binPath);
 }
 
 if (!file_exists("./bin/seleniumServer.jar")){
     Logger::INFO("Selenium Server is not installed. Installing now");
-    ProcessFileRequest("http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar",
-                        fopen(sprintf("%s%s%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin", DIRECTORY_SEPARATOR, "seleniumServer.jar"), "w+"));
+    ProcessFileRequest($seleniumUrl, fopen($seleniumPath, "w+"));
 }
+
 
 if (!file_exists("./bin/chromeDrivers.zip")){
     Logger::INFO("Installing Selenium Chrome drivers");
 
     $dirveType = "";
     if (stristr(PHP_OS, 'DAR')){
-
+        ProcessFileRequest(sprintf($driverUrl,"mac64"),fopen($driverPath, "w+"));
     }else if (stristr(PHP_OS, 'WIN')){
-
+        ProcessFileRequest(sprintf($driverUrl,"win32"), fopen($driverPath, "w+"));
     }else if(stristr(PHP_OS, 'LINUX')){
-
+        ProcessFileRequest(sprintf($driverUrl,"linux64"),fopen($driverPath, "w+"));
     }
-    ProcessFileRequest("http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar",
-                        fopen(sprintf("%s%s%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin", DIRECTORY_SEPARATOR, "seleniumServer.jar"), "w+"));
+    
+    $zip = new ZipArchive;
+    $res = $zip->open($driverPath);
+    $zip->extractTo($binPath);
+    $zip->close();
+
+    
 }
+Logger::INFO("Setting Enviroment variables");
+putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
 
-///wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
-//unzip https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
-//sudo mv -i chromedriver /usr/bin/.
+# 3. Starting Selenium
+#TODO check if already running
+Logger::INFO("---- Starting Selenium----- \n\n");
+exec(sprintf("java -jar %s -enablePassThrough false &", $seleniumPath));
+
+Logger::INFO("---- Running WPooW Tests---- \n\n");
+
+#java -jar selenium-server-standalone-3.0.1.jar -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444
+#curl -s http://localhost:4444/extra/LifecycleServlet?action=shutdown
 
 
-// Helper functions
-
+########## Helper Functions ##########
 function ProcessFileRequest($url, $filePath){
-    $filePath = fopen(sprintf("%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "seleniumServer.jar"), "w+");
+
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_FILE, $filePath);
     curl_exec($ch);

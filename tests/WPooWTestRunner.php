@@ -48,9 +48,9 @@ if (!file_exists("./bin/chromeDrivers.zip")){
                         fopen(sprintf("%s%s%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin", DIRECTORY_SEPARATOR, "seleniumServer.jar"), "w+"));
 }
 
-wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
-unzip https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
-sudo mv -i chromedriver /usr/bin/.
+///wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
+//unzip https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
+//sudo mv -i chromedriver /usr/bin/.
 
 
 // Helper functions

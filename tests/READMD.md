@@ -15,3 +15,12 @@ From there navigate to WPooW folder and run `composer run-test [site_url]`
 --- reads and updates the composer file in the library to the correct path and the runs composer install
 
 - then locally run through selenium access the site, and run tests
+
+- You need to have
+1) Composer
+2) Java
+3) Php-Curl (comes with php 7)
+
+PhpUnit Requirements
+4) php-xml (sudo apt-get install php-xml)
+5) php-mbstring (sudo apt-get install php-mbstring)

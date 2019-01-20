@@ -22,6 +22,8 @@ if (!$resultDic["WPooWLinked"]){
 }
 
 // 2. installing Selenium dependencies
+$project_dir = realpath(sprintf("%s%s%s", __DIR__, DIRECTORY_SEPARATOR, "../"));
+$phpunitloc = sprintf("%s%s%s%s%s%s%s", $project_dir, DIRECTORY_SEPARATOR, "vendor", DIRECTORY_SEPARATOR, "bin", DIRECTORY_SEPARATOR, "phpunit" );
 $binPath = sprintf("%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin");
 $driverPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "chromeDrivers.zip");
 $seleniumPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "seleniumServer.jar");
@@ -60,23 +62,25 @@ if (!file_exists($driverPath)){
     
 }
 Logger::INFO("Setting Enviroment variables");
-putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
+//putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
 
 # 3. Starting Selenium
 #TODO check if already running
 Logger::INFO("---- Starting Selenium----- \n\n");
 
-$fp = fsockopen("localhost",4444);
-if($fp){   
-   Logger::INFO("Selenium already running");
+$fp = fsockopen("localhost",4444, $errno, $errstr,1);
+echo $errno;
+if($errno != 0){   
+    Logger::INFO("Launching Selenium Server");
+    exec(sprintf("java -jar %s -enablePassThrough false -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  -Dwebdriver.chrome.driver=%s > /dev/null 2>&1 &", $seleniumPath, $driverPath));   
 } else {
-   exec(sprintf("java -jar %s -enablePassThrough false -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
+    Logger::INFO("Selenium already running");
 } 
 fclose($fp);
 
 
 Logger::INFO("---- Running WPooW Tests---- \n\n");
-exec("vendor/bin/phpunit");
+system($phpunitloc);
 
 #java -jar selenium-server-standalone-3.0.1.jar -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444
 #curl -s http://localhost:4444/extra/LifecycleServlet?action=shutdown

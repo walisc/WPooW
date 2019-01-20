@@ -34,13 +34,13 @@ if (!file_exists($binPath))
     mkdir($binPath);
 }
 
-if (!file_exists("./bin/seleniumServer.jar")){
+if (!file_exists($seleniumPath)){
     Logger::INFO("Selenium Server is not installed. Installing now");
     ProcessFileRequest($seleniumUrl, fopen($seleniumPath, "w+"));
 }
 
 
-if (!file_exists("./bin/chromeDrivers.zip")){
+if (!file_exists($driverPath)){
     Logger::INFO("Installing Selenium Chrome drivers");
 
     $dirveType = "";
@@ -65,9 +65,18 @@ putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
 # 3. Starting Selenium
 #TODO check if already running
 Logger::INFO("---- Starting Selenium----- \n\n");
-exec(sprintf("java -jar %s -enablePassThrough false &", $seleniumPath));
+
+$fp = fsockopen("localhost",4444);
+if($fp){   
+   Logger::INFO("Selenium already running");
+} else {
+   exec(sprintf("java -jar %s -enablePassThrough false -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
+} 
+fclose($fp);
+
 
 Logger::INFO("---- Running WPooW Tests---- \n\n");
+exec("vendor/bin/phpunit");
 
 #java -jar selenium-server-standalone-3.0.1.jar -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444
 #curl -s http://localhost:4444/extra/LifecycleServlet?action=shutdown

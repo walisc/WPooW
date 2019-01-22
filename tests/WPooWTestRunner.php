@@ -62,7 +62,7 @@ if (!file_exists($driverPath)){
     
 }
 Logger::INFO("Setting Enviroment variables");
-//putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
+putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
 
 # 3. Starting Selenium
 #TODO check if already running
@@ -72,7 +72,8 @@ $fp = fsockopen("localhost",4444, $errno, $errstr,1);
 echo $errno;
 if($errno != 0){   
     Logger::INFO("Launching Selenium Server");
-    system(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
+    //Runs in the same process as opposes to system, that runs it in a different session
+    exec(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
 } else {
     Logger::INFO("Selenium already running");
 } 

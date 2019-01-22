@@ -28,7 +28,7 @@ $binPath = sprintf("%s%s%s",__DIR__, DIRECTORY_SEPARATOR, "bin");
 $driverPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "chromeDrivers.zip");
 $seleniumPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "seleniumServer.jar");
 
-$seleniumUrl = "http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar";
+$seleniumUrl = "http://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar";
 $driverUrl = "https://chromedriver.storage.googleapis.com/2.45/chromedriver_%s.zip";
 
 if (!file_exists($binPath))
@@ -72,7 +72,7 @@ $fp = fsockopen("localhost",4444, $errno, $errstr,1);
 echo $errno;
 if($errno != 0){   
     Logger::INFO("Launching Selenium Server");
-    exec(sprintf("java -jar %s -enablePassThrough false -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  -Dwebdriver.chrome.driver=%s > /dev/null 2>&1 &", $seleniumPath, $driverPath));   
+    system(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
 } else {
     Logger::INFO("Selenium already running");
 } 

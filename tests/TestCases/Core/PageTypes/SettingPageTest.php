@@ -17,6 +17,14 @@ final class SettingPageTest extends BaseTestCase{
         $wc_cm_setting_new->Render();
     }
 
+
+    protected function setUp()
+    {
+        $this->seleniumDriver->get("http://www.google.com");
+    }
+    
+
+
     function testCanCreateSettingPage(): void{
 
     }

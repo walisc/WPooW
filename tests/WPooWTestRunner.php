@@ -1,7 +1,24 @@
 <?php
 
-echo "--- Staring WPooW Tests --- ";
+echo "--- WPooW Tests Runner --- \n";
 
+$testSite = "";
+
+if ($argc != 2)
+{
+    echo "\nYou need to specify the site URL for the site";
+    echo "\nUsuage:- php WPooWTestRunner.php [url]\n";
+    exit(0);
+}
+
+$testSite = $argv[1];
+$fp = fsockopen($testSite, 80, $errno, $errstr,1);
+
+if($errstr != "" || $errno != 0){ 
+    echo  sprintf("\n\nThe site '%s' doesnt seem to be running. Cannot test if the site is not running.\n", $testSite);
+    exit(0);
+}
+fclose($fp);
 // 1. Linking files if need be
 
 $result = ProcessRequest('http://localhost/wpoow_2_0/wp-admin/admin-ajax.php');
@@ -69,8 +86,8 @@ putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
 Logger::INFO("---- Starting Selenium----- \n\n");
 
 $fp = fsockopen("localhost",4444, $errno, $errstr,1);
-echo $errno;
-if($errno != 0){   
+
+if($errstr != "" || $errno != 0){   
     Logger::INFO("Launching Selenium Server");
     //Runs in the same process as opposes to system, that runs it in a different session
     exec(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   

@@ -100,9 +100,11 @@ function InstallSeleniumDependencies(){
 function StartSeleniumServer(){
     global $seleniumPath;
     global $binPath;
+    global $testSite;
 
     Logger::INFO("Setting Enviroment variables");
     putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
+    putenv('WPOOW_TEST_SITE=' . $testSite );
     //adding sleep command to give time for the command to full run/programs exceute
     sleep(1);
     # 3. Starting Selenium

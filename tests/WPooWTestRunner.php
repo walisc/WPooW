@@ -99,22 +99,22 @@ function InstallSeleniumDependencies(){
 
 function StartSeleniumServer(){
     global $seleniumPath;
+    global $binPath;
 
     Logger::INFO("Setting Enviroment variables");
     putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . $binPath);
-
+    //adding sleep command to give time for the command to full run/programs exceute
+    sleep(1);
     # 3. Starting Selenium
     Logger::INFO("---- Starting Selenium----- \n\n");
 
     $fp = fsockopen("localhost",4444, $errno, $errstr,1);
-    if($errstr != "" || $errno != 0){   
-        Logger::INFO("Launching Selenium Server");
-        //Runs in the same process as opposes to system, that runs it in a different session
-        //To shutdown - http://localhost:4444/extra/LifecycleServlet?action=shutdown
-        exec(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
-    } else {
-        Logger::INFO("Selenium already running");
+    if($errstr == "" || $errno == 0){   
+        ProcessGetRequest(sprintf("http://localhost:4444/extra/LifecycleServlet?action=shutdown"));
+        sleep(1);
     } 
+    exec(sprintf("java -jar %s -role node -servlet org.openqa.grid.web.servlet.LifecycleServlet -registerCycle 0 -port 4444  > /dev/null 2>&1 &", $seleniumPath));   
+    sleep(1);
     fclose($fp);
 }
 
@@ -142,6 +142,15 @@ function ProcessPostRequest($url, $postFields){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER , true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
     
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
+function ProcessGetRequest($url){
+    $ch=curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;

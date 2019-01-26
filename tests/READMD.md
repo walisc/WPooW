@@ -20,6 +20,7 @@ From there navigate to WPooW folder and run `composer run-test [site_url]`
 1) Composer
 2) Java
 3) Php-Curl (comes with php 7)
+4) php 7.1
 
 PhpUnit Requirements
 4) php-xml (sudo apt-get install php-xml)

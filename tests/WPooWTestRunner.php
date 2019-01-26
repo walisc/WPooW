@@ -10,7 +10,7 @@ $driverPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "chromeDrivers.zi
 $seleniumPath = sprintf("%s%s%s", $binPath, DIRECTORY_SEPARATOR, "seleniumServer.jar");
 
 ParseArgs($argv,$argc);
-LinkToTestPlugin();
+LinkToTestPlugin($argv);
 InstallSeleniumDependencies();
 StartSeleniumServer();
 StartWPooWTests();
@@ -26,17 +26,11 @@ function ParseArgs($argv,$argc){
         Quit();
     }
     
-    $testSite = $argv[1];
-    $fp = fsockopen($testSite, 80, $errno, $errstr,1);
-    if($errstr != "" || $errno != 0){ 
-        Logger::ERROR(sprintf("The site '%s' doesnt seem to be running. Cannot test if the site is not running.", $testSite));
-        Quit();
-    }
-    fclose($fp);
 }
 
-function LinkToTestPlugin(){
+function LinkToTestPlugin($argv){
     global $testSite;
+    $testSite = $argv[1];
     $result = ProcessPostRequest(sprintf('http://%s/wp-admin/admin-ajax.php', $testSite),  "action=wpoow_testing_request");
     $resultDic = json_decode(substr($result,0,strlen($result)-1), true);
 
@@ -53,7 +47,7 @@ function LinkToTestPlugin(){
             Logger::INFO("WPooW project linked successfully");
         }
         else{
-            Logger::ERROR("Cant seem to be able to communicate WPooW Test Plugin. Make sure you have added it to your site and activated it.");
+            Logger::ERROR("Cant seem to be able to communicate WPooW Test Plugin. Make sure your site is running and you have add and activated it the WPooW test Plugin.");
             Quit();
         }
     }

@@ -20,7 +20,7 @@ final class SettingPageTest extends BaseTestCase{
 
     protected function setUp()
     {
-        $this->seleniumDriver->get("http://www.google.com");
+        $this->GetSeleniumDriver()->get("http://www.google.com");
     }
     
 

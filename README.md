@@ -112,7 +112,7 @@ If it's a new feature, please add it as a issue with the label enhancement, deta
 
 ## Authors
 
-* **Chido Warambwa** - *Initial Work* - [devchid.com](http://wpoow.devchid.com) 
+* **Chido Warambwa** - *Initial Work* - [devchid.com](http://devchid.com) 
   
 ## License
 

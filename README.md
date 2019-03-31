@@ -97,7 +97,7 @@ Modifying the WordPress TwentySeventeen theme template our web page could look l
 
 ## Documentation
 
-The WPooW library is fully documented at [http://wpoow.devchid.com](ttp://wpoow.devchid.com/). If you think of anything else that should be documented that's not there, please do give a shout. 
+The WPooW library is fully documented at [http://wpoow.devchid.com](http://wpoow.devchid.com/). If you think of anything else that should be documented that's not there, please do give a shout. 
 
 ## Contributing
 

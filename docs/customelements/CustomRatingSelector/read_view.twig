@@ -1,9 +1,0 @@
-<div id="{{ element_id }}_read_view" class="rating_selector">
-    <h1></h1>
-    {% for key, value in options %}
-        <p>{{ value.label  }}</p>
-        <div id="{{ element_id }}_{{ key }}">
-            <div class="ui-slider-handle custom-handle">{{ value.score }}</div>
-        </div>
-    {% endfor %}
-</div>

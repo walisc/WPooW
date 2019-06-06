@@ -27,12 +27,12 @@ $bookReviewPostType->Render();
 
 This will create a custom page (available via wp-admin). See below:-
 
-![intro_images](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image_input.png)
+![intro_images](http://wpoow.devchid.com/images/intro_output_image_input.png)
 
 *Fig1: Grid Layout of new custom type*
 
 
-![intro_images_expanded](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_main_image_expanded.png)
+![intro_images_expanded](http://wpoow.devchid.com/images/intro_main_image_expanded.png)
 
 *Fig2: Adding new custom type*
 
@@ -93,7 +93,7 @@ To access the data added through the custom PostType, you can use a traditional 
 
 Modifying the WordPress TwentySeventeen theme template our web page could look like:- 
 
-![1529530425830](https://github.com/walisc/wpAPI/blob/master/website/static/images/intro_output_image.png)
+![1529530425830](http://wpoow.devchid.com/images/intro_output_image.png)
 
 ## Documentation
 

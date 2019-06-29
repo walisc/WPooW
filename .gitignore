@@ -3,3 +3,9 @@ Build/
 /website/node_modules/
 /website/build/
 /website/siteConfig.local.js
+/vendor
+composer.lock
+wpselenium.xml
+seleniumLog.log
+phpunit.xml
+/.idea

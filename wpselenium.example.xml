@@ -1,0 +1,7 @@
+<wpselenium>
+    <siteUrl>[YOUR_WORDPRESS_SITE]</siteUrl>
+    <sitePath>[PATH_TO_YOUR_SITE]</sitePath>
+    <!-- Pass dont store production details here -->
+    <wpTestUsername>[YOUR_WP_USERNAME_FOR_TESTING]</wpTestUsername>
+    <wpTestPassword>[YOUR_WP_PASSWORD_FOR_TESTING]</wpTestPassword>
+</wpselenium>

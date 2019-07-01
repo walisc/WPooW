@@ -2,16 +2,16 @@
 
 
 
-use WPSelenium\WPSTestCase;
-include_once __DIR__.'/../wpAPI.php';
+use WPooWTests\WPooWBaseTestCase;
 
- class CustomPostTypeTest extends WPSTestCase{
+include __DIR__.'/../wpAPI.php';
 
-    /**
-     * @browserNotRequired
-     */
-    function testCanCreatePostType(){
-    }
+ class CustomPostTypeTest extends WPooWBaseTestCase{
+
+     private static $sample_post_type1 = [
+         'id' => '_wpoow_test_menu',
+         'title' => 'WPooW Test Menu'
+     ];
 
     /**
      * @browserNotRequired
@@ -27,40 +27,43 @@ include_once __DIR__.'/../wpAPI.php';
         //check objects
     }
 
-
     /**
      * @browserRequired
-     * @WP_BeforeRun: testPostTypeCreate_WP_BeforeRun
+     * @WP_BeforeRun CanCreatePostType_WP_BeforeRun
      */
-    function testPostTypeCreate()
-    {  
-        // check post types created
-        // check names
-        // cehck can navigate
-    }
-
-    /**
-     * @browserRequired
-     * @WP_BeforeRun testPostTypeCreate_WP_BeforeRun
-     */
-    function testCanAddPostType(){
-        $this->driver = $this->GetSeleniumDriver();
+    function testCanCreatePostType()
+    {
         $this->loginToWPAdmin();
-        sleep(5);
-        // test can click add
-        // Test can enter text(text)
-        // test cansselfself save
-        // test can go back
-        // test items there
+        $menuitem = $this->LocatedMenuItem(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+        $this->assertTrue($menuitem != null);
+        $this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+
     }
 
-    public static function testPostTypeCreate_WP_BeforeRun(){
-        error_log("inthere");
+     public static function CanCreatePostType_WP_BeforeRun(){
+         $wpOOW = new wpAPI();
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
+         $wpOOWTestPage->render();
+     }
+
+    /**
+     * @browserRequired
+     * @WP_BeforeRun IntializeWPoowWithAnyErrors_WP_BeforeRun
+     */
+    function testIntializeWPoowWithAnyErrors(){
+        $driver = $this->GetSeleniumDriver();
+        $this->loginToWPAdmin();
+        $this->assertFalse(strpos( $driver->getPageSource(), 'Stack trace'));
+    }
+
+    public static function IntializeWPoowWithAnyErrors_WP_BeforeRun(){
+       $wpOOW = new wpAPI();
+
     }
 
     /**
      * @browserRequired
-     * @WP_BeforeRun: testCanEditPostType_WP_BeforeRun
+     * @WP_BeforeRun testCanEditPostType_WP_BeforeRun
      */
     function testCanEditPostType(){
         // click on one

@@ -9,28 +9,29 @@ use WPSelenium\WPSTestCase;
 
 class WPooWBaseTestCase extends WPSTestCase{
 
-    protected function LocatedMenuItem($id, $title){
+    protected function LocatedMenuItem($id, $title=null){
         try {
+            $menu_item_name_li = $this->driver->findElement(WebDriverBy::id("menu-posts-${id}"));
+            $menu_item_name = $menu_item_name_li->findElement(WebDriverBy::xpath("descendant::div[@class='wp-menu-name'][1]"));
 
-            $menu_item_name = $this->driver->findElement(WebDriverBy::xpath("//div[@class='wp-menu-name' and text()='${title}']"));
-            $menu_item_name_li = $menu_item_name->findElement(WebDriverBy::xpath("ancestor::li[1]"));
-            if ($menu_item_name_li->getAttribute('id') == "menu-posts-${id}")
-            {
-                return [
-                    "text" => $menu_item_name,
-                    "link" => $menu_item_name->findElement(WebDriverBy::xpath("ancestor::a[1]")),
-                    "li" => $menu_item_name_li
-                ];
+            if ($title != null && $title != $menu_item_name->getAttribute("innerText")){
+                return null;
             }
+            return [
+                "text" => $menu_item_name,
+                "link" => $menu_item_name->findElement(WebDriverBy::xpath("ancestor::a[1]")),
+                "li" => $menu_item_name_li
+            ];
+
         }catch (NoSuchElementException $e){
-            return null;
+            //TODO: Log error
         }
         return null;
     }
 
-    protected function NavigateToMenuItems($id, $title)
+    protected function NavigateToMenuItems($id)
     {
-        $menu_item = $this->LocatedMenuItem($id, $title);
+        $menu_item = $this->LocatedMenuItem($id);
         if ($menu_item == null)
         {
             throw new Exception("Cannot navigate"); #TODO change this to own exception
@@ -43,6 +44,62 @@ class WPooWBaseTestCase extends WPSTestCase{
         return true;
     }
 
+
+
+    protected function PublishPostType($id){
+        $this->NavigateToMenuItems($id);
+        $initial_count = $this->GetPageCount();
+
+        $this->GoToAddPage($id);
+
+        $publish_button = $this->driver->findElement(WebDriverBy::id("publish"));
+        $publish_button->click();
+
+        $this->NavigateToMenuItems($id);
+
+        if ($initial_count+1 == $this->GetPageCount()){
+            return true;
+        }
+        return false;
+    }
+
+    protected function HasFieldInPostTypeGrid($postTypeID, $field){
+        try {
+            $this->GoToViewGridPage($postTypeID);
+            $fieldCol = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/thead/tr/th[@id='${postTypeID}_${field['id']}']"));
+            if ($fieldCol->getAttribute("innerText") == $field['label']) {
+                return true;
+            }
+        }catch(NoSuchElementException $e)
+        {
+            //TODO: Log
+        }
+        return false;
+    }
+
+    protected function HasFieldInPostTypeAddForm(){
+
+    }
+
+    protected function HasFieldInPostTypeEditForm(){
+
+    }
+
+
+    private function GoToAddPage($id){
+        $this->NavigateToMenuItems($id);
+        $add_button = $this->driver->findElement(WebDriverBy::xpath("//a[@class='page-title-action' and text()='Add New']")); //TODO: Think about localization
+        $add_button->click();
+    }
+
+    private function GoToEditPage($id){
+        $this->NavigateToMenuItems($id);
+    }
+
+    private function GoToViewGridPage($id){
+        $this->NavigateToMenuItems($id);
+
+    }
     private function GetPageCount(){
         try{
             $number_of_items = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/descendant::span[@class='displaying-num']"));
@@ -53,25 +110,5 @@ class WPooWBaseTestCase extends WPSTestCase{
         }
         return -1;
 
-    }
-
-    protected function PublishPostType($id, $title){
-        $this->NavigateToMenuItems($id, $title);
-
-
-        $this->waitForPageToLoad();
-        $driver = $this->GetSeleniumDriver();
-
-        $initial_count = $this->GetPageCount();
-        $page_heading = $driver->findElement(WebDriverBy::xpath("//h1[@class='wp-heading-inline' and text()='${title}']"));
-        $add_button = $page_heading->findElement(WebDriverBy::xpath("following-sibling::a[@class='page-title-action']"));
-        $add_button->click();
-        $publish_button = $driver->findElement(WebDriverBy::id("publish"));
-        $publish_button->click();
-        $this->NavigateToMenuItems($id, $title);
-        if ($initial_count+1 == $this->GetPageCount()){
-            return true;
-        }
-        return false;
     }
 }

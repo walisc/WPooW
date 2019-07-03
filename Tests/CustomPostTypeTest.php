@@ -10,7 +10,13 @@ include __DIR__.'/../wpAPI.php';
 
      private static $sample_post_type1 = [
          'id' => '_wpoow_test_menu',
-         'title' => 'WPooW Test Menu'
+         'title' => 'WPooW Test Menu',
+         'fields' => [
+             [
+                 'id' => '_test_text_field',
+                 'label' => 'Sample Text Field'
+             ]
+         ]
      ];
 
      /**
@@ -24,7 +30,6 @@ include __DIR__.'/../wpAPI.php';
 
      public static function IntializeWPoowWithAnyErrors_WP_BeforeRun(){
          $wpOOW = new wpAPI();
-
      }
 
      /**
@@ -36,7 +41,10 @@ include __DIR__.'/../wpAPI.php';
          $this->loginToWPAdmin();
          $menuitem = $this->LocatedMenuItem(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
          $this->assertTrue($menuitem != null);
-         $this->assertTrue($this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']));
+         if ($menuitem){
+             $this->assertTrue($this->NavigateToMenuItems(self::$sample_post_type1['id']));
+         }
+
      }
 
      public static function CanCreatePostType_WP_BeforeRun(){
@@ -46,12 +54,12 @@ include __DIR__.'/../wpAPI.php';
      }
 
      /**
-      * @browserRequired
+      * @browserRequired$checkIfFieldIsThere
       * @WP_BeforeRun CanPublishPostType_WP_BeforeRun
       */
      function testCanPublishPostType(){
          $this->loginToWPAdmin();
-         $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+         $this->assertTrue($this->PublishPostType(self::$sample_post_type1['id']));
      }
 
      public static function CanPublishPostType_WP_BeforeRun(){
@@ -67,25 +75,19 @@ include __DIR__.'/../wpAPI.php';
       */
     function testCanAddField(){
         $this->loginToWPAdmin();
-        $this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+        $this->NavigateToMenuItems(self::$sample_post_type1['id']);
+        $checkIfFieldIsThere = $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
+        $this->assertTrue($checkIfFieldIsThere);
+
     }
+
 
     public static function CanAddField_WP_BeforeRun(){
          $wpOOW = new wpAPI();
          $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
-         $wpOOWTestPage->AddField(new Text("_test_text_field" , "Sample Text Field"));
+         $wpOOWTestPage->AddField(new Text( self::$sample_post_type1['fields'][0]['id'] ,  self::$sample_post_type1['fields'][0]['label']));
          $wpOOWTestPage->render();
     }
-
-    /**
-     * @browserNotRequired
-     */
-    function testCanRegisterSaveEvent(){
-        //check objects
-    }
-
-
-
 
     /**
      * @browserRequired

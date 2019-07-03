@@ -13,11 +13,68 @@ include __DIR__.'/../wpAPI.php';
          'title' => 'WPooW Test Menu'
      ];
 
-    /**
-     * @browserNotRequired
-     */
-    function testCanAddField(){
+     /**
+      * @browserRequired
+      * @WP_BeforeRun IntializeWPoowWithAnyErrors_WP_BeforeRun
+      */
+     function testIntializeWPoowWithAnyErrors(){
+         $this->loginToWPAdmin();
+         $this->assertFalse(strpos($this->driver->getPageSource(), 'Stack trace'));
+     }
 
+     public static function IntializeWPoowWithAnyErrors_WP_BeforeRun(){
+         $wpOOW = new wpAPI();
+
+     }
+
+     /**
+      * @browserRequired
+      * @WP_BeforeRun CanCreatePostType_WP_BeforeRun
+      */
+     function testCanCreatePostType()
+     {
+         $this->loginToWPAdmin();
+         $menuitem = $this->LocatedMenuItem(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+         $this->assertTrue($menuitem != null);
+         $this->assertTrue($this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']));
+     }
+
+     public static function CanCreatePostType_WP_BeforeRun(){
+         $wpOOW = new wpAPI();
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
+         $wpOOWTestPage->render();
+     }
+
+     /**
+      * @browserRequired
+      * @WP_BeforeRun CanPublishPostType_WP_BeforeRun
+      */
+     function testCanPublishPostType(){
+         $this->loginToWPAdmin();
+         $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+     }
+
+     public static function CanPublishPostType_WP_BeforeRun(){
+         $wpOOW = new wpAPI();
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
+         $wpOOWTestPage->render();
+     }
+
+
+     /**
+      * @browserRequired
+      * @WP_BeforeRun CanAddField_WP_BeforeRun
+      */
+    function testCanAddField(){
+        $this->loginToWPAdmin();
+        $this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
+    }
+
+    public static function CanAddField_WP_BeforeRun(){
+         $wpOOW = new wpAPI();
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
+         $wpOOWTestPage->AddField(new Text("_test_text_field" , "Sample Text Field"));
+         $wpOOWTestPage->render();
     }
 
     /**
@@ -27,39 +84,8 @@ include __DIR__.'/../wpAPI.php';
         //check objects
     }
 
-    /**
-     * @browserRequired
-     * @WP_BeforeRun CanCreatePostType_WP_BeforeRun
-     */
-    function testCanCreatePostType()
-    {
-        $this->loginToWPAdmin();
-        $menuitem = $this->LocatedMenuItem(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
-        $this->assertTrue($menuitem != null);
-        $this->NavigateToMenuItems(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
 
-    }
 
-     public static function CanCreatePostType_WP_BeforeRun(){
-         $wpOOW = new wpAPI();
-         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
-         $wpOOWTestPage->render();
-     }
-
-    /**
-     * @browserRequired
-     * @WP_BeforeRun IntializeWPoowWithAnyErrors_WP_BeforeRun
-     */
-    function testIntializeWPoowWithAnyErrors(){
-        $driver = $this->GetSeleniumDriver();
-        $this->loginToWPAdmin();
-        $this->assertFalse(strpos( $driver->getPageSource(), 'Stack trace'));
-    }
-
-    public static function IntializeWPoowWithAnyErrors_WP_BeforeRun(){
-       $wpOOW = new wpAPI();
-
-    }
 
     /**
      * @browserRequired

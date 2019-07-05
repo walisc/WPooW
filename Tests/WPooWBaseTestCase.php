@@ -4,6 +4,7 @@ namespace WPooWTests;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use mysql_xdevapi\Exception;
 use WPSelenium\WPSTestCase;
 
@@ -77,6 +78,7 @@ class WPooWBaseTestCase extends WPSTestCase{
 
     protected function EditPost($postTypeID, $postId, $fields=[]){
         $this->NavigateToMenuItems($postTypeID);
+
         $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
         $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
 
@@ -86,6 +88,34 @@ class WPooWBaseTestCase extends WPSTestCase{
         $this->InsertValuesToPostTypeForm($postTypeID, $fields);
 
         $this->driver->findElement(WebDriverBy::id("publish"))->click();
+
+        try {
+            $this->driver->wait(10, 1000)->until(
+                WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('message'))
+            );
+
+            return strpos( $this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))->getAttribute("innerText"), 'Post updated') !== false; //TODO: Localization, and case insentivity
+        }catch (NoSuchElementException $e){
+            //TODO: Log
+        }
+        return false;
+
+    }
+
+    protected function DeletePost($postTypeID, $postId, $fields=[]){
+        $this->NavigateToMenuItems($postTypeID);
+        $initial_count = $this->GetPageCount();
+
+        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
+        $deleteLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='trash']/a"));
+        $this->GetWebPage($deleteLink->getAttribute('href'));
+
+
+        if ($initial_count-1 != $this->GetPageCount()){
+            return false;
+        }
+        return true;
+
     }
 
     protected function HasFieldInPostTypeGrid($postTypeID, $field){

@@ -1,7 +1,8 @@
 <?php
 
 
-
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\WebDriverBy;
 use WPooWTests\WPooWBaseTestCase;
 
 include __DIR__.'/../wpAPI.php';
@@ -79,7 +80,6 @@ include __DIR__.'/../wpAPI.php';
         $this->NavigateToMenuItems(self::$sample_post_type1['id']);
         $FieldInPostTypeGrid= $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
         $FieldInPostTypeAddForm = $this->HasFieldInPostTypeAddForm(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
-        //$checkIfFieldIsThere = $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
         $this->assertTrue($FieldInPostTypeGrid && $FieldInPostTypeAddForm);
 
     }
@@ -99,19 +99,22 @@ include __DIR__.'/../wpAPI.php';
     function testCanEditPostType(){
         $this->loginToWPAdmin();
         $postID = $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['fields']);
-        $this->EditPost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']);
+        $this->assertTrue($this->EditPost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']));
+
+        $this->expectException(NoSuchElementException::class);
+        $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${$postID}']"));
     }
 
 
     /**
      * @browserRequired
-     * @WP_BeforeRun: testCanDeletePostType_WP_BeforeRun
+     * @WP_BeforeRun AddField_WP_BeforeRun
      */
-    function testCanDeletePostType(){
-        // click on delete        // edict text
-        // save
-        //check saving
-        // go back
+    function testCanDeletePostType()
+    {
+        $this->loginToWPAdmin();
+        $postID = $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['fields']);
+        $this->assertTrue($this->DeletePost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']));
     }
 
 

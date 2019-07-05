@@ -14,7 +14,8 @@ include __DIR__.'/../wpAPI.php';
          'fields' => [
              [
                  'id' => '_test_text_field',
-                 'label' => 'Sample Text Field'
+                 'label' => 'Sample Text Field',
+                 'test_value' => 'Sample Text'
              ]
          ]
      ];
@@ -59,7 +60,7 @@ include __DIR__.'/../wpAPI.php';
       */
      function testCanPublishPostType(){
          $this->loginToWPAdmin();
-         $this->assertTrue($this->PublishPostType(self::$sample_post_type1['id']));
+         $this->assertTrue($this->PublishPostType(self::$sample_post_type1['id']) != null);
      }
 
      public static function CanPublishPostType_WP_BeforeRun(){
@@ -71,18 +72,20 @@ include __DIR__.'/../wpAPI.php';
 
      /**
       * @browserRequired
-      * @WP_BeforeRun CanAddField_WP_BeforeRun
+      * @WP_BeforeRun AddField_WP_BeforeRun
       */
     function testCanAddField(){
         $this->loginToWPAdmin();
         $this->NavigateToMenuItems(self::$sample_post_type1['id']);
-        $checkIfFieldIsThere = $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
-        $this->assertTrue($checkIfFieldIsThere);
+        $FieldInPostTypeGrid= $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
+        $FieldInPostTypeAddForm = $this->HasFieldInPostTypeAddForm(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
+        //$checkIfFieldIsThere = $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
+        $this->assertTrue($FieldInPostTypeGrid && $FieldInPostTypeAddForm);
 
     }
 
 
-    public static function CanAddField_WP_BeforeRun(){
+    public static function AddField_WP_BeforeRun(){
          $wpOOW = new wpAPI();
          $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
          $wpOOWTestPage->AddField(new Text( self::$sample_post_type1['fields'][0]['id'] ,  self::$sample_post_type1['fields'][0]['label']));
@@ -91,14 +94,12 @@ include __DIR__.'/../wpAPI.php';
 
     /**
      * @browserRequired
-     * @WP_BeforeRun testCanEditPostType_WP_BeforeRun
+     * @WP_BeforeRun AddField_WP_BeforeRun
      */
     function testCanEditPostType(){
-        // click on one
-        // edict text
-        // save
-        //check saving
-        // go back
+        $this->loginToWPAdmin();
+        $postID = $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['fields']);
+        $this->EditPost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']);
     }
 
 

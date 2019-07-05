@@ -38,29 +38,54 @@ class WPooWBaseTestCase extends WPSTestCase{
         }
         $menu_item["li"]->click();
         $this->waitForPageToLoad();
-        if (!strpos($this->driver->getCurrentURL(), "edit.php?post_type=${id}")){
+        if (strpos($this->driver->getCurrentURL(), "edit.php?post_type=${id}") === false){
             return false;
         }
         return true;
     }
 
+    private function InsertValuesToPostTypeForm($postTypeID, $fields){
+        foreach ($fields as $field){
+            if (array_key_exists('test_value', $field)){
+                $postTypeFieldID = "${postTypeID}_${field['id']}";
+                $input = $this->driver->findElement(WebDriverBy::xpath("//input[@id='${postTypeFieldID}']"));
 
+                //TODO: Create field type processor
+                $input->click();
+                $this->driver->getKeyboard()->sendKeys($field['test_value']);
+            }
+        }
+    }
 
-    protected function PublishPostType($id){
+    protected function PublishPostType($id, $fields=[]){
         $this->NavigateToMenuItems($id);
         $initial_count = $this->GetPageCount();
 
         $this->GoToAddPage($id);
 
-        $publish_button = $this->driver->findElement(WebDriverBy::id("publish"));
-        $publish_button->click();
+        $this->InsertValuesToPostTypeForm($id, $fields);
+
+        $this->driver->findElement(WebDriverBy::id("publish"))->click();
 
         $this->NavigateToMenuItems($id);
 
-        if ($initial_count+1 == $this->GetPageCount()){
-            return true;
+        if ($initial_count+1 != $this->GetPageCount()){
+            return null;
         }
-        return false;
+        return $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
+    }
+
+    protected function EditPost($postTypeID, $postId, $fields=[]){
+        $this->NavigateToMenuItems($postTypeID);
+        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
+        $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
+
+
+        $this->GetWebPage($editLink->getAttribute('href'));
+
+        $this->InsertValuesToPostTypeForm($postTypeID, $fields);
+
+        $this->driver->findElement(WebDriverBy::id("publish"))->click();
     }
 
     protected function HasFieldInPostTypeGrid($postTypeID, $field){
@@ -77,12 +102,35 @@ class WPooWBaseTestCase extends WPSTestCase{
         return false;
     }
 
-    protected function HasFieldInPostTypeAddForm(){
 
+    protected function HasFieldInPostTypeAddForm($postTypeID,$field){
+        try {
+            $this->GoToAddPage($postTypeID);
+            return $this->CheckElementExistsOnPostTypePage($postTypeID,$field);
+        }catch(NoSuchElementException $e)
+        {
+            //TODO: Log
+        }
+        return false;
     }
 
     protected function HasFieldInPostTypeEditForm(){
 
+    }
+
+    private function  CheckElementExistsOnPostTypePage($postTypeID,$field){
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
+        if (strpos($postbox->getAttribute('class'), 'postbox') === false){
+            return false;
+        }
+
+        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}']"));
+
+        if (array_key_exists('type', $field) && $input->getAttribute('type') != $field['type']){
+            return false;
+        }
+        return true;
     }
 
 

@@ -5,3 +5,5 @@
 //test options
 
 //selenium static
+// pemissions
+//menues

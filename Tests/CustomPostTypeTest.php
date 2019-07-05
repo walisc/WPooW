@@ -7,9 +7,9 @@ use WPooWTests\WPooWBaseTestCase;
 
 include __DIR__.'/../wpAPI.php';
 
- class CustomPostTypeTest extends WPooWBaseTestCase{
-
-     private static $sample_post_type1 = [
+ class CustomPostTypeTest extends WPooWBaseTestCase
+ {
+     private static $samplePostType1 = [
          'id' => '_wpoow_test_menu',
          'title' => 'WPooW Test Menu',
          'fields' => [
@@ -22,100 +22,98 @@ include __DIR__.'/../wpAPI.php';
      ];
 
      /**
-      * @browserRequired
-      * @WP_BeforeRun IntializeWPoowWithAnyErrors_WP_BeforeRun
+      * @WP_BeforeRun initializesWithOutAnyErrorsWPBeforeRun
       */
-     function testIntializeWPoowWithAnyErrors(){
+     public function testInitializesWithOutAnyErrors()
+     {
          $this->loginToWPAdmin();
          $this->assertFalse(strpos($this->driver->getPageSource(), 'Stack trace'));
      }
 
-     public static function IntializeWPoowWithAnyErrors_WP_BeforeRun(){
-         $wpOOW = new wpAPI();
-     }
 
      /**
-      * @browserRequired
-      * @WP_BeforeRun CanCreatePostType_WP_BeforeRun
+      * @WP_BeforeRun createPostTypeWPBeforeRun
       */
-     function testCanCreatePostType()
+     public function testCanCreatePostType()
      {
+         $canNavigate = false;
+
          $this->loginToWPAdmin();
-         $menuitem = $this->LocatedMenuItem(self::$sample_post_type1['id'], self::$sample_post_type1['title']);
-         $this->assertTrue($menuitem != null);
-         if ($menuitem){
-             $this->assertTrue($this->NavigateToMenuItems(self::$sample_post_type1['id']));
+         $this->navigateToMenuItems(self::$samplePostType1['id']);
+
+         if (strpos($this->driver->getCurrentURL(), sprintf("edit.php?post_type=%s", self::$samplePostType1['id'])) !== false) {
+             $canNavigate = true;
          }
 
+         $this->assertTrue($canNavigate);
      }
 
-     public static function CanCreatePostType_WP_BeforeRun(){
-         $wpOOW = new wpAPI();
-         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
-         $wpOOWTestPage->render();
-     }
 
      /**
-      * @browserRequired$checkIfFieldIsThere
-      * @WP_BeforeRun CanPublishPostType_WP_BeforeRun
+      * @WP_BeforeRun createPostTypeWPBeforeRun
       */
-     function testCanPublishPostType(){
+     public function testCanPublishPostType()
+     {
          $this->loginToWPAdmin();
-         $this->assertTrue($this->PublishPostType(self::$sample_post_type1['id']) != null);
+         $this->assertTrue($this->addPost(self::$samplePostType1['id']) != null);
      }
 
-     public static function CanPublishPostType_WP_BeforeRun(){
-         $wpOOW = new wpAPI();
-         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
-         $wpOOWTestPage->render();
+     /**
+      * @WP_BeforeRun addFieldWPBeforeRun
+      */
+     public function testCanAddField()
+     {
+         $this->loginToWPAdmin();
+         $this->navigateToMenuItems(self::$samplePostType1['id']);
+         $FieldInPostTypeGrid= $this->hasFieldInPostTypeGrid(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
+         $FieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
+         $this->assertTrue($FieldInPostTypeGrid && $FieldInPostTypeAddForm);
+     }
+
+     /**
+      * @WP_BeforeRun addFieldWPBeforeRun
+      */
+     public function testCanEditPostType()
+     {
+         $this->loginToWPAdmin();
+         $postID = $this->addPost(self::$samplePostType1['id'], self::$samplePostType1['fields']);
+         $this->assertTrue($this->editPost(self::$samplePostType1['id'], $postID, self::$samplePostType1['fields']));
+
+         $this->expectException(NoSuchElementException::class);
+         $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postID}']"));
      }
 
 
      /**
-      * @browserRequired
-      * @WP_BeforeRun AddField_WP_BeforeRun
+      * @WP_BeforeRun addFieldWPBeforeRun
       */
-    function testCanAddField(){
-        $this->loginToWPAdmin();
-        $this->NavigateToMenuItems(self::$sample_post_type1['id']);
-        $FieldInPostTypeGrid= $this->HasFieldInPostTypeGrid(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
-        $FieldInPostTypeAddForm = $this->HasFieldInPostTypeAddForm(self::$sample_post_type1['id'], self::$sample_post_type1['fields'][0]);
-        $this->assertTrue($FieldInPostTypeGrid && $FieldInPostTypeAddForm);
-
-    }
+     public function testCanDeletePostType()
+     {
+         $this->loginToWPAdmin();
+         $postID = $this->addPost(self::$samplePostType1['id'], self::$samplePostType1['fields']);
+         $this->assertTrue($this->deletePost(self::$samplePostType1['id'], $postID, self::$samplePostType1['fields']));
+     }
 
 
-    public static function AddField_WP_BeforeRun(){
+     // WP_BEFORE RUN FUNCTIONS //
+     
+     public static function initializesWithOutAnyErrorsWPBeforeRun()
+     {
+         new wpAPI();
+     }
+
+     public static function createPostTypeWPBeforeRun()
+     {
          $wpOOW = new wpAPI();
-         $wpOOWTestPage = $wpOOW->CreatePostType(self::$sample_post_type1['id'], self::$sample_post_type1['title'], true);
-         $wpOOWTestPage->AddField(new Text( self::$sample_post_type1['fields'][0]['id'] ,  self::$sample_post_type1['fields'][0]['label']));
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
          $wpOOWTestPage->render();
-    }
+     }
 
-    /**
-     * @browserRequired
-     * @WP_BeforeRun AddField_WP_BeforeRun
-     */
-    function testCanEditPostType(){
-        $this->loginToWPAdmin();
-        $postID = $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['fields']);
-        $this->assertTrue($this->EditPost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']));
-
-        $this->expectException(NoSuchElementException::class);
-        $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${$postID}']"));
-    }
-
-
-    /**
-     * @browserRequired
-     * @WP_BeforeRun AddField_WP_BeforeRun
-     */
-    function testCanDeletePostType()
-    {
-        $this->loginToWPAdmin();
-        $postID = $this->PublishPostType(self::$sample_post_type1['id'], self::$sample_post_type1['fields']);
-        $this->assertTrue($this->DeletePost(self::$sample_post_type1['id'], $postID, self::$sample_post_type1['fields']));
-    }
-
-
-}
+     public static function addFieldWPBeforeRun()
+     {
+         $wpOOW = new wpAPI();
+         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
+         $wpOOWTestPage->AddField(new Text(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
+         $wpOOWTestPage->render();
+     }
+ }

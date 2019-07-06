@@ -5,7 +5,7 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
 use WPooWTests\WPooWBaseTestCase;
 
-include __DIR__.'/../wpAPI.php';
+include_once __DIR__.'/../wpAPI.php';
 
  class CustomPostTypeTest extends WPooWBaseTestCase
  {
@@ -65,9 +65,9 @@ include __DIR__.'/../wpAPI.php';
      {
          $this->loginToWPAdmin();
          $this->navigateToMenuItems(self::$samplePostType1['id']);
-         $FieldInPostTypeGrid= $this->hasFieldInPostTypeGrid(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
-         $FieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
-         $this->assertTrue($FieldInPostTypeGrid && $FieldInPostTypeAddForm);
+         $fieldInPostTypeGrid= $this->hasFieldInPostTypeGrid(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
+         $fieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
+         $this->assertTrue($fieldInPostTypeGrid && $fieldInPostTypeAddForm);
      }
 
      /**

@@ -55,12 +55,8 @@ class WPooWBaseTestCase extends WPSTestCase
 
     protected function editPost($postTypeID, $postId, $fields=[])
     {
-        $this->navigateToMenuItems($postTypeID);
 
-        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
-        $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
-        $this->GetWebPage($editLink->getAttribute('href'));
-
+        $this->goToEditPage($postTypeID, $postId);
         $this->insertValuesToPostTypeForm($postTypeID, $fields);
         $this->driver->findElement(WebDriverBy::id("publish"))->click();
 
@@ -107,17 +103,68 @@ class WPooWBaseTestCase extends WPSTestCase
     }
 
 
-    protected function hasFieldInPostTypeAddForm($postTypeID, $field)
+    protected function hasFieldInPostTypeAddForm($postTypeID, $field, $fieldIDTag)
     {
         try {
             $this->goToAddPage($postTypeID);
-            return $this->checkElementExistsOnPostTypePage($postTypeID, $field);
+            return $this->checkElementExistsOnPostTypePage($postTypeID, $field, $fieldIDTag);
         } catch (NoSuchElementException $e) {
             //TODO: Log
         }
         return false;
     }
 
+    protected function goToAddPage($postTypeID)
+    {
+        $this->navigateToMenuItems($postTypeID);
+        //TODO: Think about localization
+        $addButton = $this->driver->findElement(WebDriverBy::xpath("//a[@class='page-title-action' and text()='Add New']"));
+        $addButton->click();
+    }
+
+    protected function goToEditPage($postTypeID, $postId)
+    {
+        $this->navigateToMenuItems($postTypeID);
+
+        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
+        $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
+        $this->GetWebPage($editLink->getAttribute('href'));
+    }
+
+    public static function uploadTestFile($imageName){
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        require_once(ABSPATH . WPINC . '/post.php' );
+        require_once(ABSPATH . WPINC . '/pluggable.php' );
+
+        global $wpdb;
+
+        $imagePath = __DIR__. "/images/${imageName}";
+
+        $uploadDir  = WP_CONTENT_DIR . '/uploads';
+        $newFilePath = "${uploadDir}/${imageName}";
+
+        if (!file_exists($newFilePath)){
+            copy($imagePath, $newFilePath);
+
+        }
+
+        $attachment = array(
+            'guid' => $newFilePath,
+            'post_mime_type' =>  wp_get_image_mime( $imagePath ),
+            'post_title' => preg_replace('/\.[^.]+$/', '', basename( $imageName ) ),
+            'post_content' => '',
+            'post_status' => 'inherit'
+        );
+
+
+        if ($wpdb->get_var( $wpdb->prepare( sprintf("SELECT ID FROM $wpdb->posts WHERE post_title='%s' AND post_type='attachment'", $attachment['post_title']), [] ) ) == null){
+
+            $id = wp_insert_attachment( $attachment, basename( $imageName ), 0 ,true );
+            if ( !is_wp_error($id) ) {
+                wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $newFilePath ) );
+            }
+        }
+    }
 
     private function insertValuesToPostTypeForm($postTypeID, $fields)
     {
@@ -133,7 +180,7 @@ class WPooWBaseTestCase extends WPSTestCase
         }
     }
 
-    private function checkElementExistsOnPostTypePage($postTypeID, $field)
+    private function checkElementExistsOnPostTypePage($postTypeID, $field, $fieldIDTag='')
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
@@ -142,7 +189,7 @@ class WPooWBaseTestCase extends WPSTestCase
             return false;
         }
 
-        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}']"));
+        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
         if (array_key_exists('type', $field) && $input->getAttribute('type') != $field['type']) {
             return false;
         }
@@ -165,11 +212,4 @@ class WPooWBaseTestCase extends WPSTestCase
         return $element->getAttribute('innerText');
     }
 
-    private function goToAddPage($postTypeID)
-    {
-        $this->navigateToMenuItems($postTypeID);
-        //TODO: Think about localization
-        $addButton = $this->driver->findElement(WebDriverBy::xpath("//a[@class='page-title-action' and text()='Add New']"));
-        $addButton->click();
-    }
 }

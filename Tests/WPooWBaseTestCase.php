@@ -107,7 +107,7 @@ class WPooWBaseTestCase extends WPSTestCase
     {
         try {
             $this->goToAddPage($postTypeID);
-            return $this->checkElementExistsOnPostTypePage($postTypeID, $field, $fieldIDTag);
+            return $this->getElementOnPostTypePage($postTypeID, $field, $fieldIDTag) != null;
         } catch (NoSuchElementException $e) {
             //TODO: Log
         }
@@ -129,6 +129,22 @@ class WPooWBaseTestCase extends WPSTestCase
         $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
         $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
         $this->GetWebPage($editLink->getAttribute('href'));
+    }
+
+    protected function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag='')
+    {
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
+
+        if (strpos($postbox->getAttribute('class'), 'postbox') === false) {
+            return null;
+        }
+
+        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
+        if (array_key_exists('type', $field) && $input->getAttribute('type') != $field['type']) {
+            return null;
+        }
+        return $input;
     }
 
     public static function uploadTestFile($imageName){
@@ -180,21 +196,7 @@ class WPooWBaseTestCase extends WPSTestCase
         }
     }
 
-    private function checkElementExistsOnPostTypePage($postTypeID, $field, $fieldIDTag='')
-    {
-        $postTypeFieldID = "${postTypeID}_${field['id']}";
-        $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
 
-        if (strpos($postbox->getAttribute('class'), 'postbox') === false) {
-            return false;
-        }
-
-        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
-        if (array_key_exists('type', $field) && $input->getAttribute('type') != $field['type']) {
-            return false;
-        }
-        return true;
-    }
 
     private function getPageCount()
     {

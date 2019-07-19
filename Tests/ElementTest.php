@@ -25,6 +25,12 @@ class ElementTest extends WPooWBaseTestCase
         ]
     ];
 
+    private static $multimedia = [
+      'images' => [
+          'testImage1.png'
+      ]
+    ];
+
     /**
      * @WP_BeforeRun createUploaderBasicWPBeforeRun
      */
@@ -35,6 +41,37 @@ class ElementTest extends WPooWBaseTestCase
         $this->assertTrue($fieldInPostTypeGrid && $fieldInPostTypeAddForm);
 
     }
+
+    /**
+     * @WP_BeforeRun createUploaderBasicWPBeforeRun
+     */
+    public function testCanInteractWithUploader(){
+        $this->loginToWPAdmin();
+        $this->goToAddPage(self::$samplePostType1['id']);
+        $uploadButton = $this->getElementOnPostTypePage(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],'_upload_button');
+        $uploadButton->click();
+
+        $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
+
+        $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/li"), $mediaModal)->click();
+        $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
+
+        $this->driver->findElement(WebDriverBy::id("publish"))->click();
+
+        //TODO: Check on post page
+        $this->navigateToMenuItems(self::$samplePostType1['id']);
+
+        $newPost = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"));
+        $imageData = $newPost->findElement(WebDriverBy::xpath(sprintf("//td[contains(@class, '%s_%s')]", self::$samplePostType1['id'], self::$samplePostType1['fields'][0]['id'])));
+        $imageURL = $imageData->findElement(WebDriverBy::xpath("descendant::img"))->getAttribute('src');
+
+        $imageNameArr = explode('.',self::$multimedia['images'][0]);
+        $imageName = implode("",array_slice($imageNameArr,0, count($imageNameArr) -1));
+        $this->assertTrue(strpos($imageURL, $imageName) > 0);
+
+
+    }
+
 
     /**
      * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRun
@@ -53,7 +90,7 @@ class ElementTest extends WPooWBaseTestCase
     public static function  createUploaderBasicWPBeforeRun()
     {
 
-        self::uploadTestFile('testImage.png');
+        self::uploadTestFile( self::$multimedia['images'][0]);
 
         $wpOOW = new wpAPI();
         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);

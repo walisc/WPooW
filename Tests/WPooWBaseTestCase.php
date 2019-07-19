@@ -167,7 +167,7 @@ class WPooWBaseTestCase extends WPSTestCase
         $attachment = array(
             'guid' => $newFilePath,
             'post_mime_type' =>  wp_get_image_mime( $imagePath ),
-            'post_title' => preg_replace('/\.[^.]+$/', '', basename( $imageName ) ),
+            'post_title' => basename( $imageName ) ,
             'post_content' => '',
             'post_status' => 'inherit'
         );

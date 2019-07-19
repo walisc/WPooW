@@ -5,9 +5,9 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
 use WPooWTests\WPooWBaseTestCase;
 
-include_once __DIR__.'/../wpAPI.php';
+include_once __DIR__ . '/../../wpAPI.php';
 
-class ElementTest extends WPooWBaseTestCase
+class UploadTest extends WPooWBaseTestCase
 {
     //TODO: Move this to base method
 
@@ -31,7 +31,8 @@ class ElementTest extends WPooWBaseTestCase
 
     private static $multimedia = [
       'images' => [
-          'testImage1.png'
+          'testImage1.jpg',
+          'testImage2.jpg'
       ]
     ];
 
@@ -44,7 +45,7 @@ class ElementTest extends WPooWBaseTestCase
 
         $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
 
-        $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/li"), $mediaModal)->click();
+        $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/descendant::li[@aria-label='${imageName}']"), $mediaModal)->click();
         $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
 
         $this->driver->findElement(WebDriverBy::id("publish"))->click();
@@ -103,6 +104,9 @@ class ElementTest extends WPooWBaseTestCase
      */
     public function testCanHaveMultipleUploadersOnOnePage(){
         $this->loginToWPAdmin();
+        $postID = $this->addPost(self::$samplePostType1['id']);
+        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],self::$multimedia['images'][0], $postID));
+        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][1],self::$multimedia['images'][1], $postID));
     }
 
 
@@ -114,6 +118,7 @@ class ElementTest extends WPooWBaseTestCase
     {
 
         self::uploadTestFile( self::$multimedia['images'][0]);
+        self::uploadTestFile( self::$multimedia['images'][1]);
 
         $wpOOW = new wpAPI();
         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
@@ -123,6 +128,9 @@ class ElementTest extends WPooWBaseTestCase
 
     public static function  createUploaderWithOtherSettingsWPBeforeRun()
     {
+        self::uploadTestFile( self::$multimedia['images'][0]);
+        self::uploadTestFile( self::$multimedia['images'][1]);
+
         $wpOOW = new wpAPI();
         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
         $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], [], "Picker", "Select", true ));
@@ -131,6 +139,9 @@ class ElementTest extends WPooWBaseTestCase
 
     public static function  createMultipleUploadersWPBeforeRun()
     {
+        self::uploadTestFile( self::$multimedia['images'][0]);
+        self::uploadTestFile( self::$multimedia['images'][1]);
+
         $wpOOW = new wpAPI();
         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
         $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));

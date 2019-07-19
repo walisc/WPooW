@@ -9,6 +9,10 @@ include_once __DIR__.'/../wpAPI.php';
 
  class CustomPostTypeTest extends WPooWBaseTestCase
  {
+     /**************************
+     / HELP DATA & FUNCTIONS   *
+     /**************************/
+
      private static $samplePostType1 = [
          'id' => '_wpoow_test_menu',
          'title' => 'WPooW Test Menu',
@@ -20,6 +24,10 @@ include_once __DIR__.'/../wpAPI.php';
              ]
          ]
      ];
+
+     /**************************
+     / TESTS                   *
+     /**************************/
 
      /**
       * @WP_BeforeRun initializesWithOutAnyErrorsWPBeforeRun
@@ -95,8 +103,10 @@ include_once __DIR__.'/../wpAPI.php';
      }
 
 
-     // WP_BEFORE RUN FUNCTIONS //
-     
+     /**************************
+     / WP_BEFORE RUN FUNCTIONS *
+     /**************************/
+
      public static function initializesWithOutAnyErrorsWPBeforeRun()
      {
          new wpAPI();

@@ -36,7 +36,14 @@ class UploadTest extends WPooWBaseTestCase
       ]
     ];
 
-    private function uploadImageUsingField($postTypeID, $uploadField, $imageName, $postID=null){
+    private static $uploadBtnProperties =[
+        [
+            'modalTitle' => 'Picker',
+            'modalSubmitBtn' => 'Select'
+        ]
+    ];
+
+    private function uploadImageUsingField($postTypeID, $uploadField, $imageNames, $postID=null){
 
         $postID != null ? $this->goToEditPage($postTypeID, $postID ) :  $this->goToAddPage($postTypeID);
 
@@ -45,9 +52,11 @@ class UploadTest extends WPooWBaseTestCase
 
         $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
 
-        $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/descendant::li[@aria-label='${imageName}']"), $mediaModal)->click();
-        $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
+        foreach($imageNames as $imageName){
+            $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/descendant::li[@aria-label='${imageName}']"), $mediaModal)->click();
+        }
 
+        $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
         $this->driver->findElement(WebDriverBy::id("publish"))->click();
 
         $imageNameArr = explode('.',$imageName);
@@ -93,11 +102,29 @@ class UploadTest extends WPooWBaseTestCase
 
 
     /**
-     * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRunUploader
+     * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRun
      */
     public function testCanCreateUploaderWithOtherSettings(){
         $this->loginToWPAdmin();
+        $this->goToAddPage(self::$samplePostType1['id']);
+
+        $uploadButton = $this->getElementOnPostTypePage(self::$samplePostType1['id'],  self::$samplePostType1['fields'][0],'_upload_button');
+        $uploadButton->click();
+
+        $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
+        $mediaModelTitle = $mediaModal->findElement(WebDriverBy::xpath("descendant::div[@class='media-frame-title']/h1"))->getAttribute('innerText');
+        $mediaModelSubmitBtnText = $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->getAttribute('innerText');
+        $this->assertTrue($mediaModelTitle == self::$uploadBtnProperties[0]['modalTitle'] && $mediaModelSubmitBtnText == self::$uploadBtnProperties[0]['modalSubmitBtn']);
     }
+
+    /**
+     * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRun
+     */
+    public function testCanUploaderTwoAtOnce(){
+        $this->loginToWPAdmin();
+        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],[self::$multimedia['images'][0], self::$multimedia['images'][1] ]));
+    }
+
 
     /**
      * @WP_BeforeRun createMultipleUploadersWPBeforeRun
@@ -133,7 +160,7 @@ class UploadTest extends WPooWBaseTestCase
 
         $wpOOW = new wpAPI();
         $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], [], "Picker", "Select", true ));
+        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], [], self::$uploadBtnProperties[0]['modalTitle'] , self::$uploadBtnProperties[0]['modalSubmitBtn'], "true" ));
         $wpOOWTestPage->render();
     }
 
@@ -148,4 +175,5 @@ class UploadTest extends WPooWBaseTestCase
         $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label']));
         $wpOOWTestPage->render();
     }
+
 }

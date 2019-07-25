@@ -18,11 +18,15 @@ class UploadTest extends WPooWBaseTestCase
         'fields' => [
             [
                 'id' => '_test_upload_field_1',
-                'label' => 'Sample Upload Field 1'
+                'label' => 'Sample Upload Field 1',
+                'type' => 'uploader',
+                'test_value' => ['testImage1.jpg']
             ],
             [
                 'id' => '_test_upload_field_2',
-                'label' => 'Sample Upload Field 2'
+                'label' => 'Sample Upload Field 2',
+                'type' => 'uploader',
+                'test_value' => ['testImage2.jpg']
             ]
         ]
     ];
@@ -43,32 +47,27 @@ class UploadTest extends WPooWBaseTestCase
 
     private function uploadImageUsingField($postTypeID, $uploadField, $imageNames, $postID=null){
 
-        $postID != null ? $this->goToEditPage($postTypeID, $postID ) :  $this->goToAddPage($postTypeID);
-
-        $uploadButton = $this->getElementOnPostTypePage($postTypeID, $uploadField,'_upload_button');
-        $uploadButton->click();
-
-        $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
-
-        foreach($imageNames as $imageName){
-            $this->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/descendant::li[@aria-label='${imageName}']"), $mediaModal)->click();
+        if ($postID != null){
+            $this->editPost($postTypeID, $postID, [$uploadField] );
         }
-
-        $this->findElementWithWait( WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
-        $this->driver->findElement(WebDriverBy::id("publish"))->click();
-
-        $uploadPostBox = $this->driver->findElement(WebDriverBy::xpath(sprintf("//div[@id='%s_%s' and contains(@class,'postbox')]",  $postTypeID, $uploadField['id'] )));
-        $imageURL = $uploadPostBox->findElement(WebDriverBy::xpath("descendant::img"))->getAttribute('src');
-        if (!$this->checkImageUploaded($imageNames,$imageURL)){
-            return false;
+        else {
+            $postID = $this->addPost($postTypeID, [$uploadField]);
         }
 
 
-        $this->navigateToMenuItems($postTypeID);
         $newPost = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"));
         $imageData = $newPost->findElement(WebDriverBy::xpath(sprintf("//td[contains(@class, '%s_%s')]", $postTypeID, $uploadField['id'])));
         $imageURL = $imageData->findElement(WebDriverBy::xpath("descendant::img"))->getAttribute('src');
-        return $this->checkImageUploaded($imageNames,$imageURL);
+
+        if (!$this->checkImageUploaded($uploadField['test_value'],$imageURL)){
+            return false;
+        }
+
+        $this->goToEditPage($postTypeID, $postID);
+        $uploadPostBox = $this->driver->findElement(WebDriverBy::xpath(sprintf("//div[@id='%s_%s' and contains(@class,'postbox')]",  $postTypeID, $uploadField['id'] )));
+        $imageURL = $uploadPostBox->findElement(WebDriverBy::xpath("descendant::img"))->getAttribute('src');
+        return $this->checkImageUploaded($uploadField['test_value'], $imageURL);
+
     }
 
     private function checkImageUploaded($imageNames, $imageURL){
@@ -134,6 +133,13 @@ class UploadTest extends WPooWBaseTestCase
         //TODO: Implement in version v2.0.0
         //$this->loginToWPAdmin();
         //$this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],[self::$multimedia['images'][0], self::$multimedia['images'][1] ]));
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testCanClearUploadField(){
+        //TODO: Implement in version v2.0.0
     }
 
 

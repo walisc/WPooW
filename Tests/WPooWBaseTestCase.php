@@ -9,6 +9,8 @@ use WPSelenium\WPSTestCase;
 
 class WPooWBaseTestCase extends WPSTestCase
 {
+    use WPooWTestsInputer;
+
     protected function locatedMenuItem($id, $title=null)
     {
         try {
@@ -66,11 +68,14 @@ class WPooWBaseTestCase extends WPSTestCase
             );
 
             //TODO: Localization, and case insentivity
-            return strpos($this->getElementInnerText($this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))), 'Post updated') !== false;
+            if (strpos($this->getElementInnerText($this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))), 'Post updated') !== false){
+                $this->navigateToMenuItems($postTypeID);
+                return $postId;
+            }
         } catch (NoSuchElementException $e) {
             //TODO: Log error
         }
-        return false;
+        return $postId;
     }
 
     protected function deletePost($postTypeID, $postId, $fields=[])
@@ -140,11 +145,8 @@ class WPooWBaseTestCase extends WPSTestCase
             return null;
         }
 
-        $input = $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
-        if (array_key_exists('type', $field) && $input->getAttribute('type') != $field['type']) {
-            return null;
-        }
-        return $input;
+       return $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
+
     }
 
     public static function uploadTestFile($imageName){
@@ -186,12 +188,7 @@ class WPooWBaseTestCase extends WPSTestCase
     {
         foreach ($fields as $field) {
             if (array_key_exists('test_value', $field)) {
-                $postTypeFieldID = "${postTypeID}_${field['id']}";
-                $input = $this->driver->findElement(WebDriverBy::xpath("//input[@id='${postTypeFieldID}']"));
-
-                //TODO: Create field type processor
-                $input->click();
-                $this->driver->getKeyboard()->sendKeys($field['test_value']);
+                $this->insertValuesToPostTypeFormForType($postTypeID, $field);
             }
         }
     }
@@ -212,6 +209,22 @@ class WPooWBaseTestCase extends WPSTestCase
     private function getElementInnerText($element)
     {
         return $element->getAttribute('innerText');
+    }
+
+    public function insertValuesToPostTypeFormForType($postTypeID, $field){
+
+        $fieldType = array_key_exists('type', $field) ?  $field['type'] : 'text';
+
+        switch ($fieldType){
+            case 'uploader':
+                $this->inputUploader($postTypeID, $field);
+                break;
+            case 'text' :
+            default:
+                $this->inputText($postTypeID, $field);
+
+        }
+
     }
 
 }

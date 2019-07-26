@@ -11,7 +11,10 @@ class WPooWBaseTestCase extends WPSTestCase
 {
     use WPooWTestsInputer;
 
-    protected function locatedMenuItem($id, $title=null)
+    /**************************
+     * NAVIGATION             *
+     **************************/
+    protected function locatedMenuItem($id, $title = null)
     {
         try {
             $menuItemNameLi = $this->driver->findElement(WebDriverBy::id("menu-posts-${id}"));
@@ -38,87 +41,6 @@ class WPooWBaseTestCase extends WPSTestCase
         $this->waitForPageToLoad();
     }
 
-    protected function addPost($postTypeID, $fields=[])
-    {
-        $this->navigateToMenuItems($postTypeID);
-        $initialCount = $this->getPageCount();
-
-        $this->goToAddPage($postTypeID);
-        $this->insertValuesToPostTypeForm($postTypeID, $fields);
-        $this->driver->findElement(WebDriverBy::id("publish"))->click();
-
-        $this->navigateToMenuItems($postTypeID);
-
-        if ($initialCount+1 != $this->getPageCount()) {
-            return null;
-        }
-        return $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
-    }
-
-    protected function editPost($postTypeID, $postId, $fields=[])
-    {
-
-        $this->goToEditPage($postTypeID, $postId);
-        $this->insertValuesToPostTypeForm($postTypeID, $fields);
-        $this->driver->findElement(WebDriverBy::id("publish"))->click();
-
-        try {
-            $this->driver->wait(10, 1000)->until(
-                WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('message'))
-            );
-
-            //TODO: Localization, and case insentivity
-            if (strpos($this->getElementInnerText($this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))), 'Post updated') !== false){
-                $this->navigateToMenuItems($postTypeID);
-                return $postId;
-            }
-        } catch (NoSuchElementException $e) {
-            //TODO: Log error
-        }
-        return $postId;
-    }
-
-    protected function deletePost($postTypeID, $postId, $fields=[])
-    {
-        $this->navigateToMenuItems($postTypeID);
-        $initialCount = $this->getPageCount();
-
-        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
-        $deleteLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='trash']/a"));
-        $this->GetWebPage($deleteLink->getAttribute('href'));
-
-        if ($initialCount-1 != $this->getPageCount()) {
-            return false;
-        }
-        return true;
-    }
-
-    protected function hasFieldInPostTypeGrid($postTypeID, $field)
-    {
-        try {
-            $this->navigateToMenuItems($postTypeID);
-            $fieldCol = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/thead/tr/th[@id='${postTypeID}_${field['id']}']"));
-            if ($this->getElementInnerText($fieldCol) == $field['label']) {
-                return true;
-            }
-        } catch (NoSuchElementException $e) {
-            //TODO: Log
-        }
-        return false;
-    }
-
-
-    protected function hasFieldInPostTypeAddForm($postTypeID, $field, $fieldIDTag)
-    {
-        try {
-            $this->goToAddPage($postTypeID);
-            return $this->getElementOnPostTypePage($postTypeID, $field, $fieldIDTag) != null;
-        } catch (NoSuchElementException $e) {
-            //TODO: Log
-        }
-        return false;
-    }
-
     protected function goToAddPage($postTypeID)
     {
         $this->navigateToMenuItems($postTypeID);
@@ -136,7 +58,65 @@ class WPooWBaseTestCase extends WPSTestCase
         $this->GetWebPage($editLink->getAttribute('href'));
     }
 
-    protected function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag='')
+    /**************************
+     * POST RELATED           *
+     * ************************/
+    protected function addPost($postTypeID, $fields = [])
+    {
+        $this->navigateToMenuItems($postTypeID);
+        $initialCount = $this->getPageCount();
+
+        $this->goToAddPage($postTypeID);
+        $this->insertValuesToPostTypeForm($postTypeID, $fields);
+        $this->driver->findElement(WebDriverBy::id("publish"))->click();
+
+        $this->navigateToMenuItems($postTypeID);
+
+        if ($initialCount + 1 != $this->getPageCount()) {
+            return null;
+        }
+        return $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
+    }
+
+    protected function editPost($postTypeID, $postId, $fields = [])
+    {
+
+        $this->goToEditPage($postTypeID, $postId);
+        $this->insertValuesToPostTypeForm($postTypeID, $fields);
+        $this->driver->findElement(WebDriverBy::id("publish"))->click();
+
+        try {
+            $this->driver->wait(10, 1000)->until(
+                WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('message'))
+            );
+
+            //TODO: Localization, and case insentivity
+            if (strpos($this->getElementInnerText($this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))), 'Post updated') !== false) {
+                $this->navigateToMenuItems($postTypeID);
+                return $postId;
+            }
+        } catch (NoSuchElementException $e) {
+            //TODO: Log error
+        }
+        return $postId;
+    }
+
+    protected function deletePost($postTypeID, $postId, $fields = [])
+    {
+        $this->navigateToMenuItems($postTypeID);
+        $initialCount = $this->getPageCount();
+
+        $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
+        $deleteLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='trash']/a"));
+        $this->GetWebPage($deleteLink->getAttribute('href'));
+
+        if ($initialCount - 1 != $this->getPageCount()) {
+            return false;
+        }
+        return true;
+    }
+
+    protected function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag = '')
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
@@ -145,41 +125,76 @@ class WPooWBaseTestCase extends WPSTestCase
             return null;
         }
 
-       return $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
+        return $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
 
     }
 
-    public static function uploadTestFile($imageName){
+    protected function hasFieldInPostTypeAddForm($postTypeID, $field, $fieldIDTag)
+    {
+        try {
+            $this->goToAddPage($postTypeID);
+            return $this->getElementOnPostTypePage($postTypeID, $field, $fieldIDTag) != null;
+        } catch (NoSuchElementException $e) {
+            //TODO: Log
+        }
+        return false;
+    }
+
+    /**************************
+     * GRID RELATED           *
+     **************************/
+
+    protected function hasFieldInPostTypeGrid($postTypeID, $field)
+    {
+        try {
+            $this->navigateToMenuItems($postTypeID);
+            $fieldCol = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/thead/tr/th[@id='${postTypeID}_${field['id']}']"));
+            if ($this->getElementInnerText($fieldCol) == $field['label']) {
+                return true;
+            }
+        } catch (NoSuchElementException $e) {
+            //TODO: Log
+        }
+        return false;
+    }
+
+
+    /**************************
+     * HELPER                 *
+     **************************/
+
+    public static function uploadTestFile($imageName)
+    {
         require_once(ABSPATH . 'wp-admin/includes/image.php');
-        require_once(ABSPATH . WPINC . '/post.php' );
-        require_once(ABSPATH . WPINC . '/pluggable.php' );
+        require_once(ABSPATH . WPINC . '/post.php');
+        require_once(ABSPATH . WPINC . '/pluggable.php');
 
         global $wpdb;
 
-        $imagePath = __DIR__. "/images/${imageName}";
+        $imagePath = __DIR__ . "/images/${imageName}";
 
-        $uploadDir  = WP_CONTENT_DIR . '/uploads';
+        $uploadDir = WP_CONTENT_DIR . '/uploads';
         $newFilePath = "${uploadDir}/${imageName}";
 
-        if (!file_exists($newFilePath)){
+        if (!file_exists($newFilePath)) {
             copy($imagePath, $newFilePath);
 
         }
 
         $attachment = array(
             'guid' => $newFilePath,
-            'post_mime_type' =>  wp_get_image_mime( $imagePath ),
-            'post_title' => basename( $imageName ) ,
+            'post_mime_type' => wp_get_image_mime($imagePath),
+            'post_title' => basename($imageName),
             'post_content' => '',
             'post_status' => 'inherit'
         );
 
 
-        if ($wpdb->get_var( $wpdb->prepare( sprintf("SELECT ID FROM $wpdb->posts WHERE post_title='%s' AND post_type='attachment'", $attachment['post_title']), [] ) ) == null){
+        if ($wpdb->get_var($wpdb->prepare(sprintf("SELECT ID FROM $wpdb->posts WHERE post_title='%s' AND post_type='attachment'", $attachment['post_title']), [])) == null) {
 
-            $id = wp_insert_attachment( $attachment, basename( $imageName ), 0 ,true );
-            if ( !is_wp_error($id) ) {
-                wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $newFilePath ) );
+            $id = wp_insert_attachment($attachment, basename($imageName), 0, true);
+            if (!is_wp_error($id)) {
+                wp_update_attachment_metadata($id, wp_generate_attachment_metadata($id, $newFilePath));
             }
         }
     }
@@ -188,11 +203,20 @@ class WPooWBaseTestCase extends WPSTestCase
     {
         foreach ($fields as $field) {
             if (array_key_exists('test_value', $field)) {
-                $this->insertValuesToPostTypeFormForType($postTypeID, $field);
+                $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
+
+                switch ($fieldType) {
+                    case 'uploader':
+                        $this->inputUploader($postTypeID, $field);
+                        break;
+                    case 'text' :
+                    default:
+                        $this->inputText($postTypeID, $field);
+
+                }
             }
         }
     }
-
 
 
     private function getPageCount()
@@ -211,20 +235,5 @@ class WPooWBaseTestCase extends WPSTestCase
         return $element->getAttribute('innerText');
     }
 
-    public function insertValuesToPostTypeFormForType($postTypeID, $field){
-
-        $fieldType = array_key_exists('type', $field) ?  $field['type'] : 'text';
-
-        switch ($fieldType){
-            case 'uploader':
-                $this->inputUploader($postTypeID, $field);
-                break;
-            case 'text' :
-            default:
-                $this->inputText($postTypeID, $field);
-
-        }
-
-    }
 
 }

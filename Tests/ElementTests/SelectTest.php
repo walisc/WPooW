@@ -21,13 +21,13 @@ class SelectTest extends WPooWBaseTestCase
         'title' => 'WPooW Test Menu',
         'fields' => [
             [
-                'id' => '_test_muiltiselect_field_1',
-                'label' => 'Sample Muilti Select Field 1',
+                'id' => '_test_select_field_1',
+                'label' => 'Sample Select Field 1',
                 'type' => 'select'
             ],
             [
-                'id' => '_test_muiltiselect_field_2',
-                'label' => 'Sample Muilti Select Field 2',
+                'id' => '_test_select_field_2',
+                'label' => 'Sample Select Field 2',
                 'type' => 'select'
             ]
         ]
@@ -100,7 +100,7 @@ class SelectTest extends WPooWBaseTestCase
 
         foreach ($fields as $field){
             $fieldValue = $gridValues['fieldData'][$field['id']];
-            $this->assertTrue(array_values($field['test_value'])[0] == $fieldValue->GetText());
+            $this->assertTrue(implode(', ', array_values($field['test_value'])) == $fieldValue->GetText());
         }
 
     }

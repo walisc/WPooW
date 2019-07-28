@@ -3,7 +3,9 @@
 
 namespace WPooWTests;
 
+use Facebook\WebDriver\Interactions\WebDriverActions;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverKeys;
 
 trait WPooWTestsInputer
 {
@@ -37,6 +39,21 @@ trait WPooWTestsInputer
         $selectInput->click();
         $testValue = array_keys($field['test_value'])[0];
         $selectInput->findElement(WebDriverBy::xpath("option[text() = '${testValue}']"))->click();
+    }
+
+    public function inputMultiSelect($postTypeID, $field){
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $selectInput = $this->driver->findElement(WebDriverBy::xpath("//select[@id='${postTypeFieldID}']"));
+        $selectInput->click();
+
+        $action = (new WebDriverActions($this->driver))->keyDown($selectInput, WebDriverKeys::LEFT_CONTROL);
+
+        foreach ($field['test_value'] as $key => $value){
+            $action = $action->click($selectInput->findElement(WebDriverBy::xpath("option[@value = '${key}']")));
+        }
+
+        $action->keyUp($selectInput, WebDriverKeys::LEFT_CONTROL)->perform();
+
     }
 
 

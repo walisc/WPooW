@@ -81,10 +81,3 @@ class DateTimeTest extends WPooWBaseTestCase
     }
 
 }
-
-
-
-
-//Allow changing format
-//Allow selectable between datetime and date
-//disallow the need for micro seconds

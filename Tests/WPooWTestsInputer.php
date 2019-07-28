@@ -31,5 +31,13 @@ trait WPooWTestsInputer
         $this->findElementWithWait(WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
     }
 
+    public function inputSelect($postTypeID, $field){
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $selectInput = $this->driver->findElement(WebDriverBy::xpath("//select[@id='${postTypeFieldID}']"));
+        $selectInput->click();
+        $testValue = array_keys($field['test_value'])[0];
+        $selectInput->findElement(WebDriverBy::xpath("option[text() = '${testValue}']"))->click();
+    }
+
 
 }

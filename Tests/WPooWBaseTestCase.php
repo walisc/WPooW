@@ -34,9 +34,9 @@ class WPooWBaseTestCase extends WPSTestCase
         return null;
     }
 
-    protected function navigateToMenuItems($id)
+    protected function navigateToMenuItems($postTypeID)
     {
-        $menuItem = $this->locatedMenuItem($id);
+        $menuItem = $this->locatedMenuItem($postTypeID);
         $menuItem["li"]->click();
         $this->waitForPageToLoad();
     }
@@ -144,7 +144,7 @@ class WPooWBaseTestCase extends WPSTestCase
      * GRID RELATED           *
      **************************/
 
-    protected function hasFieldInPostTypeGrid($postTypeID, $field)
+    public function hasFieldInPostTypeGrid($postTypeID, $field)
     {
         try {
             $this->navigateToMenuItems($postTypeID);
@@ -156,6 +156,24 @@ class WPooWBaseTestCase extends WPSTestCase
             //TODO: Log
         }
         return false;
+    }
+
+    public function getGridEntry($postTypeID, $postID, $fields=null){
+
+        $this->navigateToMenuItems($postTypeID);
+        $gridData = ['gridEntry' => $this->driver->findElement(WebDriverBy::id($postID)),
+                     'fieldData' => []];
+
+        if ($fields == null){
+            return $gridData['gridEntry'];
+        }
+
+        foreach ($fields as $field){
+            $postTypeFieldID = "${postTypeID}_${field['id']}";
+            $gridData['fieldData'][$field['id']] = $gridData['gridEntry']->findElement(WebDriverBy::xpath("td[contains(@class, '${postTypeFieldID}')]"));
+        }
+
+        return $gridData;
     }
 
 
@@ -208,6 +226,9 @@ class WPooWBaseTestCase extends WPSTestCase
                 switch ($fieldType) {
                     case 'uploader':
                         $this->inputUploader($postTypeID, $field);
+                        break;
+                    case 'select':
+                        $this->inputSelect($postTypeID, $field);
                         break;
                     case 'text' :
                     default:

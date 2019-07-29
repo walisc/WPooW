@@ -15,6 +15,7 @@ trait WPooWTestsInputer
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $input = $this->driver->findElement(WebDriverBy::xpath("//input[@id='${postTypeFieldID}']"));
+        $input->clear();
         $input->click();
         $this->driver->getKeyboard()->sendKeys($field['test_value']);
         return true;
@@ -42,6 +43,7 @@ trait WPooWTestsInputer
         $selectInput->findElement(WebDriverBy::xpath("option[text() = '${testValue}']"))->click();
     }
 
+
     public function inputMultiSelect($postTypeID, $field){
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $selectInput = new WebDriverSelect($this->driver->findElement(WebDriverBy::xpath("//select[@id='${postTypeFieldID}']")));
@@ -53,5 +55,12 @@ trait WPooWTestsInputer
 
     }
 
+    public function assertSelectValueEqual($sampleField, $fieldValue){
+        $this->assertTrue(implode(', ', array_values($sampleField['test_value'])) == $fieldValue->GetText());
+    }
+
+    public function assertTextValueEqual($sampleField, $fieldValue){
+        $this->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
+    }
 
 }

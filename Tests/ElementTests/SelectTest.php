@@ -59,7 +59,7 @@ class SelectTest extends WPooWBaseTestCase
         $this->loginToWPAdmin();
         self::$samplePostType1['fields'][0]['test_value'] =  ['personC' => 'Person C'];
         $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
     }
 
 
@@ -72,8 +72,8 @@ class SelectTest extends WPooWBaseTestCase
         self::$samplePostType1['fields'][1]['test_value'] = ['categoryE' => 'Category E'];
         $postIDa = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
         $postIDb = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][1]]);
-        $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0]]);
-        $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postIDb, [self::$samplePostType1['fields'][1]]);
+        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0]]);
+        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDb, [self::$samplePostType1['fields'][1]]);
 
     }
 
@@ -85,24 +85,15 @@ class SelectTest extends WPooWBaseTestCase
         self::$samplePostType1['fields'][0]['test_value'] = ['personC' => 'Person C'];
         self::$samplePostType1['fields'][1]['test_value'] = ['categoryF' => 'Category F'];
         $postIDa = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
 
         self::$samplePostType1['fields'][0]['test_value'] = ['personD' => 'Person D'];
         self::$samplePostType1['fields'][1]['test_value'] = ['categoryE' => 'Category E'];
         $this->editPost(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
 
     }
 
-    public function assertFieldDataCorrect($postTypeID, $postID, $fields){
-        $gridValues = $this->getGridEntry($postTypeID, $postID,  $fields);
-
-        foreach ($fields as $field){
-            $fieldValue = $gridValues['fieldData'][$field['id']];
-            $this->assertTrue(implode(', ', array_values($field['test_value'])) == $fieldValue->GetText());
-        }
-
-    }
 
 
     /**************************

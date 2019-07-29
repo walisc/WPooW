@@ -176,6 +176,30 @@ class WPooWBaseTestCase extends WPSTestCase
         return $gridData;
     }
 
+    public function assertGridDataCorrect($postTypeID, $postID, $fields){
+        $gridValues = $this->getGridEntry($postTypeID, $postID,  $fields);
+
+        foreach ($fields as $field){
+            $fieldValue = $gridValues['fieldData'][$field['id']];
+            if (array_key_exists('test_value', $field)) {
+                $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
+
+                switch ($fieldType) {
+                    case 'select':
+                        $this->assertSelectValueEqual($field, $fieldValue);
+                        break;
+                    case 'multiselect':
+                        $this->assertSelectValueEqual($field, $fieldValue);
+                        break;
+                    case 'text' :
+                    default:
+                        $this->assertTextValueEqual($field, $fieldValue);
+
+                }
+            }
+        }
+
+    }
 
     /**************************
      * HELPER                 *

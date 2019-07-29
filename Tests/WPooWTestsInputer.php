@@ -22,6 +22,17 @@ trait WPooWTestsInputer
         return true;
     }
 
+    public function inputRichTextArea($postTypeID, $field){
+
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $this->driver->switchTo()->frame("tinymce_${postTypeFieldID}_ifr");
+
+        $richTextFrame = $this->driver->findElement(WebDriverBy::xpath("//body[@id='tinymce']"));
+        $this->driver->executeScript("arguments[0].innerHTML = '${field['test_value']}'", [$richTextFrame]);
+
+        $this->driver->switchTo()->defaultContent();
+    }
+
     public function inputUploader($postTypeID, $field)
     {
         $uploadButton = $this->getElementOnPostTypePage($postTypeID, $field, '_upload_button');

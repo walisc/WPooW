@@ -62,7 +62,6 @@ class SelectTest extends WPooWBaseTestCase
         $this->assertFieldDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
     }
 
-    //Can update
 
     /**
      * @WP_BeforeRun createMultipleSelectElements

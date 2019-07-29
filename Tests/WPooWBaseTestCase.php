@@ -258,6 +258,7 @@ class WPooWBaseTestCase extends WPSTestCase
                         $this->inputMultiSelect($postTypeID, $field);
                         break;
                     case 'text' :
+                    case 'textarea' :
                     default:
                         $this->inputText($postTypeID, $field);
 

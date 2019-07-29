@@ -14,7 +14,8 @@ trait WPooWTestsInputer
     public function inputText($postTypeID, $field)
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
-        $input = $this->driver->findElement(WebDriverBy::xpath("//input[@id='${postTypeFieldID}']"));
+        $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
+        $input = $this->driver->findElement(WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']"));
         $input->clear();
         $input->click();
         $this->driver->getKeyboard()->sendKeys($field['test_value']);

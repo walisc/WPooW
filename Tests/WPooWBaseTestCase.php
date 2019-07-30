@@ -191,6 +191,9 @@ class WPooWBaseTestCase extends WPSTestCase
                     case 'multiselect':
                         $this->assertSelectValueEqual($field, $fieldValue);
                         break;
+                    case 'richtextarea':
+                        $this->assertRichTextAreaValueEqual($field, $fieldValue);
+                        break;
                     case 'text' :
                     default:
                         $this->assertTextValueEqual($field, $fieldValue);

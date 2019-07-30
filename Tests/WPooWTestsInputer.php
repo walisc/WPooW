@@ -3,6 +3,7 @@
 
 namespace WPooWTests;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Interactions\WebDriverActions;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
@@ -27,7 +28,7 @@ trait WPooWTestsInputer
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $this->driver->switchTo()->frame("tinymce_${postTypeFieldID}_ifr");
 
-        $richTextFrame = $this->driver->findElement(WebDriverBy::xpath("//body[@id='tinymce']"));
+        $richTextFrame = $this->findElementWithWait(WebDriverBy::xpath("//body[@id='tinymce']"));
         $this->driver->executeScript("arguments[0].innerHTML = '${field['test_value']}'", [$richTextFrame]);
 
         $this->driver->switchTo()->defaultContent();
@@ -73,6 +74,29 @@ trait WPooWTestsInputer
 
     public function assertTextValueEqual($sampleField, $fieldValue){
         $this->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
+    }
+
+    public function assertRichTextAreaValueEqual($sampleField, $fieldValue){
+        $expectedDom = new \DomDocument();
+        $expectedDom->loadHTML($sampleField['test_value']);
+        $expectedDom->preserveWhiteSpace = false;
+
+        $actualDom = new \DomDocument();
+        $actualDom->loadHTML($fieldValue->getAttribute('innerHTML'));
+        $actualDom->preserveWhiteSpace = false;
+
+        $actualDomBody = $actualDom->getElementsByTagName('body')->item(0);
+
+
+        try{
+            $fieldValue->findElement(WebDriverBy::xpath("descendant::div[@class = 'row-actions']"));
+            $actualDomBody->removeChild($actualDomBody->lastChild);
+            $actualDomBody->removeChild($actualDomBody->lastChild);
+        }
+        catch(NoSuchElementException $e){}
+
+
+        $this->assertEqualXMLStructure($expectedDom->getElementsByTagName('body')->item(0), $actualDomBody);
     }
 
 }

@@ -68,7 +68,7 @@ class TextTest extends WPooWBaseTestCase{
     /**
      * @WP_BeforeRun createMultipleTextElements
      */
-    public function testCanHaveTextElements(){
+    public function testCanHaveMultipleTextElements(){
         $this->loginToWPAdmin();
         $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
         $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);

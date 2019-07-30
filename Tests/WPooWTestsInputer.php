@@ -20,7 +20,6 @@ trait WPooWTestsInputer
         $input->clear();
         $input->click();
         $this->driver->getKeyboard()->sendKeys($field['test_value']);
-        return true;
     }
 
     public function inputRichTextArea($postTypeID, $field){
@@ -68,6 +67,15 @@ trait WPooWTestsInputer
 
     }
 
+    public function inputCheckbox($postTypeID, $field){
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $input = $this->driver->findElement(WebDriverBy::xpath("//input[@id='${postTypeFieldID}' and @type='checkbox']"));
+
+        if (($field['test_value'] && !$input->isSelected()) || (!$field['test_value'] && $input->isSelected())){
+            $input->click();
+        }
+    }
+
     public function assertSelectValueEqual($sampleField, $fieldValue){
         $this->assertTrue(implode(', ', array_values($sampleField['test_value'])) == $fieldValue->GetText());
     }
@@ -97,6 +105,10 @@ trait WPooWTestsInputer
 
 
         $this->assertEqualXMLStructure($expectedDom->getElementsByTagName('body')->item(0), $actualDomBody);
+    }
+
+    public function assertCheckboxValueEqual($sampleField, $fieldValue){
+        $this->assertTrue($sampleField['test_value'] == $fieldValue->findElement(WebDriverBy::xpath("input[@type = 'checkbox']"))->isSelected());
     }
 
 }

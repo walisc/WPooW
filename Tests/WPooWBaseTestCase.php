@@ -194,6 +194,9 @@ class WPooWBaseTestCase extends WPSTestCase
                     case 'richtextarea':
                         $this->assertRichTextAreaValueEqual($field, $fieldValue);
                         break;
+                    case 'checkbox':
+                        $this->assertCheckboxValueEqual($field, $fieldValue);
+                        break;
                     case 'text' :
                     default:
                         $this->assertTextValueEqual($field, $fieldValue);
@@ -262,6 +265,9 @@ class WPooWBaseTestCase extends WPSTestCase
                         break;
                     case 'richtextarea':
                         $this->inputRichTextArea($postTypeID, $field);
+                        break;
+                    case 'checkbox':
+                        $this->inputCheckbox($postTypeID, $field);
                         break;
                     case 'text' :
                     case 'textarea' :

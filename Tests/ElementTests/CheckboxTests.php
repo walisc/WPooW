@@ -95,9 +95,3 @@ class CheckboxTests extends WPooWBaseTestCase{
     }
 }
 
-
-
-
-// can select
-// can update
-// can have multiple

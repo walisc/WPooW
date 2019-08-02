@@ -11,6 +11,12 @@ class WPooWBaseTestCase extends WPSTestCase
 {
     use WPooWTestsInputer;
 
+    function setUp()
+    {
+        parent::setUp();
+        $this->setUpElementInputer();
+    }
+
     /**************************
      * NAVIGATION             *
      **************************/
@@ -184,23 +190,11 @@ class WPooWBaseTestCase extends WPSTestCase
             if (array_key_exists('test_value', $field)) {
                 $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
 
-                switch ($fieldType) {
-                    case 'select':
-                        $this->assertSelectValueEqual($field, $fieldValue);
-                        break;
-                    case 'multiselect':
-                        $this->assertSelectValueEqual($field, $fieldValue);
-                        break;
-                    case 'richtextarea':
-                        $this->assertRichTextAreaValueEqual($field, $fieldValue);
-                        break;
-                    case 'checkbox':
-                        $this->assertCheckboxValueEqual($field, $fieldValue);
-                        break;
-                    case 'text' :
-                    default:
-                        $this->assertTextValueEqual($field, $fieldValue);
-
+                if (array_key_exists($fieldType, self::$FIELD_MAP)){
+                    $this->elementInputer[$fieldType]->assetValueEqual($field, $fieldValue);
+                }
+                else{
+                    $this->elementInputer[WPooWTestsElements::TEXT]->assetValueEqual($field, $fieldValue);
                 }
             }
         }
@@ -247,34 +241,29 @@ class WPooWBaseTestCase extends WPSTestCase
         }
     }
 
+    public static function createPostType($wpOOW, $postTypeObj){
+        $wpOOWTestPage = $wpOOW->CreatePostType($postTypeObj['id'], $postTypeObj['title'], true);
+
+        foreach ($postTypeObj['fields'] as $field){
+            $wpOOWTestPage->AddField(self::$FIELD_MAP[$field['type']]::createElement($wpOOW, $field));
+        }
+
+        $wpOOWTestPage->render();
+
+    }
+
     private function insertValuesToPostTypeForm($postTypeID, $fields)
     {
         foreach ($fields as $field) {
             if (array_key_exists('test_value', $field)) {
                 $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
-
-                switch ($fieldType) {
-                    case 'uploader':
-                        $this->inputUploader($postTypeID, $field);
-                        break;
-                    case 'select':
-                        $this->inputSelect($postTypeID, $field);
-                        break;
-                    case 'multiselect':
-                        $this->inputMultiSelect($postTypeID, $field);
-                        break;
-                    case 'richtextarea':
-                        $this->inputRichTextArea($postTypeID, $field);
-                        break;
-                    case 'checkbox':
-                        $this->inputCheckbox($postTypeID, $field);
-                        break;
-                    case 'text' :
-                    case 'textarea' :
-                    default:
-                        $this->inputText($postTypeID, $field);
-
+                if (array_key_exists($fieldType, self::$FIELD_MAP)){
+                    $this->elementInputer[$fieldType]->inputValue($postTypeID, $field);
                 }
+                else{
+                    $this->elementInputer[WPooWTestsElements::TEXT]->inputValue($postTypeID, $field);
+                }
+
             }
         }
     }

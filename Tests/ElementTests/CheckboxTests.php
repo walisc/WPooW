@@ -10,19 +10,38 @@ class CheckboxTests extends WPooWBaseTestCase{
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    protected static $samplePostType1 = [
-        'id' => '_wpoow_test_menu',
-        'title' => 'WPooW Test Menu',
-        'fields' => [
-            [
-                'id' => '_test_checkbox_field_1',
-                'label' => 'Sample Checkbox Field 1',
-                'type' => 'checkbox',
-                'test_value' => true
-            ]
-        ]
-    ];
 
+    protected static function getSamplePostTypeData($id){
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
+
+        switch ($id) {
+            case 1:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_checkbox_field_1',
+                    'label' => 'Sample Checkbox Field 1',
+                    'type' => 'checkbox',
+                    'test_value' => true
+                ]];
+                break;
+            case 2:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_checkbox_field_1',
+                    'label' => 'Sample Checkbox Field 1',
+                    'type' => 'checkbox',
+                    'test_value' => true
+                ],
+                    [
+                        'id' => '_test_checkbox_field_2',
+                        'label' => 'Sample Checkbox Field 2',
+                        'type' => 'checkbox',
+                        'test_value' => false
+                    ]];
+                break;
+        }
+
+        return $baseSamplePostType;
+
+    }
 
     /**************************
     / TESTS                   *
@@ -34,8 +53,9 @@ class CheckboxTests extends WPooWBaseTestCase{
      */
     public function testCanInteractWithCheckboxElement(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData = self::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
     }
 
@@ -44,12 +64,13 @@ class CheckboxTests extends WPooWBaseTestCase{
      */
     public function testCanUpdateCheckboxElement(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData = self::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
-        self::$samplePostType1['fields'][0]['test_value'] = false;
-        $this->editPost(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData['fields'][0]['test_value'] = false;
+        $this->editPost($sampleData['id'], $postID, [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
     }
 
@@ -58,9 +79,10 @@ class CheckboxTests extends WPooWBaseTestCase{
      */
     public function testCanHaveMultipleTextElements(){
         $this->loginToWPAdmin();
-        self::$samplePostType1['fields'][1]['test_value'] = true;
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $sampleData = self::getSamplePostTypeData(2);
+        $sampleData['fields'][1]['test_value'] = true;
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0], $sampleData['fields'][1]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0], $sampleData['fields'][1]]);
     }
 
 
@@ -72,18 +94,12 @@ class CheckboxTests extends WPooWBaseTestCase{
 
     public static function createTextElement()
     {
-        self::createPostType(new wpAPI(), self::$samplePostType1);
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(1));
     }
 
     public static function  createMultipleTextElements()
     {
-        array_push(self::$samplePostType1['fields'],[
-            'id' => '_test_checkbox_field_2',
-            'label' => 'Sample Checkbox Field 2',
-            'type' => 'checkbox',
-            'test_value' => false
-        ]);
-        self::createPostType(new wpAPI(), self::$samplePostType1);
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(2));
     }
 }
 

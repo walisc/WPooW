@@ -191,8 +191,8 @@ class UploaderInputer extends WPooWInputerBase implements ElementInputer{
 
     static function createElement($wpOOW, $field)
     {
-        //TODO: Spread operator
-        return new \Uploader($field['id'], $field['label']);
+        $extraArgs = array_key_exists('extra_args', $field) ? $field['extra_args'] : [];
+        return new \Uploader($field['id'], $field['label'], ...array_values($extraArgs));
     }
 }
 
@@ -219,7 +219,8 @@ class SelectInputer extends WPooWInputerBase implements ElementInputer{
 
     static function createElement($wpOOW, $field)
     {
-        return new \Select($field['id'], $field['label'], $field['options']);
+        $extraArgs = array_key_exists('extra_args', $field) ? $field['extra_args'] : [];
+        return new \Select($field['id'], $field['label'], ...array_values($extraArgs));
     }
 }
 
@@ -248,7 +249,8 @@ class MultiSelectorInputer extends WPooWInputerBase implements ElementInputer{
 
     static function createElement($wpOOW, $field)
     {
-        return new \MultiSelect($field['id'], $field['label'], $field['options']);
+        $extraArgs = array_key_exists('extra_args', $field) ? $field['extra_args'] : [];
+        return new \MultiSelect($field['id'], $field['label'], ...array_values($extraArgs));
     }
 }
 

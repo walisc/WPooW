@@ -122,7 +122,7 @@ class WPooWBaseTestCase extends WPSTestCase
         return true;
     }
 
-    protected function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag = '')
+    public function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag = '')
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));

@@ -2,6 +2,7 @@
 
 use Facebook\WebDriver\WebDriverBy;
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsElements;
 
 include_once __DIR__ . '/../../wpAPI.php';
 
@@ -12,24 +13,38 @@ class UploadTest extends WPooWBaseTestCase
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    private static $samplePostType1 = [
-        'id' => '_wpoow_test_menu',
-        'title' => 'WPooW Test Menu',
-        'fields' => [
-            [
-                'id' => '_test_upload_field_1',
-                'label' => 'Sample Upload Field 1',
-                'type' => 'uploader',
-                'test_value' => ['testImage1.jpg']
-            ],
-            [
-                'id' => '_test_upload_field_2',
-                'label' => 'Sample Upload Field 2',
-                'type' => 'uploader',
-                'test_value' => ['testImage2.jpg']
-            ]
-        ]
-    ];
+
+    protected static function getSamplePostTypeData($id){
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
+
+        switch ($id) {
+            case 1:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_upload_field_1',
+                    'label' => 'Sample Upload Field 1',
+                    'type' => WPooWTestsElements::UPLOADER,
+                    'test_value' => ['testImage1.jpg']
+                ]];
+                break;
+            case 2:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_upload_field_1',
+                    'label' => 'Sample Upload Field 1',
+                    'type' => WPooWTestsElements::UPLOADER,
+                    'test_value' => ['testImage1.jpg']
+                ],
+                    [
+                        'id' => '_test_upload_field_2',
+                        'label' => 'Sample Upload Field 2',
+                        'type' => WPooWTestsElements::UPLOADER,
+                        'test_value' => ['testImage2.jpg']
+                    ]];
+                break;
+        }
+
+        return $baseSamplePostType;
+
+    }
 
     private static $multimedia = [
       'images' => [
@@ -93,8 +108,9 @@ class UploadTest extends WPooWBaseTestCase
      */
     public function testCanCreateUploader(){
         $this->loginToWPAdmin();
-        $fieldInPostTypeGrid= $this->hasFieldInPostTypeGrid(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
-        $fieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm(self::$samplePostType1['id'], self::$samplePostType1['fields'][0], '_upload_button');
+        $sampleData = static::getSamplePostTypeData(1);
+        $fieldInPostTypeGrid= $this->hasFieldInPostTypeGrid($sampleData['id'], $sampleData['fields'][0]);
+        $fieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm($sampleData['id'], $sampleData['fields'][0], '_upload_button');
         $this->assertTrue($fieldInPostTypeGrid && $fieldInPostTypeAddForm);
 
     }
@@ -104,7 +120,8 @@ class UploadTest extends WPooWBaseTestCase
      */
     public function testCanInteractWithUploader(){
         $this->loginToWPAdmin();
-        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],[self::$multimedia['images'][0]]));
+        $sampleData = static::getSamplePostTypeData(1);
+        $this->assertTrue($this->uploadImageUsingField($sampleData['id'], $sampleData['fields'][0],[self::$multimedia['images'][0]]));
 
     }
 
@@ -114,9 +131,10 @@ class UploadTest extends WPooWBaseTestCase
      */
     public function testCanCreateUploaderWithOtherSettings(){
         $this->loginToWPAdmin();
-        $this->goToAddPage(self::$samplePostType1['id']);
+        $sampleData = static::getSamplePostTypeData(1);
+        $this->goToAddPage($sampleData['id']);
 
-        $uploadButton = $this->getElementOnPostTypePage(self::$samplePostType1['id'],  self::$samplePostType1['fields'][0],'_upload_button');
+        $uploadButton = $this->getElementOnPostTypePage($sampleData['id'],  $sampleData['fields'][0],'_upload_button');
         $uploadButton->click();
 
         $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
@@ -132,7 +150,7 @@ class UploadTest extends WPooWBaseTestCase
     public function testCanUploaderTwoAtOnce(){
         //TODO: Implement in version v2.0.0
         //$this->loginToWPAdmin();
-        //$this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],[self::$multimedia['images'][0], self::$multimedia['images'][1] ]));
+        //$this->assertTrue($this->uploadImageUsingField($sampleData['id'], $sampleData['fields'][0],[self::$multimedia['images'][0], self::$multimedia['images'][1] ]));
     }
 
     /**
@@ -148,9 +166,10 @@ class UploadTest extends WPooWBaseTestCase
      */
     public function testCanHaveMultipleUploadersOnOnePage(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id']);
-        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][0],[self::$multimedia['images'][0]], $postID));
-        $this->assertTrue($this->uploadImageUsingField(self::$samplePostType1['id'], self::$samplePostType1['fields'][1],[self::$multimedia['images'][1]], $postID));
+        $sampleData = static::getSamplePostTypeData(2);
+        $postID = $this->addPost($sampleData['id']);
+        $this->assertTrue($this->uploadImageUsingField($sampleData['id'], $sampleData['fields'][0],[self::$multimedia['images'][0]], $postID));
+        $this->assertTrue($this->uploadImageUsingField($sampleData['id'], $sampleData['fields'][1],[self::$multimedia['images'][1]], $postID));
     }
 
 
@@ -164,10 +183,7 @@ class UploadTest extends WPooWBaseTestCase
         self::uploadTestFile( self::$multimedia['images'][0]);
         self::uploadTestFile( self::$multimedia['images'][1]);
 
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(1));
     }
 
     public static function  createUploaderWithOtherSettingsWPBeforeRun()
@@ -175,10 +191,14 @@ class UploadTest extends WPooWBaseTestCase
         self::uploadTestFile( self::$multimedia['images'][0]);
         self::uploadTestFile( self::$multimedia['images'][1]);
 
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], [], self::$uploadBtnProperties[0]['modalTitle'] , self::$uploadBtnProperties[0]['modalSubmitBtn'], "true" ));
-        $wpOOWTestPage->render();
+        $sampleData = static::getSamplePostTypeData(1);
+        $sampleData['fields'][0]['extra_args'] = [
+            'permissions' => [],
+            'uploaderTitle' => self::$uploadBtnProperties[0]['modalTitle'],
+            'btnText' =>  self::$uploadBtnProperties[0]['modalSubmitBtn'],
+            'enableMultiple' => true
+        ];
+        self::createPostType(new wpAPI(), $sampleData);
     }
 
     public static function  createMultipleUploadersWPBeforeRun()
@@ -186,11 +206,7 @@ class UploadTest extends WPooWBaseTestCase
         self::uploadTestFile( self::$multimedia['images'][0]);
         self::uploadTestFile( self::$multimedia['images'][1]);
 
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->AddField(new Uploader(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label']));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(2));
     }
 
 }

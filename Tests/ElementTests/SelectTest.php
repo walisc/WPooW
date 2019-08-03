@@ -7,6 +7,7 @@
  */
 
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsElements;
 
 include_once __DIR__ . '/../../wpAPI.php';
 
@@ -16,22 +17,46 @@ class SelectTest extends WPooWBaseTestCase
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    protected static $samplePostType1 = [
-        'id' => '_wpoow_test_menu',
-        'title' => 'WPooW Test Menu',
-        'fields' => [
-            [
-                'id' => '_test_select_field_1',
-                'label' => 'Sample Select Field 1',
-                'type' => 'select'
-            ],
-            [
-                'id' => '_test_select_field_2',
-                'label' => 'Sample Select Field 2',
-                'type' => 'select'
-            ]
-        ]
-    ];
+    protected static function getSamplePostTypeData($id){
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
+
+        switch ($id) {
+            case 1:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_select_field_1',
+                    'label' => 'Sample Select Field 1',
+                    'type' => WPooWTestsElements::SELECT,
+                    'extra_args' => [
+                        'options' => self::$availableOptions[0]
+                    ],
+                    'test_value' =>  ['personC' => 'Person C']
+                ]];
+                break;
+            case 2:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_select_field_1',
+                    'label' => 'Sample Select Field 1',
+                    'type' => WPooWTestsElements::SELECT,
+                    'extra_args' => [
+                        'options' => self::$availableOptions[0]
+                    ],
+                    'test_value' =>  ['personC' => 'Person C']
+                ],
+                    [
+                        'id' => '_test_select_field_2',
+                        'label' => 'Sample Select Field 2',
+                        'type' =>  WPooWTestsElements::SELECT,
+                        'extra_args' => [
+                            'options' => self::$availableOptions[1]
+                        ],
+                        'test_value' =>  ['categoryE' => 'Category E']
+                    ]];
+                break;
+        }
+
+        return $baseSamplePostType;
+
+    }
 
 
     protected static $availableOptions = [
@@ -57,9 +82,9 @@ class SelectTest extends WPooWBaseTestCase
      */
     public function testCanSelectOption(){
         $this->loginToWPAdmin();
-        self::$samplePostType1['fields'][0]['test_value'] =  ['personC' => 'Person C'];
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData = static::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
     }
 
 
@@ -68,12 +93,11 @@ class SelectTest extends WPooWBaseTestCase
      */
     public function testCanLoadMultiple(){
         $this->loginToWPAdmin();
-        self::$samplePostType1['fields'][0]['test_value'] = ['personC' => 'Person C'];
-        self::$samplePostType1['fields'][1]['test_value'] = ['categoryE' => 'Category E'];
-        $postIDa = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $postIDb = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][1]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDb, [self::$samplePostType1['fields'][1]]);
+        $sampleData = static::getSamplePostTypeData(2);
+        $postIDa = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $postIDb = $this->addPost($sampleData['id'], [$sampleData['fields'][1]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postIDa, [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postIDb, [$sampleData['fields'][1]]);
 
     }
 
@@ -82,15 +106,14 @@ class SelectTest extends WPooWBaseTestCase
      */
     public function testCanUpdateSelect(){
         $this->loginToWPAdmin();
-        self::$samplePostType1['fields'][0]['test_value'] = ['personC' => 'Person C'];
-        self::$samplePostType1['fields'][1]['test_value'] = ['categoryF' => 'Category F'];
-        $postIDa = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $sampleData = static::getSamplePostTypeData(2);
+        $postIDa = $this->addPost($sampleData['id'], [$sampleData['fields'][0], $sampleData['fields'][1]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postIDa, [$sampleData['fields'][0], $sampleData['fields'][1]]);
 
-        self::$samplePostType1['fields'][0]['test_value'] = ['personD' => 'Person D'];
-        self::$samplePostType1['fields'][1]['test_value'] = ['categoryE' => 'Category E'];
-        $this->editPost(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postIDa, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $sampleData['fields'][0]['test_value'] = ['personD' => 'Person D'];
+        $sampleData['fields'][1]['test_value'] = ['categoryE' => 'Category E'];
+        $this->editPost($sampleData['id'], $postIDa, [$sampleData['fields'][0], $sampleData['fields'][1]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postIDa, [$sampleData['fields'][0], $sampleData['fields'][1]]);
 
     }
 
@@ -102,19 +125,12 @@ class SelectTest extends WPooWBaseTestCase
 
     public static function  createSelectElement()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Select(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], self::$availableOptions[0]));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(1));
     }
 
     public static function  createMultipleSelectElements()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Select(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], self::$availableOptions[0]));
-        $wpOOWTestPage->AddField(new Select(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label'], self::$availableOptions[1]));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(2));
     }
 
 }

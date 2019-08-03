@@ -6,8 +6,6 @@
  * Time: 2:38 PM
  */
 
-use Facebook\WebDriver\WebDriverBy;
-use WPooWTests\WPooWBaseTestCase;
 
 include_once __DIR__ . '/../../wpAPI.php';
 include_once  __DIR__. '/SelectTest.php';
@@ -25,11 +23,6 @@ class MultiSelectTest extends SelectTest
             [
                 'id' => '_test_muiltiselect_field_1',
                 'label' => 'Sample Muilti Select Field 1',
-                'type' => 'multiselect'
-            ],
-            [
-                'id' => '_test_muiltiselect_field_2',
-                'label' => 'Sample Muilti Select Field 2',
                 'type' => 'multiselect'
             ]
         ]
@@ -103,19 +96,18 @@ class MultiSelectTest extends SelectTest
 
     public static function  createSelectElement()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new MultiSelect(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], self::$availableOptions[0]));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), self::$samplePostType1);
     }
 
     public static function  createMultipleSelectElements()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new MultiSelect(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label'], self::$availableOptions[0]));
-        $wpOOWTestPage->AddField(new MultiSelect(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label'], self::$availableOptions[1]));
-        $wpOOWTestPage->render();
+        array_push(self::$samplePostType1['fields'],[
+            'id' => '_test_muiltiselect_field_2',
+            'label' => 'Sample Muilti Select Field 2',
+            'type' => 'multiselect'
+        ]);
+
+        self::createPostType(new wpAPI(), self::$samplePostType1);
     }
 
 

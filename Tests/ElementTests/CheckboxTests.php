@@ -19,16 +19,9 @@ class CheckboxTests extends WPooWBaseTestCase{
                 'label' => 'Sample Checkbox Field 1',
                 'type' => 'checkbox',
                 'test_value' => true
-            ],
-            [
-                'id' => '_test_checkbox_field_2',
-                'label' => 'Sample Checkbox Field 2',
-                'type' => 'checkbox',
-                'test_value' => false
             ]
         ]
     ];
-
 
 
     /**************************
@@ -79,19 +72,18 @@ class CheckboxTests extends WPooWBaseTestCase{
 
     public static function createTextElement()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Checkbox(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), self::$samplePostType1);
     }
 
     public static function  createMultipleTextElements()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Checkbox(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->AddField(new Checkbox(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label']));
-        $wpOOWTestPage->render();
+        array_push(self::$samplePostType1['fields'],[
+            'id' => '_test_checkbox_field_2',
+            'label' => 'Sample Checkbox Field 2',
+            'type' => 'checkbox',
+            'test_value' => false
+        ]);
+        self::createPostType(new wpAPI(), self::$samplePostType1);
     }
 }
 

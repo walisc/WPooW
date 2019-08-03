@@ -7,6 +7,7 @@
  */
 
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsElements;
 
 include_once __DIR__ . '/../../wpAPI.php';
 
@@ -15,26 +16,37 @@ class TextTest extends WPooWBaseTestCase{
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    protected static $samplePostType1 = [
-        'id' => '_wpoow_test_menu',
-        'title' => 'WPooW Test Menu',
-        'fields' => [
-            [
-                'id' => '_test_text_field_1',
-                'label' => 'Sample Text Field 1',
-                'type' => 'text',
-                'test_value' => 'Sample Text One'
-            ],
-            [
-                'id' => '_test_text_field_2',
-                'label' => 'Sample Text Field 2',
-                'type' => 'text',
-                'test_value' => 'Sample Text Two'
-            ]
-        ]
-    ];
+    protected static function getSamplePostTypeData($id){
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
 
+        switch ($id) {
+            case 1:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_text_field_1',
+                    'label' => 'Sample Text Field 1',
+                    'type' => WPooWTestsElements::TEXT,
+                    'test_value' => 'Sample Text One'
+                ]];
+                break;
+            case 2:
+                $baseSamplePostType['fields'] = [[
+                    'id' => '_test_text_field_1',
+                    'label' => 'Sample Text Field 1',
+                    'type' => WPooWTestsElements::TEXT,
+                    'test_value' => 'Sample Text One'
+                    ],
+                    [
+                        'id' => '_test_text_field_2',
+                        'label' => 'Sample Text Field 2',
+                        'type' => WPooWTestsElements::TEXT,
+                        'test_value' => 'Sample Text Two'
+                ]];
+                break;
+        }
 
+        return $baseSamplePostType;
+
+    }
 
     /**************************
     / TESTS                   *
@@ -46,8 +58,9 @@ class TextTest extends WPooWBaseTestCase{
      */
     public function testCanInteractWithTextElement(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData =  static::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
     }
 
@@ -56,12 +69,13 @@ class TextTest extends WPooWBaseTestCase{
      */
     public function testCanUpdateTextBox(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData =  static::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
-        self::$samplePostType1['fields'][0]['test_value'] = 'New Test Sample Text';
-        $this->editPost(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0]]);
+        $sampleData['fields'][0]['test_value'] = 'New Test Sample Text';
+        $this->editPost($sampleData['id'], $postID, [$sampleData['fields'][0]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0]]);
 
     }
 
@@ -70,8 +84,9 @@ class TextTest extends WPooWBaseTestCase{
      */
     public function testCanHaveMultipleTextElements(){
         $this->loginToWPAdmin();
-        $postID = $this->addPost(self::$samplePostType1['id'], [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
-        $this->assertGridDataCorrect(self::$samplePostType1['id'], $postID, [self::$samplePostType1['fields'][0], self::$samplePostType1['fields'][1]]);
+        $sampleData =  static::getSamplePostTypeData(2);
+        $postID = $this->addPost($sampleData['id'], [$sampleData['fields'][0], $sampleData['fields'][1]]);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, [$sampleData['fields'][0], $sampleData['fields'][1]]);
     }
 
 
@@ -83,18 +98,11 @@ class TextTest extends WPooWBaseTestCase{
 
     public static function createTextElement()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Text(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(1));
     }
 
     public static function  createMultipleTextElements()
     {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Text(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->AddField(new Text(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label']));
-        $wpOOWTestPage->render();
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(2));
     }
 }

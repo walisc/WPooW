@@ -30,6 +30,7 @@ trait WPooWTestsInputer
         WPooWTestsElements::MULTISELECT => MultiSelectorInputer::class,
         WPooWTestsElements::CHECKBOX => CheckboxInputer::class,
         WPooWTestsElements::TEXTAREA => TextAreaInputer::class,
+        WPooWTestsElements::RICHTEXTAREA => RichTextInputer::class,
     ];
 
     public function setUpElementInputer(){
@@ -71,7 +72,7 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
 
     function assetValueEqual($sampleField, $fieldValue)
     {
-        $this->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
+        $this->parent->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
     }
 
     function inputValue($postTypeID, $field)
@@ -94,7 +95,7 @@ class TextAreaInputer extends WPooWInputerBase implements ElementInputer {
 
     function assetValueEqual($sampleField, $fieldValue)
     {
-        $this->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
+        $this->parent->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
     }
 
     function inputValue($postTypeID, $field)

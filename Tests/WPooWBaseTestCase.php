@@ -252,6 +252,13 @@ class WPooWBaseTestCase extends WPSTestCase
 
     }
 
+    public static function getBaseSamplePostTypeData(){
+        return [
+            'id' => '_wpoow_test_menu',
+            'title' => 'WPooW Test Menu'
+        ];
+    }
+
     private function insertValuesToPostTypeForm($postTypeID, $fields)
     {
         foreach ($fields as $field) {

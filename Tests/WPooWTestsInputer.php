@@ -206,10 +206,18 @@ class SelectInputer extends WPooWInputerBase implements ElementInputer{
     function inputValue($postTypeID, $field)
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
-        $selectInput = $this->driver->findElement(WebDriverBy::xpath("//select[@id='${postTypeFieldID}']"));
-        $selectInput->click();
+        $selectInput = new WebDriverSelect($this->driver->findElement(WebDriverBy::xpath("//select[@id='${postTypeFieldID}']")));
+
         $testValue = array_keys($field['test_value'])[0];
-        $selectInput->findElement(WebDriverBy::xpath("option[text() = '${testValue}']"))->click();
+
+        foreach ($selectInput->getOptions() as $option) {
+            if ($option->getText() == $testValue) {
+                if (!$option->isSelected()) {
+                    $option->click();
+                }
+            }
+        }
+
     }
 
     function checkPermission($sampleField, $fieldValue)

@@ -2,6 +2,7 @@
 
 
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsElements;
 
 include_once __DIR__ . '/../../wpAPI.php';
 
@@ -10,26 +11,79 @@ class CombinedElementsTest extends WPooWBaseTestCase{
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    protected static $samplePostType1 = [
-        'id' => '_wpoow_test_menu',
-        'title' => 'WPooW Test Menu',
-        'fields' => [
-            [
-                'id' => '_test_text_field_1',
-                'label' => 'Sample Text Field 1',
-                'type' => 'text',
-                'test_value' => 'Testing'
-            ],
-            [
-                'id' => '_test_test_field_2',
-                'label' => 'Sample Text Field 2',
-                'type' => 'text',
-                'test_value' => 'Testing 2'
-            ]
-        ]
-    ];
+    protected static function getSamplePostTypeData($id){
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
+
+        switch ($id) {
+            case 1:
+                $baseSamplePostType['fields'] = [[
+                        'id' => '_test_text_field_1',
+                        'label' => 'Sample Text Field 1',
+                        'type' => WPooWTestsElements::TEXT,
+                        'test_value' => 'Sample Text One'
+                    ],
+                    [
+                        'id' => '_test_textarea_field_1',
+                        'label' => 'Sample Text Area Field 1',
+                        'type' => WPooWTestsElements::TEXTAREA,
+                        'test_value' => 'Sample Text Area One'
+                    ],
+                    [
+                        'id' => '_test_richtextarea_field_1',
+                        'label' => 'Sample Rich Text Area Field 1',
+                        'type' => WPooWTestsElements::RICHTEXTAREA,
+                        'test_value' => preg_replace("/\r\n|\r|\n/", '', '<strong>Sample Text One</strong>
+                                <ul>
+                                    <li>This is sample text</li>
+                                    <li>This is sample text 2</li>
+                                    <li>This is sample text 3</li>
+                                </ul>
+                                <a href="https://www.centridsol.com">www.centridsol.com</a>')
+                    ],
+                    [
+                        'id' => '_test_muiltiselect_field_1',
+                        'label' => 'Sample Muilti Select Field 1',
+                        'type' => WPooWTestsElements::MULTISELECT,
+                        'extra_args' => [
+                            'options' => ['categoryA' => 'Category A',
+                                'categoryB' => 'Category B',
+                                'categoryC' => 'Category C',
+                                'categoryD' => 'Category D',
+                                'categoryE' => 'Category E',
+                                'categoryF' => 'Category F',
+                            ]
+                        ],
+                        'test_value' =>  ['categoryB' => 'Category B', 'categoryE' => 'Category E']
+                    ],
+                    [
+                        'id' => '_test_upload_field_1',
+                        'label' => 'Sample Upload Field 1',
+                        'type' => WPooWTestsElements::UPLOADER,
+                        'test_value' => ['testImage1.jpg']
+                    ],
+                    [
+                        'id' => '_test_select_field_1',
+                        'label' => 'Sample Select Field 1',
+                        'type' => WPooWTestsElements::SELECT,
+                        'extra_args' => [
+                            'options' => ['personA' => 'Person A',
+                                'personB' => 'Person B',
+                                'personC' => 'Person C',
+                                'personD' => 'Person D',
+                            ]
+                        ],
+                        'test_value' =>  ['personC' => 'Person C']
+                    ]
 
 
+
+                ];
+
+        }
+
+        return $baseSamplePostType;
+
+    }
 
     /**************************
     / TESTS                   *
@@ -37,32 +91,27 @@ class CombinedElementsTest extends WPooWBaseTestCase{
 
 
     /**
-     * @WP_BeforeRun createTextElement
+     * @WP_BeforeRun createComplexPostType
      */
-    public function testCanInteractWithCheckboxElement(){
+    public function testCanInteractWithComplexPostType(){
         $this->loginToWPAdmin();
+        $sampleData = self::getSamplePostTypeData(1);
+        $postID = $this->addPost($sampleData['id'], $sampleData['fields']);
+        $this->assertGridDataCorrect($sampleData['id'], $postID, $sampleData['fields']);
     }
-
-
 
 
     /**************************
     / WP_BEFORE RUN FUNCTIONS *
     /**************************/
 
-    public static function createTextElement()
+    public static function createComplexPostType()
     {
-        self::createPostType(new wpAPI(), self::$samplePostType1);
+        self::uploadTestFile( 'testImage1.jpg');
+        self::createPostType(new wpAPI(), static::getSamplePostTypeData(1));
     }
 
-    public static function  createMultipleTextElements()
-    {
-        $wpOOW = new wpAPI();
-        $wpOOWTestPage = $wpOOW->CreatePostType(self::$samplePostType1['id'], self::$samplePostType1['title'], true);
-        $wpOOWTestPage->AddField(new Checkbox(self::$samplePostType1['fields'][0]['id'], self::$samplePostType1['fields'][0]['label']));
-        $wpOOWTestPage->AddField(new Checkbox(self::$samplePostType1['fields'][1]['id'], self::$samplePostType1['fields'][1]['label']));
-        $wpOOWTestPage->render();
-    }
+
 }
 
 // Can Add Complex

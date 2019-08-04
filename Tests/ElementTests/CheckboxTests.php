@@ -2,6 +2,7 @@
 
 
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsElements;
 
 include_once __DIR__ . '/../../wpAPI.php';
 
@@ -19,7 +20,7 @@ class CheckboxTests extends WPooWBaseTestCase{
                 $baseSamplePostType['fields'] = [[
                     'id' => '_test_checkbox_field_1',
                     'label' => 'Sample Checkbox Field 1',
-                    'type' => 'checkbox',
+                    'type' => WPooWTestsElements::CHECKBOX,
                     'test_value' => true
                 ]];
                 break;
@@ -27,7 +28,7 @@ class CheckboxTests extends WPooWBaseTestCase{
                 $baseSamplePostType['fields'] = [[
                     'id' => '_test_checkbox_field_1',
                     'label' => 'Sample Checkbox Field 1',
-                    'type' => 'checkbox',
+                    'type' => WPooWTestsElements::CHECKBOX,
                     'test_value' => true
                 ],
                     [

@@ -3,6 +3,8 @@
 namespace WPooWTests;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Interactions\WebDriverActions;
+use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use WPSelenium\WPSTestCase;
@@ -74,7 +76,9 @@ class WPooWBaseTestCase extends WPSTestCase
 
         $this->goToAddPage($postTypeID);
         $this->insertValuesToPostTypeForm($postTypeID, $fields);
-        $this->driver->findElement(WebDriverBy::id("publish"))->click();
+        $publishBtn = $this->driver->findElement(WebDriverBy::id("publish"));
+        $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$publishBtn]);
+        $publishBtn->click();
 
         $this->navigateToMenuItems($postTypeID);
 

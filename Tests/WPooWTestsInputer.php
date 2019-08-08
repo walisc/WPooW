@@ -175,13 +175,21 @@ class UploaderInputer extends WPooWInputerBase implements ElementInputer{
         $uploadButton = $this->parent->getElementOnPostTypePage($postTypeID, $field, '_upload_button');
         $uploadButton->click();
 
-        $mediaModal = $this->driver->findElement(WebDriverBy::xpath("//div[contains(@class,'media-modal')]"));
+        $mediaModal = null;
+
+        foreach($this->driver->findElements(WebDriverBy::xpath("//div[contains(@class,'media-modal')]")) as $modal){
+            if ($modal->isDisplayed()){
+                $mediaModal = $modal;
+                break;
+            }
+        };
+
 
         foreach ($field['test_value'] as $imageName) {
             $this->parent->findElementWithWait(WebDriverBy::xpath("descendant::ul[contains(@class,'attachments')]/descendant::li[@aria-label='${imageName}']"), $mediaModal)->click();
         }
 
-        $this->parent->findElementWithWait(WebDriverBy::xpath("//div[@class='media-toolbar']/descendant::button"), $mediaModal)->click();
+        $this->parent->findElementWithWait(WebDriverBy::xpath("descendant::button"), $mediaModal)->click();
     }
 
     function checkPermission($sampleField, $fieldValue)

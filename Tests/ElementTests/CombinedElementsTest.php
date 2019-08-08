@@ -80,15 +80,17 @@ class CombinedElementsTest extends WPooWBaseTestCase{
         switch ($id) {
             case 1:
                 $baseSamplePostType['fields'] = $fields;
+                break;
             case 2:
                 //create 50 input types
                 $baseSamplePostType['fields'] = [];
-                for ($i =0; $i < 2; $i++){
+                for ($i =0; $i < 5; $i++){
                     foreach ($fields as $field){
                         $field['id'] .= "_${i}";
                         array_push($baseSamplePostType['fields'], $field);
                     }
                 }
+                break;
 
         }
 
@@ -143,7 +145,7 @@ class CombinedElementsTest extends WPooWBaseTestCase{
 
 }
 
-// Can Add Complex
+// Can Add Complex (d)
 // Can Edit Complex
-// Can have a lot
+// Can have a lot (d)
 // Permission work (maybe element for all)

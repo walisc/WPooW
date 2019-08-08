@@ -19,6 +19,29 @@ class WPooWBaseTestCase extends WPSTestCase
         $this->setUpElementInputer();
     }
 
+    public function loginToWPAdmin(){
+        //TODO: Check if wpsite first
+        $this->driver->Get(sprintf('%s/wp-admin', $this->GetTestSite()));
+        $this->waitForPageToLoad();
+        if(strpos($this->driver->getCurrentURL(), 'wp-login')) {
+
+            $usernameField = $this->driver->findElement(WebDriverby::id('user_login'));
+            $passwordField = $this->driver->findElement(WebDriverby::id('user_pass'));
+            $loginButton = $this->driver->findElement(WebDriverby::id('wp-submit'));
+
+            $username= getenv('WPSELENIUM_WP_TEST_USERNAME');
+            $password = getenv('WPSELENIUM_WP_TEST_PASSWORD');
+            sleep(1);
+            $usernameField->click();
+            $this->driver->getKeyboard()->sendKeys($username);
+            $passwordField->click();
+            $this->driver->getKeyboard()->sendKeys($password);
+            $loginButton->click();
+
+            $this->waitForPageToLoad();
+        }
+    }
+
     /**************************
      * NAVIGATION             *
      **************************/

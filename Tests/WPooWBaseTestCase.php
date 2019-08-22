@@ -98,7 +98,7 @@ class WPooWBaseTestCase extends WPSTestCase
         $initialCount = $this->getPageCount();
 
         $this->goToAddPage($postTypeID);
-        $this->insertValuesToPostTypeForm($postTypeID, $fields);
+        $this->insertValuesToPostTypeForm($postTypeID, $fields, WPooWTestsConsts::PAGE_TYPE_ADD);
         $publishBtn = $this->driver->findElement(WebDriverBy::id("publish"));
         $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$publishBtn]);
         $publishBtn->click();
@@ -115,7 +115,7 @@ class WPooWBaseTestCase extends WPSTestCase
     {
 
         $this->goToEditPage($postTypeID, $postId);
-        $this->insertValuesToPostTypeForm($postTypeID, $fields);
+        $this->insertValuesToPostTypeForm($postTypeID, $fields, WPooWTestsConsts::PAGE_TYPE_EDIT);
         $this->driver->findElement(WebDriverBy::id("publish"))->click();
 
         try {
@@ -286,7 +286,31 @@ class WPooWBaseTestCase extends WPSTestCase
         ];
     }
 
-    private function insertValuesToPostTypeForm($postTypeID, $fields)
+    public function checkPermissions($postTypeID, $fields, $pageType, $postID=null){
+
+        if ($pageType == WPooWTestsConsts::PAGE_TYPE_GRID){
+            $this->navigateToMenuItems($postTypeID);
+        }
+        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_ADD){
+            $this->goToAddPage($postTypeID);
+        }
+        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_EDIT){
+            $this->goToEditPage($postTypeID, $postID);
+        }
+
+        foreach ($fields as $field){
+            if (array_key_exists('permissions', $field)){
+                $fieldType =  array_key_exists('type', $field) ? $field['type'] : 'text';
+
+                if (array_key_exists($fieldType, self::$FIELD_MAP)){
+                    $this->elementInputer[$fieldType]->checkPermission($field, $postTypeID, $pageType);
+                }
+
+            }
+        }
+    }
+
+    private function insertValuesToPostTypeForm($postTypeID, $fields, $pageType)
     {
         foreach ($fields as $field) {
             if (array_key_exists('test_value', $field)) {
@@ -294,11 +318,11 @@ class WPooWBaseTestCase extends WPSTestCase
                 $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$postbox]);
 
                 $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
-                if (array_key_exists($fieldType, self::$FIELD_MAP)){
-                    $this->elementInputer[$fieldType]->inputValue($postTypeID, $field);
-                }
-                else{
-                    $this->elementInputer[WPooWTestsElements::TEXT]->inputValue($postTypeID, $field);
+                $elementInputer =  array_key_exists($fieldType, self::$FIELD_MAP) ? $this->elementInputer[$fieldType] : $this->elementInputer[WPooWTestsElements::TEXT];
+
+                if ($elementInputer->checkPermission($field, $postTypeID, $pageType, true))
+                {
+                    $elementInputer->inputValue($postTypeID, $field);
                 }
 
             }

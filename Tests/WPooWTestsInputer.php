@@ -18,6 +18,12 @@ class WPooWTestsElements{
     CONST TEXTAREA = 'textarea';
 }
 
+class WPooWTestsConsts{
+    CONST PAGE_TYPE_GRID = 'PAGE_TYPE_GRID';
+    CONST PAGE_TYPE_ADD = 'PAGE_TYPE_ADD';
+    CONST PAGE_TYPE_EDIT = 'PAGE_TYPE_EDIT';
+}
+
 
 trait WPooWTestsInputer
 {
@@ -44,7 +50,14 @@ trait WPooWTestsInputer
 interface ElementInputer{
     function assetValueEqual($sampleField, $fieldValue);
     function inputValue($postTypeID, $field);
-    function checkPermission($sampleField, $fieldValue);
+
+    //cru
+    //cr
+    //c
+    //ru
+    //u
+    //cu
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false);
     static function createElement($wpOOW, $field);
 
 }
@@ -80,9 +93,9 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
         $this->inputText($postTypeID, $field);
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -103,9 +116,9 @@ class TextAreaInputer extends WPooWInputerBase implements ElementInputer {
         $this->inputText($postTypeID, $field);
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -152,9 +165,9 @@ class RichTextInputer extends WPooWInputerBase implements ElementInputer{
         $this->driver->switchTo()->defaultContent();
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -192,9 +205,9 @@ class UploaderInputer extends WPooWInputerBase implements ElementInputer{
         $this->parent->findElementWithWait(WebDriverBy::xpath("descendant::button"), $mediaModal)->click();
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -228,9 +241,9 @@ class SelectInputer extends WPooWInputerBase implements ElementInputer{
 
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -258,9 +271,9 @@ class MultiSelectorInputer extends WPooWInputerBase implements ElementInputer{
         }
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)
@@ -287,9 +300,9 @@ class CheckboxInputer extends WPooWInputerBase implements ElementInputer{
         }
     }
 
-    function checkPermission($sampleField, $fieldValue)
+    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
     {
-        // TODO: Implement checkPermission() method.
+        return true;
     }
 
     static function createElement($wpOOW, $field)

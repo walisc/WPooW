@@ -93,8 +93,9 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
         $this->inputText($postTypeID, $field);
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
+
         return true;
     }
 
@@ -116,7 +117,7 @@ class TextAreaInputer extends WPooWInputerBase implements ElementInputer {
         $this->inputText($postTypeID, $field);
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }
@@ -165,7 +166,7 @@ class RichTextInputer extends WPooWInputerBase implements ElementInputer{
         $this->driver->switchTo()->defaultContent();
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }
@@ -205,7 +206,7 @@ class UploaderInputer extends WPooWInputerBase implements ElementInputer{
         $this->parent->findElementWithWait(WebDriverBy::xpath("descendant::button"), $mediaModal)->click();
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }
@@ -241,7 +242,7 @@ class SelectInputer extends WPooWInputerBase implements ElementInputer{
 
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }
@@ -271,7 +272,7 @@ class MultiSelectorInputer extends WPooWInputerBase implements ElementInputer{
         }
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }
@@ -300,7 +301,7 @@ class CheckboxInputer extends WPooWInputerBase implements ElementInputer{
         }
     }
 
-    function checkPermission($sampleField, $fieldValue, $pageType, $returnCanEdit=false)
+    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
     {
         return true;
     }

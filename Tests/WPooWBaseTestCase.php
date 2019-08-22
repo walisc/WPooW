@@ -303,7 +303,7 @@ class WPooWBaseTestCase extends WPSTestCase
                 $fieldType =  array_key_exists('type', $field) ? $field['type'] : 'text';
 
                 if (array_key_exists($fieldType, self::$FIELD_MAP)){
-                    $this->elementInputer[$fieldType]->checkPermission($field, $postTypeID, $pageType);
+                    $this->elementInputer[$fieldType]->checkPermission($postTypeID, $field, $pageType);
                 }
 
             }
@@ -320,7 +320,7 @@ class WPooWBaseTestCase extends WPSTestCase
                 $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
                 $elementInputer =  array_key_exists($fieldType, self::$FIELD_MAP) ? $this->elementInputer[$fieldType] : $this->elementInputer[WPooWTestsElements::TEXT];
 
-                if ($elementInputer->checkPermission($field, $postTypeID, $pageType, true))
+                if ($elementInputer->checkPermission($postTypeID, $field, $pageType, true))
                 {
                     $elementInputer->inputValue($postTypeID, $field);
                 }

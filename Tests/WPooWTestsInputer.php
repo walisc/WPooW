@@ -66,49 +66,23 @@ interface ElementInputer{
 
 }
 class WPooWInputerBase{
-   protected $parent;
-   protected $driver;
-   protected $isEditable = true;
+    protected $parent;
+    protected $driver;
+    protected $isEditable = true;
 
-   function __construct($parent)
-   {
+    function __construct($parent)
+    {
        $this->parent = $parent;
        $this->driver = $parent->GetSeleniumDriver();
-   }
-
-    protected function inputText($postTypeID, $field)
-    {
-        $postTypeFieldID = "${postTypeID}_${field['id']}";
-        $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
-        $input = $this->driver->findElement(WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']"));
-        $input->clear();
-        $input->click();
-        $this->driver->getKeyboard()->sendKeys($field['test_value']);
     }
 
-    private function getFieldPermissions($field, $pageType){
-
-       $permissionArray = [];
-
-       if (!array_key_exists('permissions', $field)){
-           return [WPooWTestsConsts::PERMISSIONS_ALL];
-       }
-       if (!array_key_exists($pageType, $field['permissions'])){
-           return [WPooWTestsConsts::PERMISSIONS_ALL];
-       }
-       else{
-           $permissionString = $field['permissions'][$pageType];
-           if (strpos($permissionString, 'c') !== false){
-               array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_CREATE);
-           }
-           if (strpos($permissionString, 'r') !== false){
-               array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_READ);
-           }
-           if (strpos($permissionString, 'u') !== false){
-               array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_UPDATE);
-           }
-       }
-       return $permissionArray;
+    static function processExtraArgs($field){
+        $extraArgs = array_key_exists('extra_args', $field) ? $field['extra_args'] : [];
+        if (array_key_exists('permissions', $field))
+        {
+            array_unshift($extraArgs, $field['permissions']);
+        }
+        return $extraArgs;
     }
 
     protected function checkFieldPermissions($gridClosureFunc, $addClosureFunc, $editClosureFunc, $field, $pageType){
@@ -133,9 +107,35 @@ class WPooWInputerBase{
 
         return $this->isEditable;
     }
-}
-class TextInputer extends WPooWInputerBase implements ElementInputer {
 
+
+    private function getFieldPermissions($field, $pageType){
+
+        $permissionArray = [];
+
+        if (!array_key_exists('permissions', $field)){
+            return [WPooWTestsConsts::PERMISSIONS_ALL];
+        }
+        if (!array_key_exists($pageType, $field['permissions'])){
+            return [WPooWTestsConsts::PERMISSIONS_ALL];
+        }
+        else{
+            $permissionString = $field['permissions'][$pageType];
+            if (strpos($permissionString, 'c') !== false){
+                array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_CREATE);
+            }
+            if (strpos($permissionString, 'r') !== false){
+                array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_READ);
+            }
+            if (strpos($permissionString, 'u') !== false){
+                array_push($permissionArray, WPooWTestsConsts::PERMISSIONS_UPDATE);
+            }
+        }
+        return $permissionArray;
+    }
+}
+
+class BaseTextInputer extends WPooWInputerBase{
     function assetValueEqual($sampleField, $fieldValue)
     {
         if ($this->isEditable){
@@ -146,9 +146,18 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
         }
     }
 
+    function getSelector($postTypeID, $field){
+        $postTypeFieldID = "${postTypeID}_${field['id']}";
+        $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
+        return WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']");
+    }
+
     function inputValue($postTypeID, $field)
     {
-        $this->inputText($postTypeID, $field);
+        $input = $this->driver->findElement($this->getSelector($postTypeID, $field));
+        $input->clear();
+        $input->click();
+        $this->driver->getKeyboard()->sendKeys($field['test_value']);
     }
 
     function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false)
@@ -163,9 +172,7 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
                 // find element but should be editable
                 $this->isEditable = true;
                 try {
-                    $postTypeFieldID = "${postTypeID}_${field['id']}";
-                    $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
-                    $this->driver->findElement(WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']"));
+                    $this->driver->findElement($this->getSelector($postTypeID, $field));
                     return true;
                 }catch (NoSuchElementException $e){
                     return false;
@@ -174,9 +181,7 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
                 //find element in read only
                 $this->isEditable = false;
                 try {
-                    $postTypeFieldID = "${postTypeID}_${field['id']}";
-                    $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
-                    $this->driver->findElement(WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']"));
+                    $this->driver->findElement($this->getSelector($postTypeID, $field));
                     return true;
                 }catch (NoSuchElementException $e){
                     try {
@@ -191,9 +196,7 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
                 // should not exists, as not element specified
                 $this->isEditable = false;
                 try {
-                    $postTypeFieldID = "${postTypeID}_${field['id']}";
-                    $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
-                    $this->driver->findElement(WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']"));
+                    $this->driver->findElement($this->getSelector($postTypeID, $field));
                     return false;
                 }catch (NoSuchElementException $e){
                     return true;
@@ -205,42 +208,22 @@ class TextInputer extends WPooWInputerBase implements ElementInputer {
             return true;
         };
 
-
         return $this->checkFieldPermissions($gridPageClosureFunc, $addPageClosureFunc, $editPageClosureFunc , $field, $pageType);
     }
+}
+class TextInputer extends BaseTextInputer implements ElementInputer {
 
     static function createElement($wpOOW, $field)
     {
-        $extraArgs = array_key_exists('extra_args', $field) ? $field['extra_args'] : [];
-        if (array_key_exists('permissions', $field))
-        {
-            array_unshift($extraArgs, $field['permissions']);
-        }
-
-        return new \Text($field['id'], $field['label'], ...$extraArgs);
+        return new \Text($field['id'], $field['label'], ...self::processExtraArgs($field));
     }
 }
 
-class TextAreaInputer extends WPooWInputerBase implements ElementInputer {
-
-    function assetValueEqual($sampleField, $fieldValue)
-    {
-        $this->parent->assertTrue($sampleField['test_value'] == $fieldValue->GetText());
-    }
-
-    function inputValue($postTypeID, $field)
-    {
-        $this->inputText($postTypeID, $field);
-    }
-
-    function checkPermission($postTypeID, $field, $pageType, $returnCanEdit=false) //TODO: Remove $returnCanEdit, always return
-    {
-        return true;
-    }
+class TextAreaInputer extends BaseTextInputer implements ElementInputer {
 
     static function createElement($wpOOW, $field)
     {
-        return new \TextArea($field['id'], $field['label']);
+        return new \TextArea($field['id'], $field['label'], ...self::processExtraArgs($field));
     }
 }
 

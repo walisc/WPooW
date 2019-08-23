@@ -8,30 +8,6 @@ use Facebook\WebDriver\WebDriverBy;
 
 trait WPooWTestPermissionsHelper{
 
-    protected function checkFieldPermissions($gridClosureFunc, $addClosureFunc, $editClosureFunc, $field, $pageType){
-        $permissions = $this->getFieldPermissions($field, $pageType);
-
-
-        if (array_key_exists(WPooWTestsConsts::PERMISSIONS_ALL, $permissions)){
-            return true;
-        }
-
-        if ($pageType == WPooWTestsConsts::PAGE_TYPE_GRID)
-        {
-            $this->parent->assertTrue($gridClosureFunc($permissions));
-        }
-        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_ADD){
-            $this->parent->assertTrue($addClosureFunc($permissions));
-        }
-        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_EDIT){
-            $this->parent->assertTrue($editClosureFunc($permissions));
-        }
-
-
-        return $this->isEditable;
-    }
-
-
     private function getFieldPermissions($field, $pageType){
 
         $permissionArray = [];
@@ -57,53 +33,93 @@ trait WPooWTestPermissionsHelper{
         return $permissionArray;
     }
 
+    protected function checkFieldPermissions($gridClosureFunc, $addClosureFunc, $editClosureFunc, $field, $pageType){
+        $permissions = $this->getFieldPermissions($field, $pageType);
+
+
+        if (array_key_exists(WPooWTestsConsts::PERMISSIONS_ALL, $permissions)){
+            return true;
+        }
+
+        if ($pageType == WPooWTestsConsts::PAGE_TYPE_GRID)
+        {
+            $this->parent->assertTrue($gridClosureFunc($permissions));
+        }
+        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_ADD){
+            $this->parent->assertTrue($addClosureFunc($permissions));
+        }
+        else if ($pageType == WPooWTestsConsts::PAGE_TYPE_EDIT){
+            $this->parent->assertTrue($editClosureFunc($permissions));
+        }
+
+
+        return $this->isEditable;
+    }
+
+    protected function getSelectorState($selector, $shouldFind){
+        try {
+            $this->driver->findElement($selector);
+            return $shouldFind ? true : false;
+        }catch (NoSuchElementException $e) {
+            return $shouldFind ? false : true;
+        }
+    }
+
+
+
+
 
     public function checkPermissionsText($postTypeID, $field, $pageType, $returnCanEdit=false){
 
-        $gridPageClosureFunc = function($permissions) use ($field, $pageType) {
-            return true;
+        $addEditPageClosureFunc = function($permissions, $permissionToCheck) use ($postTypeID, $field, $pageType) {
+            // On Add Page
+            // only (c)reate, (r)ead and blank apply, hence (u)pdate should not work
 
-        };
-
-        $addPageClosureFunc = function($permissions) use ($postTypeID, $field, $pageType) { //On Add Page
-            if (in_array(WPooWTestsConsts::PERMISSIONS_CREATE, $permissions) || in_array(WPooWTestsConsts::PERMISSIONS_UPDATE, $permissions)){
+            if (in_array($permissionToCheck, $permissions)){
                 // find element but should be editable
                 $this->isEditable = true;
-                try {
-                    $this->driver->findElement($this->getSelector($postTypeID, $field));
-                    return true;
-                }catch (NoSuchElementException $e){
-                    return false;
-                }
+                return $this->getSelectorState($this->getSelector($postTypeID, $field), true);
             }else if (in_array(WPooWTestsConsts::PERMISSIONS_READ, $permissions)){
                 //find element in read only
                 $this->isEditable = false;
-                try {
-                    $this->driver->findElement($this->getSelector($postTypeID, $field));
-                    return true;
-                }catch (NoSuchElementException $e){
-                    try {
-                        $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeID}_${field['id']}' and contains(@class,'postbox')]"));
-                        return true;
-                    }catch(NoSuchElementException $e){
-                        return false;
-                    }
-                }
+                return $this->getSelectorState($this->getSelector($postTypeID, $field), false) &&
+                    $this->getSelectorState(WebDriverBy::xpath("//div[@id='${postTypeID}_${field['id']}' and contains(@class,'postbox')]"), true);
             }
             else{
                 // should not exists, as not element specified
                 $this->isEditable = false;
-                try {
-                    $this->driver->findElement($this->getSelector($postTypeID, $field));
-                    return false;
-                }catch (NoSuchElementException $e){
-                    return true;
-                }
+                return $this->getSelectorState($this->getSelector($postTypeID, $field), false);
             }
         };
 
-        $editPageClosureFunc = function($permissions) use ($postTypeID, $field, $pageType) {
-            return true;
+        $gridPageClosureFunc = function($permissions) use ($postTypeID, $field, $pageType) {
+            // On Grid Page
+            // only (r)ead and blank apply
+
+            if (in_array(WPooWTestsConsts::PERMISSIONS_READ, $permissions)){
+                //find element in read only
+                $this->isEditable = false;
+                return $this->getSelectorState(WebDriverBy::xpath("//form[@id='posts-filter']/table/thead/tr/th[@id='${postTypeID}_${field['id']}']"), true);
+            }
+            else{
+                // should not exists, as not element specified
+                $this->isEditable = false;
+                return $this->getSelectorState($this->getSelector($postTypeID, $field), false);
+            }
+
+        };
+
+        $addPageClosureFunc = function($permissions) use ($postTypeID, $field, $pageType, $addEditPageClosureFunc) {
+            // On Add Page
+            // only (c)reate, (r)ead and blank apply, hence (u)pdate should not work
+            return $addEditPageClosureFunc($permissions, WPooWTestsConsts::PERMISSIONS_CREATE);
+
+        };
+
+        $editPageClosureFunc = function($permissions) use ($postTypeID, $field, $pageType, $addEditPageClosureFunc) {
+            // On Edit Page
+            // only (u)date, (r)ead and blank apply, hence (c)reate should not work
+            return $addEditPageClosureFunc($permissions, WPooWTestsConsts::PERMISSIONS_UPDATE);
         };
 
         return $this->checkFieldPermissions($gridPageClosureFunc, $addPageClosureFunc, $editPageClosureFunc , $field, $pageType);

@@ -25,6 +25,8 @@ class TextTest extends WPooWBaseTestCase{
                     'id' => '_test_text_field_1',
                     'label' => 'Sample Text Field 1',
                     'type' => WPooWTestsElements::TEXT,
+                    'permissions' => [wpAPIPermissions::AddPage => "r",
+                                      wpAPIPermissions::EditPage => "r"],
                     'test_value' => 'Sample Text One'
                 ]];
                 break;

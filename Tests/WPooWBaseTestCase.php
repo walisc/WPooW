@@ -314,14 +314,13 @@ class WPooWBaseTestCase extends WPSTestCase
     {
         foreach ($fields as $field) {
             if (array_key_exists('test_value', $field)) {
-                $postbox = $this->findElementWithWait(WebDriverBy::xpath("//div[@id='${postTypeID}_${field['id']}' and contains(@class,'postbox')]"));
-                $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$postbox]);
-
                 $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
                 $elementInputer =  array_key_exists($fieldType, self::$FIELD_MAP) ? $this->elementInputer[$fieldType] : $this->elementInputer[WPooWTestsElements::TEXT];
 
                 if ($elementInputer->checkPermission($postTypeID, $field, $pageType, true))
                 {
+                    $postbox = $this->findElementWithWait(WebDriverBy::xpath("//div[@id='${postTypeID}_${field['id']}' and contains(@class,'postbox')]"));
+                    $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$postbox]);
                     $elementInputer->inputValue($postTypeID, $field);
                 }
 

@@ -279,6 +279,14 @@ class WPooWBaseTestCase extends WPSTestCase
 
     }
 
+    public static function createMenus($wpOOW, $menuItemsObj){
+
+        foreach ($menuItemsObj as $menuItem){
+            $menu = $wpOOW->createMenu(...$menuItem);
+            $menu->Render();
+        }
+    }
+
     public static function getBaseSamplePostTypeData(){
         return [
             'id' => '_wpoow_test_menu',

@@ -18,25 +18,207 @@ class MenuTest extends WPooWBaseTestCase
     / HELP DATA & FUNCTIONS   *
     /**************************/
 
-    protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSamplePostTypeData();
+    protected static function getSampleMenuData($id){
 
         switch ($id) {
             case 1:
-                return $baseSamplePostType;
+                return [[
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                ]];
             case 2:
-                $baseSamplePostType['capability'] = WP_PERMISSIONS::MANAGE_OPTIONS;
-                $baseSamplePostType['display_path'] = new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Test Menu</h1>");
-                $baseSamplePostType['icon'] = "dashicons-admin-site";
-                $baseSamplePostType['position'] = 1;
-                return $baseSamplePostType;
+                return [[
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Test Menu</h1>"),
+                    'icon' => 'dashicons-admin-site',
+                    'position' => 1,
+                ]];
+
             case 3:
-                $baseSamplePostType['capability'] = 'edit_posts';
-                $baseSamplePostType['display_path'] = new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']);
-                $baseSamplePostType['icon'] = "dashicons-admin-collapse";
-                $baseSamplePostType['position'] = 100;
-                return $baseSamplePostType;
-            
+                return [[
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'capability' => 'edit_posts',
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                    'icon' => 'dashicons-admin-collapse',
+                    'position' => 100,
+                ]];
+            case 4:
+                return [
+                    [
+                        'id' => '_wpoow_test_menu_1',
+                        'label' => 'WPooW Test Menu 1',
+                        'capability' => 'edit_posts',
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                        'icon' => 'dashicons-admin-collapse',
+                        'position' => 100,
+                    ],
+                    [
+                        'id' => '_wpoow_test_menu_2',
+                        'label' => 'WPooW Test Menu 2',
+                        'capability' => 'edit_posts',
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                        'icon' => 'dashicons-admin-collapse',
+                        'position' => 100,
+                    ]
+                ];
+            case 5:
+                return [
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Parent Menu</h1>"),
+                    'icon' => 'dashicons-admin-site',
+                    'position' => 1,
+                    'submenus' => [[
+                        'type' => 'submenu',
+                        'id' => '_wpoow_test_menu',
+                        'label' => 'WPooW Test Menu',
+                        'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
+                        'icon' => 'dashicons-admin-collapse',
+                        'position' => 1]
+                    ]
+                ];
+            case 6:
+                return [
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'position' => 1,
+                    'submenus' => [
+                        [
+                            'type' => 'submenu',
+                            'id' => '_wpoow_test_menu',
+                            'label' => 'WPooW Test Menu',
+                            'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
+                            'icon' => 'dashicons-admin-collapse',
+                            'position' => 1
+                        ],
+                        [
+                            'type' => 'submenu',
+                            'id' => '_wpoow_test_menu_2',
+                            'label' => 'WPooW Test Menu 2',
+                            'capability' => 'edit_posts',
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                            'icon' => 'dashicons-admin-collapse',
+                            'position' => 100,
+                        ]
+                    ]
+                ];
+            case 7:
+                return [
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Parent Menu</h1>"),
+                    'icon' => 'dashicons-admin-site',
+                    'position' => 1,
+                    'submenus' => [[
+                            'type' => 'postype',
+                            'id' => '_wpoow_test_menu',
+                            'title' => 'WPooW Test Menu',
+                            'fields' => [
+                                [
+                                    'id' => '_test_text_field',
+                                    'label' => 'Sample Text Field',
+                                    'test_value' => 'Sample Text'
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+            case 8:
+                return [
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'position' => 1,
+                    'submenus' => [
+                        [
+                            'type' => 'postype',
+                            'id' => '_wpoow_test_menu_1',
+                            'title' => 'WPooW Test Menu 1',
+                            'fields' => [
+                                [
+                                    'id' => '_test_text_field',
+                                    'label' => 'Sample Text Field',
+                                    'test_value' => 'Sample Text'
+                                ]
+
+                            ]
+                        ],
+                        [
+                            'type' => 'postype',
+                            'id' => '_wpoow_test_menu_2',
+                            'title' => 'WPooW Test Menu 2',
+                            'fields' => [
+                                [
+                                    'id' => '_test_text_field',
+                                    'label' => 'Sample Text Field',
+                                    'test_value' => 'Sample Text'
+                                ]
+
+                            ]
+                        ]
+                    ]
+                ];
+            case 9:
+                return [
+                    'id' => '_wpoow_test_menu',
+                    'label' => 'WPooW Test Menu',
+                    'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Complex Type Menu</h1>"),
+                    'icon' => 'dashicons-admin-site',
+                    'position' => 1,
+                    'submenus' => [
+                        [
+                            'type' => 'postype',
+                            'id' => '_wpoow_test_menu_1',
+                            'title' => 'WPooW Test Menu 1',
+                            'fields' => [
+                                [
+                                    'id' => '_test_text_field',
+                                    'label' => 'Sample Text Field',
+                                    'test_value' => 'Sample Text'
+                                ]
+
+                            ]
+                        ],
+                        [
+                            'type' => 'submenu',
+                            'id' => '_wpoow_test_menu',
+                            'label' => 'WPooW Test Menu',
+                            'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
+                            'icon' => 'dashicons-admin-collapse',
+                            'position' => 1
+                        ],
+                        [
+                            'type' => 'postype',
+                            'id' => '_wpoow_test_menu_2',
+                            'title' => 'WPooW Test Menu 2',
+                            'fields' => [
+                                [
+                                    'id' => '_test_text_field',
+                                    'label' => 'Sample Text Field',
+                                    'test_value' => 'Sample Text'
+                                ]
+
+                            ]
+                        ],
+                        [
+                            'id' => '_wpoow_test_menu_2',
+                            'label' => 'WPooW Test Menu 2',
+                            'capability' => 'edit_posts',
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                            'icon' => 'dashicons-admin-collapse',
+                            'position' => 100,
+                        ]
+                    ]
+                ];
+
         }
 
     }
@@ -53,37 +235,92 @@ class MenuTest extends WPooWBaseTestCase
 
 
         $sampleData = self::getSampleMenuData(1);
-        $menuItem = $this->locatedMenuItem($sampleData['id']);
-        $this->assertTrue($menuItem['title'] == $sampleData['text']);
+
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id']);
+            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+        }
+
     }
 
     /**
-     * @WP_BeforeRun createCustomisedMenuItem
+     * @WP_BeforeRun createCustomisedMenuItemOne
      */
-    function testCanCustomiseMenu(){
-        $sampleData = self::getSampleMenuData(1);
-        $menuItem = $this->locatedMenuItem($sampleData['id']);
+    function testCanCustomiseMenuOne(){
+        $sampleData = self::getSampleMenuData(2);
+
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id']);
+            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+        }
     }
 
+    /**
+     * @WP_BeforeRun createCustomisedMenuItemTwo
+     */
+    function testCanCustomiseMenuTwo(){
+        $sampleData = self::getSampleMenuData(3);
+
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id']);
+            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+        }
+    }
+
+    /**
+     * @WP_BeforeRun createMultipleMenuItems
+     */
     function testCanHaveMultipleMenus(){
+        $sampleData = self::getSampleMenuData(4);
 
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id']);
+            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+        }
     }
 
-    function testCanAddSubmenus(){
+    /**
+     * @WP_BeforeRun createMenuWithSubMenu
+     */
+    function testCanAddSubmenu(){
 
+        $sampleData = self::getSampleMenuData(5);
         //add three with diferrent modification
     }
 
+    /**
+     * @WP_BeforeRun createMenuWithSubMenus
+     */
+    function testCanAddSubmenus(){
+
+        $sampleData = self::getSampleMenuData(6);
+        //add three with diferrent modification
+    }
+
+    /**
+     * @WP_BeforeRun createMenuWithPostType
+     */
     function testCanAddPostTypeAsSubMenus(){
-
+        $sampleData = self::getSampleMenuData(7);
     }
 
+    /**
+     * @WP_BeforeRun createMenuWithMultiplePostType
+     */
     function testCanAddMultiplePostTypeAsSubMenus(){
+        $sampleData = self::getSampleMenuData(8);
 
     }
 
+    /**
+     * @WP_BeforeRun createComplexMenu
+     */
     function testComplexMenuStructure(){
-
+        $sampleData = self::getSampleMenuData(9);
     }
 
     /**************************
@@ -92,21 +329,45 @@ class MenuTest extends WPooWBaseTestCase
 
     public static function createMenuItem()
     {
-        $wpOOW = new wpAPI();
-        $sampleData = self::getSampleMenuData(1);
-
-        $newMenu = $wpOOW->CreateMenu(...array_values($sampleData));
-        $newMenu->Render();
+        self::createMenus(new wpAPI(), self::getSampleMenuData(1));
     }
 
-    public static function createCustomisedMenuItem()
+    public static function createCustomisedMenuItemOne()
     {
-        $wpOOW = new wpAPI();
-        $sampleData = self::getSampleMenuData(2);
-
-        $newMenu = $wpOOW->CreateMenu(...array_values($sampleData));
-        $newMenu->Render();
+        self::createMenus(new wpAPI(), self::getSampleMenuData(2));
     }
+
+    public static function createCustomisedMenuItemTwo()
+    {
+        self::createMenus(new wpAPI(), self::getSampleMenuData(3));
+    }
+
+    public static function createMultipleMenuItems()
+    {
+        self::createMenus(new wpAPI(), self::getSampleMenuData(4));
+    }
+
+    public static function createMenuWithSubMenu(){
+        self::createMenus(new wpAPI(), self::getSampleMenuData(5));
+    }
+
+    public static function createMenuWithSubMenus(){
+        self::createMenus(new wpAPI(), self::getSampleMenuData(6));
+    }
+
+
+    public static function createMenuWithPostType(){
+        self::createMenus(new wpAPI(), self::getSampleMenuData(7));
+    }
+
+    public static function createMenuWithMultiplePostType(){
+        self::createMenus(new wpAPI(), self::getSampleMenuData(8));
+    }
+
+    public static function createComplexMenu(){
+        self::createMenus(new wpAPI(), self::getSampleMenuData(9));
+    }
+
 
 
 }

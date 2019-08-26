@@ -16,7 +16,7 @@ class ElementPermissionsTest extends WPooWBaseTestCase
     / HELP DATA & FUNCTIONS   *
     /**************************/
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSamplePostTypeData();
+        $baseSamplePostType = self::getBaseSampleData();
         $baseSamplePostType['fields'] = [];
 
 

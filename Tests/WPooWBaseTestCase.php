@@ -279,7 +279,7 @@ class WPooWBaseTestCase extends WPSTestCase
 
     }
 
-    public static function getBaseSamplePostTypeData(){
+    public static function getBaseSampleData(){
         return [
             'id' => '_wpoow_test_menu',
             'title' => 'WPooW Test Menu'

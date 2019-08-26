@@ -18,7 +18,7 @@ class SelectTest extends WPooWBaseTestCase
     / HELP DATA & FUNCTIONS   *
     /**************************/
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSamplePostTypeData();
+        $baseSamplePostType = self::getBaseSampleData();
 
         switch ($id) {
             case 1:

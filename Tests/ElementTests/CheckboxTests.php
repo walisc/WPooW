@@ -13,7 +13,7 @@ class CheckboxTests extends WPooWBaseTestCase{
     /**************************/
 
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSamplePostTypeData();
+        $baseSamplePostType = self::getBaseSampleData();
 
         switch ($id) {
             case 1:

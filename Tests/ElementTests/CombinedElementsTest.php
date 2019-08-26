@@ -12,7 +12,7 @@ class CombinedElementsTest extends WPooWBaseTestCase{
     / HELP DATA & FUNCTIONS   *
     /**************************/
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSamplePostTypeData();
+        $baseSamplePostType = self::getBaseSampleData();
 
         $fields = [[
             'id' => '_test_text_field_1',

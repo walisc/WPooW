@@ -19,26 +19,28 @@ class MenuTest extends WPooWBaseTestCase
     /**************************/
 
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSampleData();
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
 
         switch ($id) {
             case 1:
-                $baseSamplePostType['fields'] = [[
-                    'id' => '_test_muiltiselect_field_1',
-                    'label' => 'Sample Muilti Select Field 1',
-                    'type' => WPooWTestsElements::MULTISELECT,
-                    'extra_args' => [
-                        'options' => self::$availableOptions[0]
-                    ],
-                    'test_value' =>  ['personC' => 'Person C', 'personD' => 'Person D']
-                ]];
-                break;
+                return $baseSamplePostType;
+            case 2:
+                $baseSamplePostType['capability'] = WP_PERMISSIONS::MANAGE_OPTIONS;
+                $baseSamplePostType['display_path'] = new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Test Menu</h1>");
+                $baseSamplePostType['icon'] = "dashicons-admin-site";
+                $baseSamplePostType['position'] = 1;
+                return $baseSamplePostType;
+            case 3:
+                $baseSamplePostType['capability'] = 'edit_posts';
+                $baseSamplePostType['display_path'] = new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']);
+                $baseSamplePostType['icon'] = "dashicons-admin-collapse";
+                $baseSamplePostType['position'] = 100;
+                return $baseSamplePostType;
             
         }
 
-        return $baseSamplePostType;
-
     }
+
 
     /**************************
     / TESTS                   *
@@ -49,9 +51,38 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanAddMenu(){
 
+
         $sampleData = self::getSampleMenuData(1);
-        $menuItem = $this->getMenuItem($sampleData['id']);
-        $intd =0 ;
+        $menuItem = $this->locatedMenuItem($sampleData['id']);
+        $this->assertTrue($menuItem['title'] == $sampleData['text']);
+    }
+
+    /**
+     * @WP_BeforeRun createCustomisedMenuItem
+     */
+    function testCanCustomiseMenu(){
+        $sampleData = self::getSampleMenuData(1);
+        $menuItem = $this->locatedMenuItem($sampleData['id']);
+    }
+
+    function testCanHaveMultipleMenus(){
+
+    }
+
+    function testCanAddSubmenus(){
+
+        //add three with diferrent modification
+    }
+
+    function testCanAddPostTypeAsSubMenus(){
+
+    }
+
+    function testCanAddMultiplePostTypeAsSubMenus(){
+
+    }
+
+    function testComplexMenuStructure(){
 
     }
 
@@ -64,7 +95,16 @@ class MenuTest extends WPooWBaseTestCase
         $wpOOW = new wpAPI();
         $sampleData = self::getSampleMenuData(1);
 
-        $newMenu = $wpOOW->CreateMenu($sampleData['id'], $sampleData['label']);
+        $newMenu = $wpOOW->CreateMenu(...array_values($sampleData));
+        $newMenu->Render();
+    }
+
+    public static function createCustomisedMenuItem()
+    {
+        $wpOOW = new wpAPI();
+        $sampleData = self::getSampleMenuData(2);
+
+        $newMenu = $wpOOW->CreateMenu(...array_values($sampleData));
         $newMenu->Render();
     }
 
@@ -76,6 +116,13 @@ class MenuTest extends WPooWBaseTestCase
 
 //can add menu (label,click, basic landing page)
 //can customise menu (icon, landing page)
+//can have muiltple menues
 //can add submenu
 //can add PostType submenu
 //can edit submenu (icon, landing page)
+
+//test can set Permissions
+
+//WP_VIEW
+
+//TODO: tickt on permissions

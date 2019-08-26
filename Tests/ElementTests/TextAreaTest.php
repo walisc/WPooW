@@ -18,7 +18,7 @@ class TextAreaTest extends TextTest {
     /**************************/
 
     protected static function getSamplePostTypeData($id){
-        $baseSamplePostType = self::getBaseSampleData();
+        $baseSamplePostType = self::getBaseSamplePostTypeData();
 
         switch ($id) {
             case 1:

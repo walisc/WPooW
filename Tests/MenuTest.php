@@ -12,12 +12,18 @@ use WPooWTests\WPooWBaseTestCase;
 use WPooWTests\WPooWTestsConsts;
 
 include_once __DIR__.'/../wpAPI.php';
+include_once __DIR__.'/../Libraries/twig/twig/lib/Twig/Autoloader.php';
 
 class MenuTest extends WPooWBaseTestCase
 {
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
+
+    static function setUpBeforeClass(){
+        parent::setUpBeforeClass();
+        Twig_Autoloader::register();
+    }
 
     protected static function getSampleMenuData($id){
 
@@ -211,6 +217,47 @@ class MenuTest extends WPooWBaseTestCase
 
     }
 
+    /**************************
+    / HELPERS                 *
+    /**************************/
+
+    function assertMenuItemEqual($menuItem, $menuItemContent){
+
+        $menuItem['li']->click();
+        $this->waitForPageToLoad();
+
+        //because it become stale
+        $menuItem = $this->locatedMenuItem($menuItemContent['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+        $this->assertTrue($menuItem['text']->getAttribute('innerText') == $menuItemContent['label']);
+
+        $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
+        $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
+
+        if (array_key_exists('display_path', $menuItemContent)){
+            ob_start();
+            $menuItemContent['display_path']->Render();
+            $menuPageContent = ob_get_contents();
+            ob_end_clean();
+            $menuPageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $menuPageContent);
+
+            $this->assertContains($menuPageContentFormatted, $pageContentFormatted);
+
+        }
+        else{
+            $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
+            $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
+            $this->assertContains($menuItemContent['label'], $pageContentFormatted);
+
+        }
+
+        if (array_key_exists('icon', $menuItemContent)){
+            $this->assertNotEmpty($menuItem['li']->findElement(WebDriverBy::xpath("descendant::div[contains(@class, 'wp-menu-image') and contains(@class, '${menuItemContent['icon']}')]")));
+        }
+        else{
+            $this->assertNotEmpty($menuItem['li']->findElement(WebDriverBy::xpath("descendant::div[contains(@class, 'wp-menu-image') and contains(@class, 'dashicons-admin-generic')]")));
+        }
+
+    }
 
     /**************************
     / TESTS                   *
@@ -227,7 +274,7 @@ class MenuTest extends WPooWBaseTestCase
         foreach ($sampleData as $menuItem)
         {
             $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertTrue($foundMenu['text']->getAttribute('innerText') == $menuItem['label']);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
         }
 
     }
@@ -241,8 +288,8 @@ class MenuTest extends WPooWBaseTestCase
 
         foreach ($sampleData as $menuItem)
         {
-            $foundMenu = $this->locatedMenuItem($menuItem['id']);
-            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
         }
     }
 

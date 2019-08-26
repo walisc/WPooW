@@ -65,10 +65,6 @@ trait WPooWTestPermissionsHelper{
         }
     }
 
-
-
-
-
     public function checkPermissionsText($postTypeID, $field, $pageType, $returnCanEdit=false){
 
         $addEditPageClosureFunc = function($permissions, $permissionToCheck) use ($postTypeID, $field, $pageType) {

@@ -7,7 +7,7 @@ use WPooWTests\WPooWBaseTestCase;
 
 include_once __DIR__.'/../wpAPI.php';
 
- class CustomPostTypeTest extends WPooWBaseTestCase
+ class PostTypeTest extends WPooWBaseTestCase
  {
      /**************************
      / HELP DATA & FUNCTIONS   *

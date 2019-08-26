@@ -17,6 +17,8 @@ class MenuTest extends WPooWBaseTestCase
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
+    static $SUBMENU_TYPE_POSTTYPE = 'SUBMENU_TYPE_POSTTYPE';
+    static $SUBMENU_TYPE_SUBMENU = 'SUBMENU_TYPE_SUBMENU';
 
     protected static function getSampleMenuData($id){
 
@@ -52,16 +54,12 @@ class MenuTest extends WPooWBaseTestCase
                         'label' => 'WPooW Test Menu 1',
                         'capability' => 'edit_posts',
                         'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
-                        'icon' => 'dashicons-admin-collapse',
-                        'position' => 100,
                     ],
                     [
                         'id' => '_wpoow_test_menu_2',
                         'label' => 'WPooW Test Menu 2',
                         'capability' => 'edit_posts',
                         'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
-                        'icon' => 'dashicons-admin-collapse',
-                        'position' => 100,
                     ]
                 ];
             case 5:
@@ -73,13 +71,11 @@ class MenuTest extends WPooWBaseTestCase
                     'icon' => 'dashicons-admin-site',
                     'position' => 1,
                     'submenus' => [[
-                        'type' => 'submenu',
+                        'type' => self::$SUBMENU_TYPE_SUBMENU,
                         'id' => '_wpoow_test_menu',
                         'label' => 'WPooW Test Menu',
                         'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
-                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
-                        'icon' => 'dashicons-admin-collapse',
-                        'position' => 1]
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>")]
                     ]
                 ];
             case 6:
@@ -89,22 +85,18 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => 'submenu',
+                            'type' => self::$SUBMENU_TYPE_SUBMENU,
                             'id' => '_wpoow_test_menu',
                             'label' => 'WPooW Test Menu',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
-                            'icon' => 'dashicons-admin-collapse',
-                            'position' => 1
                         ],
                         [
-                            'type' => 'submenu',
+                            'type' => self::$SUBMENU_TYPE_SUBMENU,
                             'id' => '_wpoow_test_menu_2',
                             'label' => 'WPooW Test Menu 2',
                             'capability' => 'edit_posts',
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
-                            'icon' => 'dashicons-admin-collapse',
-                            'position' => 100,
                         ]
                     ]
                 ];
@@ -117,7 +109,7 @@ class MenuTest extends WPooWBaseTestCase
                     'icon' => 'dashicons-admin-site',
                     'position' => 1,
                     'submenus' => [[
-                            'type' => 'postype',
+                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu',
                             'title' => 'WPooW Test Menu',
                             'fields' => [
@@ -137,7 +129,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => 'postype',
+                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_1',
                             'title' => 'WPooW Test Menu 1',
                             'fields' => [
@@ -150,7 +142,7 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
-                            'type' => 'postype',
+                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_2',
                             'title' => 'WPooW Test Menu 2',
                             'fields' => [
@@ -174,7 +166,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => 'postype',
+                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_1',
                             'title' => 'WPooW Test Menu 1',
                             'fields' => [
@@ -187,16 +179,14 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
-                            'type' => 'submenu',
+                            'type' => self::$SUBMENU_TYPE_SUBMENU,
                             'id' => '_wpoow_test_menu',
                             'label' => 'WPooW Test Menu',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
-                            'icon' => 'dashicons-admin-collapse',
-                            'position' => 1
                         ],
                         [
-                            'type' => 'postype',
+                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_2',
                             'title' => 'WPooW Test Menu 2',
                             'fields' => [
@@ -209,12 +199,11 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
+                            'type' => self::$SUBMENU_TYPE_SUBMENU,
                             'id' => '_wpoow_test_menu_2',
                             'label' => 'WPooW Test Menu 2',
                             'capability' => 'edit_posts',
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
-                            'icon' => 'dashicons-admin-collapse',
-                            'position' => 100,
                         ]
                     ]
                 ];

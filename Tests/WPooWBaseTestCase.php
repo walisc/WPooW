@@ -268,21 +268,36 @@ class WPooWBaseTestCase extends WPSTestCase
         }
     }
 
-    public static function createPostType($wpOOW, $postTypeObj){
-        $wpOOWTestPage = $wpOOW->CreatePostType($postTypeObj['id'], $postTypeObj['title'], true);
+    public static function createPostType($wpOOW, $postTypeObj, $returnPsotType=false){
+        $wpOOWTestPostType = $wpOOW->CreatePostType($postTypeObj['id'], $postTypeObj['title'], true);
 
         foreach ($postTypeObj['fields'] as $field){
-            $wpOOWTestPage->AddField(self::$FIELD_MAP[$field['type']]::createElement($wpOOW, $field));
+            $wpOOWTestPostType->AddField(self::$FIELD_MAP[$field['type']]::createElement($wpOOW, $field));
         }
 
-        $wpOOWTestPage->render();
-
+        return $returnPsotType ? $wpOOWTestPostType :  $wpOOWTestPostType->render();
     }
 
     public static function createMenus($wpOOW, $menuItemsObj){
 
         foreach ($menuItemsObj as $menuItem){
+            $subMenus = [];
+
+            if (array_key_exists('submenus', $menuItem)){
+                $subMenus = $menuItem['submenus'];
+                unset($menuItem['submenus']);
+            }
+
             $menu = $wpOOW->createMenu(...$menuItem);
+
+            foreach($subMenus as $subMenu){
+                if ($subMenu['type'] == static::$SUBMENU_TYPE_POSTTYPE) { //TODO: Maybe change this constants
+                    $menu->AddChild(self::createPostType($wpOOW, $subMenu, true));
+                }
+                else if ($subMenu['type'] == static::$SUBMENU_TYPE_POSTTYPE){
+                    $menu->AddChild($wpOOW->CreateSubMenu(...$subMenu));
+                }
+            }
             $menu->Render();
         }
     }

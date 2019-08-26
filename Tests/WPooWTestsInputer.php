@@ -153,6 +153,7 @@ class RichTextInputer extends WPooWInputerBase implements ElementInputer{
         $actualDomBody = $actualDom->getElementsByTagName('body')->item(0);
 
 
+        //remove row actions, edit/trash etc
         try{
             $fieldValue->findElement(WebDriverBy::xpath("descendant::div[@class = 'row-actions']"));
             $actualDomBody->removeChild($actualDomBody->lastChild);

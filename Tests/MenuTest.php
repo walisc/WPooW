@@ -9,6 +9,7 @@
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
 use WPooWTests\WPooWBaseTestCase;
+use WPooWTests\WPooWTestsConsts;
 
 include_once __DIR__.'/../wpAPI.php';
 
@@ -17,8 +18,6 @@ class MenuTest extends WPooWBaseTestCase
     /**************************
     / HELP DATA & FUNCTIONS   *
     /**************************/
-    static $SUBMENU_TYPE_POSTTYPE = 'SUBMENU_TYPE_POSTTYPE';
-    static $SUBMENU_TYPE_SUBMENU = 'SUBMENU_TYPE_SUBMENU';
 
     protected static function getSampleMenuData($id){
 
@@ -71,7 +70,7 @@ class MenuTest extends WPooWBaseTestCase
                     'icon' => 'dashicons-admin-site',
                     'position' => 1,
                     'submenus' => [[
-                        'type' => self::$SUBMENU_TYPE_SUBMENU,
+                        'type' => WPooWTestsConsts::MENU_TYPE_MENU,
                         'id' => '_wpoow_test_menu',
                         'label' => 'WPooW Test Menu',
                         'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
@@ -85,14 +84,14 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => self::$SUBMENU_TYPE_SUBMENU,
+                            'type' => WPooWTestsConsts::MENU_TYPE_MENU,
                             'id' => '_wpoow_test_menu',
                             'label' => 'WPooW Test Menu',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
                         ],
                         [
-                            'type' => self::$SUBMENU_TYPE_SUBMENU,
+                            'type' => WPooWTestsConsts::MENU_TYPE_MENU,
                             'id' => '_wpoow_test_menu_2',
                             'label' => 'WPooW Test Menu 2',
                             'capability' => 'edit_posts',
@@ -109,7 +108,7 @@ class MenuTest extends WPooWBaseTestCase
                     'icon' => 'dashicons-admin-site',
                     'position' => 1,
                     'submenus' => [[
-                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
+                            'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu',
                             'title' => 'WPooW Test Menu',
                             'fields' => [
@@ -129,7 +128,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
+                            'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_1',
                             'title' => 'WPooW Test Menu 1',
                             'fields' => [
@@ -142,7 +141,7 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
-                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
+                            'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_2',
                             'title' => 'WPooW Test Menu 2',
                             'fields' => [
@@ -166,7 +165,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [
                         [
-                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
+                            'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_1',
                             'title' => 'WPooW Test Menu 1',
                             'fields' => [
@@ -179,14 +178,14 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
-                            'type' => self::$SUBMENU_TYPE_SUBMENU,
+                            'type' => WPooWTestsConsts::MENU_TYPE_MENU,
                             'id' => '_wpoow_test_menu',
                             'label' => 'WPooW Test Menu',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
                         ],
                         [
-                            'type' => self::$SUBMENU_TYPE_POSTTYPE,
+                            'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
                             'id' => '_wpoow_test_menu_2',
                             'title' => 'WPooW Test Menu 2',
                             'fields' => [
@@ -199,7 +198,7 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ],
                         [
-                            'type' => self::$SUBMENU_TYPE_SUBMENU,
+                            'type' => WPooWTestsConsts::MENU_TYPE_MENU,
                             'id' => '_wpoow_test_menu_2',
                             'label' => 'WPooW Test Menu 2',
                             'capability' => 'edit_posts',
@@ -222,13 +221,13 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanAddMenu(){
 
-
         $sampleData = self::getSampleMenuData(1);
+        $this->loginToWPAdmin();
 
         foreach ($sampleData as $menuItem)
         {
-            $foundMenu = $this->locatedMenuItem($menuItem['id']);
-            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertTrue($foundMenu['text']->getAttribute('innerText') == $menuItem['label']);
         }
 
     }
@@ -238,6 +237,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanCustomiseMenuOne(){
         $sampleData = self::getSampleMenuData(2);
+        $this->loginToWPAdmin();
 
         foreach ($sampleData as $menuItem)
         {
@@ -251,6 +251,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanCustomiseMenuTwo(){
         $sampleData = self::getSampleMenuData(3);
+        $this->loginToWPAdmin();
 
         foreach ($sampleData as $menuItem)
         {
@@ -264,6 +265,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanHaveMultipleMenus(){
         $sampleData = self::getSampleMenuData(4);
+        $this->loginToWPAdmin();
 
         foreach ($sampleData as $menuItem)
         {
@@ -278,6 +280,7 @@ class MenuTest extends WPooWBaseTestCase
     function testCanAddSubmenu(){
 
         $sampleData = self::getSampleMenuData(5);
+        $this->loginToWPAdmin();
         //add three with diferrent modification
     }
 
@@ -287,6 +290,7 @@ class MenuTest extends WPooWBaseTestCase
     function testCanAddSubmenus(){
 
         $sampleData = self::getSampleMenuData(6);
+        $this->loginToWPAdmin();
         //add three with diferrent modification
     }
 
@@ -295,6 +299,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanAddPostTypeAsSubMenus(){
         $sampleData = self::getSampleMenuData(7);
+        $this->loginToWPAdmin();
     }
 
     /**
@@ -302,6 +307,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testCanAddMultiplePostTypeAsSubMenus(){
         $sampleData = self::getSampleMenuData(8);
+        $this->loginToWPAdmin();
 
     }
 
@@ -310,6 +316,7 @@ class MenuTest extends WPooWBaseTestCase
      */
     function testComplexMenuStructure(){
         $sampleData = self::getSampleMenuData(9);
+        $this->loginToWPAdmin();
     }
 
     /**************************
@@ -374,5 +381,3 @@ class MenuTest extends WPooWBaseTestCase
 //test can set Permissions
 
 //WP_VIEW
-
-//TODO: tickt on permissions

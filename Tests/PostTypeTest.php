@@ -47,7 +47,7 @@ include_once __DIR__.'/../wpAPI.php';
          $canNavigate = false;
 
          $this->loginToWPAdmin();
-         $this->navigateToMenuItems(self::$samplePostType1['id']);
+         $this->navigateToPostTypeMenuItem(self::$samplePostType1['id']);
 
          if (strpos($this->driver->getCurrentURL(), sprintf("edit.php?post_type=%s", self::$samplePostType1['id'])) !== false) {
              $canNavigate = true;
@@ -72,7 +72,7 @@ include_once __DIR__.'/../wpAPI.php';
      public function testCanAddField()
      {
          $this->loginToWPAdmin();
-         $this->navigateToMenuItems(self::$samplePostType1['id']);
+         $this->navigateToPostTypeMenuItem(self::$samplePostType1['id']);
          $fieldInPostTypeGrid= $this->hasFieldInPostTypeGrid(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
          $fieldInPostTypeAddForm = $this->hasFieldInPostTypeAddForm(self::$samplePostType1['id'], self::$samplePostType1['fields'][0]);
          $this->assertTrue($fieldInPostTypeGrid && $fieldInPostTypeAddForm);

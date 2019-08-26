@@ -84,7 +84,7 @@ class ElementPermissionsTest extends WPooWBaseTestCase
         $this->goToEditPage($sampleData['id'], $postID);
         $this->checkPermissions($sampleData['id'], $sampleData['fields'], WPooWTestsConsts::PAGE_TYPE_EDIT);
 
-        $this->navigateToMenuItems($sampleData['id']);
+        $this->navigateToPostTypeMenuItem($sampleData['id']);
         $this->checkPermissions($sampleData['id'], $sampleData['fields'], WPooWTestsConsts::PAGE_TYPE_GRID);
 
     }

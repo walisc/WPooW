@@ -45,10 +45,12 @@ class WPooWBaseTestCase extends WPSTestCase
     /**************************
      * NAVIGATION             *
      **************************/
-    protected function locatedMenuItem($id, $title = null)
+    protected function locatedMenuItem($id, $menuType, $title = null) //TODO: Maybe remove 'menuIDTag' and add the need the specify type
     {
+        $menuIDTag = $menuType == WPooWTestsConsts::MENU_TYPE_POSTTYPE  ? 'menu-posts-' : 'toplevel_page_';
+
         try {
-            $menuItemNameLi = $this->driver->findElement(WebDriverBy::id("menu-posts-${id}"));
+            $menuItemNameLi = $this->driver->findElement(WebDriverBy::id("${menuIDTag}${id}"));
             $menuItemName = $menuItemNameLi->findElement(WebDriverBy::xpath("descendant::div[@class='wp-menu-name'][1]"));
 
             if ($title != null && $title != $this->getElementInnerText($menuItemName)) {
@@ -65,16 +67,23 @@ class WPooWBaseTestCase extends WPSTestCase
         return null;
     }
 
-    protected function navigateToMenuItems($postTypeID)
+    protected function navigateToPostTypeMenuItem($postTypeID)
     {
-        $menuItem = $this->locatedMenuItem($postTypeID);
+        $menuItem = $this->locatedMenuItem($postTypeID, WPooWTestsConsts::MENU_TYPE_POSTTYPE);
+        $menuItem["li"]->click();
+        $this->waitForPageToLoad();
+    }
+
+    protected function navigateToMenuItem($postTypeID)
+    {
+        $menuItem = $this->locatedMenuItem($postTypeID, WPooWTestsConsts::MENU_TYPE_MENU);
         $menuItem["li"]->click();
         $this->waitForPageToLoad();
     }
 
     protected function goToAddPage($postTypeID)
     {
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
         //TODO: Think about localization
         $addButton = $this->driver->findElement(WebDriverBy::xpath("//a[@class='page-title-action' and text()='Add New']"));
         $addButton->click();
@@ -82,7 +91,7 @@ class WPooWBaseTestCase extends WPSTestCase
 
     protected function goToEditPage($postTypeID, $postId)
     {
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
 
         $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
         $editLink = $thePost->findElement(WebDriverBy::xpath("descendant::span[@class='edit']/a"));
@@ -94,7 +103,7 @@ class WPooWBaseTestCase extends WPSTestCase
      * ************************/
     protected function addPost($postTypeID, $fields = [])
     {
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
         $initialCount = $this->getPageCount();
 
         $this->goToAddPage($postTypeID);
@@ -103,7 +112,7 @@ class WPooWBaseTestCase extends WPSTestCase
         $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$publishBtn]);
         $publishBtn->click();
 
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
 
         if ($initialCount + 1 != $this->getPageCount()) {
             return null;
@@ -125,7 +134,7 @@ class WPooWBaseTestCase extends WPSTestCase
 
             //TODO: Localization, and case insentivity
             if (strpos($this->getElementInnerText($this->driver->findElement(WebDriverBy::xpath("//div[@id='message']/p"))), 'Post updated') !== false) {
-                $this->navigateToMenuItems($postTypeID);
+                $this->navigateToPostTypeMenuItem($postTypeID);
                 return $postId;
             }
         } catch (NoSuchElementException $e) {
@@ -136,7 +145,7 @@ class WPooWBaseTestCase extends WPSTestCase
 
     protected function deletePost($postTypeID, $postId, $fields = [])
     {
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
         $initialCount = $this->getPageCount();
 
         $thePost = $this->driver->findElement(WebDriverBy::xpath("//tr[@id='${postId}']"));
@@ -180,7 +189,7 @@ class WPooWBaseTestCase extends WPSTestCase
     public function hasFieldInPostTypeGrid($postTypeID, $field)
     {
         try {
-            $this->navigateToMenuItems($postTypeID);
+            $this->navigateToPostTypeMenuItem($postTypeID);
             $fieldCol = $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/thead/tr/th[@id='${postTypeID}_${field['id']}']"));
             if ($this->getElementInnerText($fieldCol) == $field['label']) {
                 return true;
@@ -193,7 +202,7 @@ class WPooWBaseTestCase extends WPSTestCase
 
     public function getGridEntry($postTypeID, $postID, $fields=null){
 
-        $this->navigateToMenuItems($postTypeID);
+        $this->navigateToPostTypeMenuItem($postTypeID);
         $gridData = ['gridEntry' => $this->driver->findElement(WebDriverBy::id($postID)),
                      'fieldData' => []];
 
@@ -288,14 +297,14 @@ class WPooWBaseTestCase extends WPSTestCase
                 unset($menuItem['submenus']);
             }
 
-            $menu = $wpOOW->createMenu(...$menuItem);
+            $menu = $wpOOW->createMenu(...array_values($menuItem));
 
             foreach($subMenus as $subMenu){
-                if ($subMenu['type'] == static::$SUBMENU_TYPE_POSTTYPE) { //TODO: Maybe change this constants
+                if ($subMenu['type'] == WPooWTestsConsts::MENU_TYPE_POSTTYPE) {
                     $menu->AddChild(self::createPostType($wpOOW, $subMenu, true));
                 }
-                else if ($subMenu['type'] == static::$SUBMENU_TYPE_POSTTYPE){
-                    $menu->AddChild($wpOOW->CreateSubMenu(...$subMenu));
+                else if ($subMenu['type'] == WPooWTestsConsts::MENU_TYPE_MENU){
+                    $menu->AddChild($wpOOW->CreateSubMenu(...array_values($subMenu)));
                 }
             }
             $menu->Render();
@@ -312,7 +321,7 @@ class WPooWBaseTestCase extends WPSTestCase
     public function checkPermissions($postTypeID, $fields, $pageType, $postID=null){
 
         if ($pageType == WPooWTestsConsts::PAGE_TYPE_GRID){
-            $this->navigateToMenuItems($postTypeID);
+            $this->navigateToPostTypeMenuItem($postTypeID);
         }
         else if ($pageType == WPooWTestsConsts::PAGE_TYPE_ADD){
             $this->goToAddPage($postTypeID);

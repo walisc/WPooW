@@ -295,15 +295,18 @@ class WPooWBaseTestCase extends WPSTestCase
             if (array_key_exists('submenus', $menuItem)){
                 $subMenus = $menuItem['submenus'];
                 unset($menuItem['submenus']);
+
             }
 
             $menu = $wpOOW->createMenu(...array_values($menuItem));
 
             foreach($subMenus as $subMenu){
                 if ($subMenu['type'] == WPooWTestsConsts::MENU_TYPE_POSTTYPE) {
+                    unset($subMenu["type"]);
                     $menu->AddChild(self::createPostType($wpOOW, $subMenu, true));
                 }
                 else if ($subMenu['type'] == WPooWTestsConsts::MENU_TYPE_MENU){
+                    unset($subMenu["type"]);
                     $menu->AddChild($wpOOW->CreateSubMenu(...array_values($subMenu)));
                 }
             }

@@ -22,10 +22,17 @@ class MenuTest extends WPooWBaseTestCase
 
     static function setUpBeforeClass(){
         parent::setUpBeforeClass();
+
+        if ( ! defined( 'ABSPATH' ) ) {
+            define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+        }
+
         Twig_Autoloader::register();
     }
 
     protected static function getSampleMenuData($id){
+
+        $twigBasePath = dirname( __FILE__ ) . '/';
 
         switch ($id) {
             case 1:
@@ -48,7 +55,7 @@ class MenuTest extends WPooWBaseTestCase
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'capability' => 'edit_posts',
-                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                    'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
                     'icon' => 'dashicons-admin-collapse',
                     'position' => 100,
                 ]];
@@ -58,17 +65,17 @@ class MenuTest extends WPooWBaseTestCase
                         'id' => '_wpoow_test_menu_1',
                         'label' => 'WPooW Test Menu 1',
                         'capability' => 'edit_posts',
-                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
                     ],
                     [
                         'id' => '_wpoow_test_menu_2',
                         'label' => 'WPooW Test Menu 2',
                         'capability' => 'edit_posts',
-                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                        'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
                     ]
                 ];
             case 5:
-                return [
+                return [[
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
@@ -77,36 +84,36 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [[
                         'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                        'id' => '_wpoow_test_menu',
-                        'label' => 'WPooW Test Menu',
+                        'id' => '_wpoow_test_menu_sub_1',
+                        'label' => 'WPooW Test Sub Menu 1',
                         'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                         'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>")]
                     ]
-                ];
+                ]];
             case 6:
-                return [
+                return [[
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'position' => 1,
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu',
-                            'label' => 'WPooW Test Menu',
+                            'id' => '_wpoow_test_menu_sub_1',
+                            'label' => 'WPooW Test Sub Menu 1',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_2',
-                            'label' => 'WPooW Test Menu 2',
+                            'id' => '_wpoow_test_menu_sub_2',
+                            'label' => 'WPooW Test Sub Menu 2',
                             'capability' => 'edit_posts',
-                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
                         ]
                     ]
-                ];
+                ]];
             case 7:
-                return [
+                return [[
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
@@ -115,8 +122,8 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [[
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu',
-                            'title' => 'WPooW Test Menu',
+                            'id' => '_wpoow_test_menu_sub_1',
+                            'title' => 'WPooW Test Sub Menu 1',
                             'fields' => [
                                 [
                                     'id' => '_test_text_field',
@@ -126,17 +133,17 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ]
                     ]
-                ];
+                ]];
             case 8:
-                return [
+                return [[
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'position' => 1,
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_1',
-                            'title' => 'WPooW Test Menu 1',
+                            'id' => '_wpoow_test_menu_sub_1',
+                            'title' => 'WPooW Test sub Menu 1',
                             'fields' => [
                                 [
                                     'id' => '_test_text_field',
@@ -148,8 +155,8 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_2',
-                            'title' => 'WPooW Test Menu 2',
+                            'id' => '_wpoow_test_menu_sub_2',
+                            'title' => 'WPooW Test Sub Menu 2',
                             'fields' => [
                                 [
                                     'id' => '_test_text_field',
@@ -160,9 +167,9 @@ class MenuTest extends WPooWBaseTestCase
                             ]
                         ]
                     ]
-                ];
+                ]];
             case 9:
-                return [
+                return [[
                     'id' => '_wpoow_test_menu',
                     'label' => 'WPooW Test Menu',
                     'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
@@ -172,8 +179,8 @@ class MenuTest extends WPooWBaseTestCase
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_1',
-                            'title' => 'WPooW Test Menu 1',
+                            'id' => '_wpoow_test_menu_sub_1',
+                            'title' => 'WPooW Test Sub Menu 1',
                             'fields' => [
                                 [
                                     'id' => '_test_text_field',
@@ -185,15 +192,15 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu',
-                            'label' => 'WPooW Test Menu',
+                            'id' => '_wpoow_test_menu_sub_2',
+                            'label' => 'WPooW Test Sub Menu 2',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_2',
-                            'title' => 'WPooW Test Menu 2',
+                            'id' => '_wpoow_test_menu_sub_3',
+                            'title' => 'WPooW Test Sub Menu 3',
                             'fields' => [
                                 [
                                     'id' => '_test_text_field',
@@ -205,13 +212,13 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_2',
-                            'label' => 'WPooW Test Menu 2',
+                            'id' => '_wpoow_test_menu_sub_4',
+                            'label' => 'WPooW Test Sub Menu 4',
                             'capability' => 'edit_posts',
-                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'resources/templates/sample_menu.twig', ['title' => 'Sample Menu']),
+                            'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
                         ]
                     ]
-                ];
+                ]];
 
         }
 
@@ -302,8 +309,8 @@ class MenuTest extends WPooWBaseTestCase
 
         foreach ($sampleData as $menuItem)
         {
-            $foundMenu = $this->locatedMenuItem($menuItem['id']);
-            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
         }
     }
 
@@ -316,8 +323,8 @@ class MenuTest extends WPooWBaseTestCase
 
         foreach ($sampleData as $menuItem)
         {
-            $foundMenu = $this->locatedMenuItem($menuItem['id']);
-            $this->assertTrue($foundMenu['title'] == $menuItem['text']);
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
         }
     }
 
@@ -328,7 +335,12 @@ class MenuTest extends WPooWBaseTestCase
 
         $sampleData = self::getSampleMenuData(5);
         $this->loginToWPAdmin();
-        //add three with diferrent modification
+
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
+        }
     }
 
     /**

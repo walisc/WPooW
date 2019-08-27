@@ -147,16 +147,27 @@ class wpAPI_VIEW
     private $data = [];
 
     /**
+     *
+     * base path to use when finding templates. If not specified use ABSPATH
+     *
+     * @var array
+     */
+    private $base_path = [];
+
+
+    /**
      * wpAPI_VIEW constructor.
      * @param $type
      * @param $path_content
      * @param $data
+     * @param $base_path
      */
-    function __construct($type, $path_content, $data=[])
+    function __construct($type, $path_content, $data=[], $base_path=null)
     {
         $this->type = $type;
         $this->path_content = $path_content;
         $this->data = array_merge($this->data, $data);
+        $this->base_path = $base_path != null ? $base_path : ABSPATH;
 
     }
 
@@ -172,7 +183,7 @@ class wpAPI_VIEW
         {
             //TODO: Make this global
 
-            $loader = new Twig_Loader_Filesystem(ABSPATH);
+            $loader = new Twig_Loader_Filesystem($this->base_path);
             $twig = new Twig_Environment($loader);
 
             echo $twig->render($this->path_content, $this->data);

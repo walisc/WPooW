@@ -84,7 +84,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [[
                         'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                        'id' => '_wpoow_test_menu_sub_1',
+                        'id' => '_wpoow_test_ms1',
                         'label' => 'WPooW Test Sub Menu 1',
                         'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                         'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>")]
@@ -98,14 +98,14 @@ class MenuTest extends WPooWBaseTestCase
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_sub_1',
+                            'id' => '_wpoow_test_ms1',
                             'label' => 'WPooW Test Sub Menu 1',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_sub_2',
+                            'id' => '_wpoow_test_ms2',
                             'label' => 'WPooW Test Sub Menu 2',
                             'capability' => 'edit_posts',
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),
@@ -192,7 +192,7 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_sub_2',
+                            'id' => '_wpoow_test_ms2',
                             'label' => 'WPooW Test Sub Menu 2',
                             'capability' => WP_PERMISSIONS::MANAGE_OPTIONS,
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::CONTENT, "<h1>Sub Menu</h1>"),
@@ -212,7 +212,7 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_MENU,
-                            'id' => '_wpoow_test_menu_sub_4',
+                            'id' => '_wpoow_test_ms4',
                             'label' => 'WPooW Test Sub Menu 4',
                             'capability' => 'edit_posts',
                             'display_path' =>  new  wpAPI_VIEW(wpAPI_VIEW::PATH, 'Resources/Templates/sample_menu.twig', ['title' => 'Sample Menu'], $twigBasePath),

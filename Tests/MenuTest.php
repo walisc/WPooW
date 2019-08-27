@@ -122,7 +122,7 @@ class MenuTest extends WPooWBaseTestCase
                     'position' => 1,
                     'submenus' => [[
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_sub_1',
+                            'id' => '_wpoow_test_ms1',
                             'title' => 'WPooW Test Sub Menu 1',
                             'fields' => [
                                 [
@@ -142,7 +142,7 @@ class MenuTest extends WPooWBaseTestCase
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_sub_1',
+                            'id' => '_wpoow_test_ms1',
                             'title' => 'WPooW Test sub Menu 1',
                             'fields' => [
                                 [
@@ -155,7 +155,7 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_sub_2',
+                            'id' => '_wpoow_test_ms2',
                             'title' => 'WPooW Test Sub Menu 2',
                             'fields' => [
                                 [
@@ -179,7 +179,7 @@ class MenuTest extends WPooWBaseTestCase
                     'submenus' => [
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_sub_1',
+                            'id' => '_wpoow_test_ms1',
                             'title' => 'WPooW Test Sub Menu 1',
                             'fields' => [
                                 [
@@ -199,7 +199,7 @@ class MenuTest extends WPooWBaseTestCase
                         ],
                         [
                             'type' => WPooWTestsConsts::MENU_TYPE_POSTTYPE,
-                            'id' => '_wpoow_test_menu_sub_3',
+                            'id' => '_wpoow_test_ms3',
                             'title' => 'WPooW Test Sub Menu 3',
                             'fields' => [
                                 [
@@ -228,6 +228,34 @@ class MenuTest extends WPooWBaseTestCase
     / HELPERS                 *
     /**************************/
 
+    /**
+     * @param $menuItemContent
+     */
+    public function assertMenuContentEqual($menuItemContent)
+    {
+        $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
+        $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
+
+        if (array_key_exists('display_path', $menuItemContent)) {
+            ob_start();
+            $menuItemContent['display_path']->Render();
+            $menuPageContent = ob_get_contents();
+            ob_end_clean();
+            $menuPageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $menuPageContent);
+
+            $this->assertContains($menuPageContentFormatted, $pageContentFormatted);
+
+        } else {
+            $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
+            $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
+
+            $contentValue = array_key_exists('type', $menuItemContent) ? ($menuItemContent['type'] == WPooWTestsConsts::MENU_TYPE_MENU ? $menuItemContent['label'] : $menuItemContent['title']) : 'label';
+
+            $this->assertContains($contentValue, $pageContentFormatted);
+
+        }
+    }
+
     function assertMenuItemEqual($menuItem, $menuItemContent){
 
         $menuItem['li']->click();
@@ -237,25 +265,7 @@ class MenuTest extends WPooWBaseTestCase
         $menuItem = $this->locatedMenuItem($menuItemContent['id'], WPooWTestsConsts::MENU_TYPE_MENU);
         $this->assertTrue($menuItem['text']->getAttribute('innerText') == $menuItemContent['label']);
 
-        $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
-        $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
-
-        if (array_key_exists('display_path', $menuItemContent)){
-            ob_start();
-            $menuItemContent['display_path']->Render();
-            $menuPageContent = ob_get_contents();
-            ob_end_clean();
-            $menuPageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $menuPageContent);
-
-            $this->assertContains($menuPageContentFormatted, $pageContentFormatted);
-
-        }
-        else{
-            $pageContent = $this->driver->findElement(WebDriverBy::id('wpbody-content'))->getAttribute('innerHTML');
-            $pageContentFormatted = preg_replace("/\r\n|\r|\n/", '', $pageContent);
-            $this->assertContains($menuItemContent['label'], $pageContentFormatted);
-
-        }
+        $this->assertMenuContentEqual($menuItemContent);
 
         if (array_key_exists('icon', $menuItemContent)){
             $this->assertNotEmpty($menuItem['li']->findElement(WebDriverBy::xpath("descendant::div[contains(@class, 'wp-menu-image') and contains(@class, '${menuItemContent['icon']}')]")));
@@ -264,6 +274,29 @@ class MenuTest extends WPooWBaseTestCase
             $this->assertNotEmpty($menuItem['li']->findElement(WebDriverBy::xpath("descendant::div[contains(@class, 'wp-menu-image') and contains(@class, 'dashicons-admin-generic')]")));
         }
 
+        if (array_key_exists('submenus', $menuItemContent)){
+            foreach ($menuItemContent['submenus'] as $subMenu){
+                $menuItem = $this->locatedMenuItem($menuItemContent['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+                $subMenuObj = $menuItem['li']->findElement(WebDriverBy::xpath("descendant::a[contains(@href, '${subMenu['id']}' )]")); //nt the best option
+                $this->assertTrue($subMenuObj->getAttribute('innerText') == ($subMenu['type'] == WPooWTestsConsts::MENU_TYPE_MENU ? $subMenu['label'] : $subMenu['title']));
+                $this->driver->Get($subMenuObj->getAttribute('href'));
+                $this->assertMenuContentEqual($subMenu);
+
+            }
+        }
+
+
+    }
+
+    function runMenuTestCase($sampleDataId){
+        $sampleData = self::getSampleMenuData($sampleDataId);
+        $this->loginToWPAdmin();
+
+        foreach ($sampleData as $menuItem)
+        {
+            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
+            $this->assertMenuItemEqual($foundMenu, $menuItem);
+        }
     }
 
     /**************************
@@ -274,108 +307,63 @@ class MenuTest extends WPooWBaseTestCase
      * @WP_BeforeRun createMenuItem
      */
     function testCanAddMenu(){
-
-        $sampleData = self::getSampleMenuData(1);
-        $this->loginToWPAdmin();
-
-        foreach ($sampleData as $menuItem)
-        {
-            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertMenuItemEqual($foundMenu, $menuItem);
-        }
-
+        $this->runMenuTestCase(1);
     }
 
     /**
      * @WP_BeforeRun createCustomisedMenuItemOne
      */
     function testCanCustomiseMenuOne(){
-        $sampleData = self::getSampleMenuData(2);
-        $this->loginToWPAdmin();
-
-        foreach ($sampleData as $menuItem)
-        {
-            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertMenuItemEqual($foundMenu, $menuItem);
-        }
+        $this->runMenuTestCase(2);
     }
 
     /**
      * @WP_BeforeRun createCustomisedMenuItemTwo
      */
     function testCanCustomiseMenuTwo(){
-        $sampleData = self::getSampleMenuData(3);
-        $this->loginToWPAdmin();
-
-        foreach ($sampleData as $menuItem)
-        {
-            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertMenuItemEqual($foundMenu, $menuItem);
-        }
+        $this->runMenuTestCase(3);
     }
 
     /**
      * @WP_BeforeRun createMultipleMenuItems
      */
     function testCanHaveMultipleMenus(){
-        $sampleData = self::getSampleMenuData(4);
-        $this->loginToWPAdmin();
-
-        foreach ($sampleData as $menuItem)
-        {
-            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertMenuItemEqual($foundMenu, $menuItem);
-        }
+        $this->runMenuTestCase(4);
     }
 
     /**
      * @WP_BeforeRun createMenuWithSubMenu
      */
     function testCanAddSubmenu(){
-
-        $sampleData = self::getSampleMenuData(5);
-        $this->loginToWPAdmin();
-
-        foreach ($sampleData as $menuItem)
-        {
-            $foundMenu = $this->locatedMenuItem($menuItem['id'], WPooWTestsConsts::MENU_TYPE_MENU);
-            $this->assertMenuItemEqual($foundMenu, $menuItem);
-        }
+        $this->runMenuTestCase(5);
     }
 
     /**
      * @WP_BeforeRun createMenuWithSubMenus
      */
     function testCanAddSubmenus(){
-
-        $sampleData = self::getSampleMenuData(6);
-        $this->loginToWPAdmin();
-        //add three with diferrent modification
+        $this->runMenuTestCase(6);
     }
 
     /**
      * @WP_BeforeRun createMenuWithPostType
      */
     function testCanAddPostTypeAsSubMenus(){
-        $sampleData = self::getSampleMenuData(7);
-        $this->loginToWPAdmin();
+        $this->runMenuTestCase(7);
     }
 
     /**
      * @WP_BeforeRun createMenuWithMultiplePostType
      */
     function testCanAddMultiplePostTypeAsSubMenus(){
-        $sampleData = self::getSampleMenuData(8);
-        $this->loginToWPAdmin();
-
+        $this->runMenuTestCase(8);
     }
 
     /**
      * @WP_BeforeRun createComplexMenu
      */
     function testComplexMenuStructure(){
-        $sampleData = self::getSampleMenuData(9);
-        $this->loginToWPAdmin();
+        $this->runMenuTestCase(9);
     }
 
     /**************************
@@ -422,6 +410,7 @@ class MenuTest extends WPooWBaseTestCase
     public static function createComplexMenu(){
         self::createMenus(new wpAPI(), self::getSampleMenuData(9));
     }
+
 
 
 

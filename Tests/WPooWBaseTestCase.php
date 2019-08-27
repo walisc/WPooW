@@ -277,14 +277,15 @@ class WPooWBaseTestCase extends WPSTestCase
         }
     }
 
-    public static function createPostType($wpOOW, $postTypeObj, $returnPsotType=false){
+    public static function createPostType($wpOOW, $postTypeObj, $returnPostType=false){
         $wpOOWTestPostType = $wpOOW->CreatePostType($postTypeObj['id'], $postTypeObj['title'], true);
 
         foreach ($postTypeObj['fields'] as $field){
-            $wpOOWTestPostType->AddField(self::$FIELD_MAP[$field['type']]::createElement($wpOOW, $field));
+            $fieldType = array_key_exists('type', $field) ? $field['type'] : 'text';
+            $wpOOWTestPostType->AddField(self::$FIELD_MAP[$fieldType]::createElement($wpOOW, $field));
         }
 
-        return $returnPsotType ? $wpOOWTestPostType :  $wpOOWTestPostType->render();
+        return $returnPostType ? $wpOOWTestPostType :  $wpOOWTestPostType->render();
     }
 
     public static function createMenus($wpOOW, $menuItemsObj){
@@ -297,7 +298,7 @@ class WPooWBaseTestCase extends WPSTestCase
                 unset($menuItem['submenus']);
 
             }
-
+//TODO: Length limitation on id, tests in directory
             $menu = $wpOOW->createMenu(...array_values($menuItem));
 
             foreach($subMenus as $subMenu){

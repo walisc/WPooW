@@ -104,7 +104,7 @@ class BaseTextInputer extends WPooWInputerBase{
 
     function getSelector($postTypeID, $field){
         $postTypeFieldID = "${postTypeID}_${field['id']}";
-        $selector = $field['type'] == 'textarea' ? 'textarea' : 'input';
+        $selector = array_key_exists('type', $field) ? ($field['type'] == 'textarea' ? 'textarea' : 'input') : 'input';
         return WebDriverBy::xpath("//${selector}[@id='${postTypeFieldID}']");
     }
 

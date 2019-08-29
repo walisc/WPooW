@@ -298,7 +298,7 @@ class WPooWBaseTestCase extends WPSTestCase
                 unset($menuItem['submenus']);
 
             }
-//TODO: Length limitation on id, tests in directory
+
             $menu = $wpOOW->createMenu(...array_values($menuItem));
 
             foreach($subMenus as $subMenu){

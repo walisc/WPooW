@@ -56,8 +56,8 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         $sampleData = self::getSamplePostTypeData(1);
         $postID = $this->addPost($sampleData['id'], $sampleData['fields']);
         $gridData = $this->getGridEntry($sampleData['id'], $postID, [$sampleData['fields'][0]]);
-        $formattedTestValue = strtolower(str_replace(' ', '_', $sampleData['fields'][1]['test_value'])));
-        $this->assertTrue($gridData['fieldData'][$sampleData['fields'][0]['id']] == $formattedTestValue);
+        $formattedTestValue = strtolower(str_replace(' ', '-', $sampleData['fields'][1]['test_value']));
+        $this->assertTrue($gridData['fieldData'][$sampleData['fields'][0]['id']]->getText() == $formattedTestValue);
     }
 
     function executeAfterSaveFunc(){
@@ -88,7 +88,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         }
 
         $gridData = $this->navigateToPostTypeMenuItem($sampleData['id']);
-        //find element
+
 
     }
     /**
@@ -129,6 +129,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     function testCanExecuteBeforeFetchFunction()
     {
         $this->executeBeforeFetchFunction();
+        //find element make sure there in order
     }
 
     /**
@@ -137,11 +138,16 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     function testCanExecuteBeforeFetchFunctionWithClass()
     {
         $this->executeBeforeFetchFunction();
+        //find element make sure there in order
     }
 
+    /**
+     * @WP_BeforeRun createBeforeFetchFuncPostType
+     */
     function testBeforeFetchDoesNotPersist()
     {
-
+        $this->executeBeforeFetchFunction();
+        // ntot find element make sure there in order
     }
 
     /**************************
@@ -152,6 +158,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     {
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("beforeSaveFuncDataId1");
+        $testPostType->Render();
     }
 
     static function createBeforeSaveFuncPostTypeWithClass()
@@ -160,6 +167,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("beforeSaveFuncDataId1", $sampleEventClass);
+        $testPostType->Render();
     }
 
     static function createAfterSaveFuncPostType(){
@@ -168,6 +176,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         }
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("afterSaveFuncDataId1");
+        $testPostType->Render();
     }
 
     static function createAfterSaveFuncPostTypeWithClass(){
@@ -178,6 +187,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         }
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("afterSaveFuncDataId1", $sampleEventClass);
+        $testPostType->Render();
     }
 
     static function createBeforeFetchFuncPostType(){
@@ -190,6 +200,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("beforeDataFetchFuncDataId2", $sampleEventClass);
+        $testPostType->Render();
     }
 
 
@@ -198,45 +209,32 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 class SampleEventsClass{
 
     function beforeSaveFuncDataId1($data){
-        $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
-        $postTypeID = $sampleData['id'];
-        $fieldIO = $sampleData['fields'][0]['id'];
-        $fieldTest = $sampleData['fields'][1]['id'];
-
-        $data[$fieldIO] = sanitize_title($data[sprintf("%s_%s", $postTypeID, $fieldTest)]);
-        return $data;
+        //calling global version of the function
+        return beforeSaveFuncDataId1($data);
     }
 
     function afterSaveFuncDataId1($data){
-        $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
-
-        $fileHandler = fopen(PostTypesEventsTest::getAfterSaveData()['fileLocation'], 'w+');
-        fwrite($fileHandler,sprintf("%s:%s",PostTypesEventsTest::getAfterSaveData()['fileContent'], $data[$sampleData['fields'][1]['test_value']]));
-        fclose($fileHandler);
+        afterSaveFuncDataId1($data);
     }
 
     function beforeDataFetchFuncDataId2($query){
-        $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
-        $metaKey = sprintf("%s_%s", $sampleData['id'], $sampleData['fields'][1]['id']);
-        $query->set('order', 'ASC');
-        $query->set('orderby', 'meta_value_num');
-        $query->set('meta_key', $metaKey);
+        beforeDataFetchFuncDataId2($query);
     }
 }
 
 function beforeSaveFuncDataId1($data){
-    $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
+    $sampleData = PostTypesEventsTest::getSamplePostTypeData(1);
     $postTypeID = $sampleData['id'];
-    $fieldIO = $sampleData['fields'][0]['id'];
+    $fieldID = $sampleData['fields'][0]['id'];
     $fieldTest = $sampleData['fields'][1]['id'];
 
-    $data[$fieldIO] = sanitize_title($data[sprintf("%s_%s", $postTypeID, $fieldTest)]);
+    $data[$fieldID] = sanitize_title($data[sprintf("%s_%s", $postTypeID, $fieldTest)]);
     return $data;
 }
 
 
 function afterSaveFuncDataId1($data){
-    $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
+    $sampleData = PostTypesEventsTest::getSamplePostTypeData(1);
 
     $fileHandler = fopen(PostTypesEventsTest::getAfterSaveData()['fileLocation'], 'w+');
     fwrite($fileHandler,sprintf("%s:%s",PostTypesEventsTest::getAfterSaveData()['fileContent'], $data[$sampleData['fields'][1]['test_value']]));
@@ -245,7 +243,7 @@ function afterSaveFuncDataId1($data){
 
 
 function beforeDataFetchFuncDataId2($query){
-    $sampleData = PostTypesEventsTest::getBaseSamplePostTypeData(1);
+    $sampleData = PostTypesEventsTest::getSamplePostTypeData(1);
     $metaKey = sprintf("%s_%s", $sampleData['id'], $sampleData['fields'][1]['id']);
     $query->set('order', 'ASC');
     $query->set('orderby', 'meta_value_num');

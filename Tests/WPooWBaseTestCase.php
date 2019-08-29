@@ -7,16 +7,32 @@ use Facebook\WebDriver\Interactions\WebDriverActions;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use PHPUnit\Runner\Exception;
 use WPSelenium\WPSTestCase;
 
 class WPooWBaseTestCase extends WPSTestCase
 {
+    protected $addedPostsToDelete = [];
+
     use WPooWTestsInputer;
 
     function setUp()
     {
         parent::setUp();
         $this->setUpElementInputer();
+    }
+
+    function tearDown()
+    {
+        parent::tearDown();
+        try{
+            foreach ($this->addedPostsToDelete as $index => $postToDelete){
+                $this->deletePost(...$postToDelete);
+                unset($this->addedPostsToDelete[$index]);
+            }
+        }catch (Exception $e){
+            //log
+        }
     }
 
     public function loginToWPAdmin(){
@@ -117,7 +133,10 @@ class WPooWBaseTestCase extends WPSTestCase
         if ($initialCount + 1 != $this->getPageCount()) {
             return null;
         }
-        return $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
+
+        $postId =  $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
+        array_push($this->addedPostsToDelete, [$postTypeID, $postId]);
+        return $postId;
     }
 
     protected function editPost($postTypeID, $postId, $fields = [])
@@ -143,7 +162,7 @@ class WPooWBaseTestCase extends WPSTestCase
         return $postId;
     }
 
-    protected function deletePost($postTypeID, $postId, $fields = [])
+    protected function deletePost($postTypeID, $postId)
     {
         $this->navigateToPostTypeMenuItem($postTypeID);
         $initialCount = $this->getPageCount();

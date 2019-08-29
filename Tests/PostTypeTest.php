@@ -99,7 +99,7 @@ include_once __DIR__.'/../wpAPI.php';
      {
          $this->loginToWPAdmin();
          $postID = $this->addPost(self::$samplePostType1['id'], self::$samplePostType1['fields']);
-         $this->assertTrue($this->deletePost(self::$samplePostType1['id'], $postID, self::$samplePostType1['fields']));
+         $this->assertTrue($this->deletePost(self::$samplePostType1['id'], $postID));
      }
 
 

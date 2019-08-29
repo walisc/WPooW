@@ -1,6 +1,5 @@
-/**
-* @browserNotRequired
-*/
-function testCanRegisterSaveEvent(){
-//check objects
+<?php
+
+class CustomElementTypesTest extends \WPooWTests\WPooWBaseTestCase{
+
 }

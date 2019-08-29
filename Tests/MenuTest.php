@@ -411,21 +411,6 @@ class MenuTest extends WPooWBaseTestCase
         self::createMenus(new wpAPI(), self::getSampleMenuData(9));
     }
 
-
-
-
 }
 
 
-
-
-//can add menu (label,click, basic landing page)
-//can customise menu (icon, landing page)
-//can have muiltple menues
-//can add submenu
-//can add PostType submenu
-//can edit submenu (icon, landing page)
-
-//test can set Permissions
-
-//WP_VIEW

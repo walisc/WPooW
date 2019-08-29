@@ -11,6 +11,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     / HELP DATA & FUNCTIONS   *
     /**************************/
 
+
     static function getAfterSaveData(){
         return ['fileLocation'=> sprintf("%s/Resources/Temp/afterSaveTemp.txt", __DIR__),
                 'fileContent' => 'afterSaveEvent:)'];
@@ -67,7 +68,11 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         sleep(1);
         $this->assertFileExists(self::getAfterSaveData()['fileLocation']);
         $this->assertTrue(trim(file_get_contents(self::getAfterSaveData()['fileLocation']))
-            == sprintf("%s:%s", self::getAfterSaveData()['fileContent'],  $sampleData['fields'][1]['test_values']));
+            == sprintf("%s:%s", self::getAfterSaveData()['fileContent'],  $sampleData['fields'][1]['test_value']));
+
+        if (file_exists(self::getAfterSaveData()['fileLocation'])){
+            unlink(self::getAfterSaveData()['fileLocation']);
+        }
     }
 
     function executeBeforeFetchFunction(){
@@ -171,9 +176,6 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     static function createAfterSaveFuncPostType(){
-        if (file_exists(self::getAfterSaveData()['fileLocation'])){
-            unlink(self::getAfterSaveData()['fileLocation']);
-        }
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("afterSaveFuncDataId1");
         $testPostType->Render();
@@ -182,9 +184,6 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     static function createAfterSaveFuncPostTypeWithClass(){
         $sampleEventClass = new SampleEventsClass();
 
-        if (file_exists(self::getAfterSaveData()['fileLocation'])){
-            unlink(self::getAfterSaveData()['fileLocation']);
-        }
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
         $testPostType->RegisterBeforeSaveEvent("afterSaveFuncDataId1", $sampleEventClass);
         $testPostType->Render();
@@ -235,10 +234,13 @@ function beforeSaveFuncDataId1($data){
 
 function afterSaveFuncDataId1($data){
     $sampleData = PostTypesEventsTest::getSamplePostTypeData(1);
+    $fieldId = sprintf("%s_%s",$sampleData['id'], $sampleData['fields'][1]['id'] );
 
     $fileHandler = fopen(PostTypesEventsTest::getAfterSaveData()['fileLocation'], 'w+');
-    fwrite($fileHandler,sprintf("%s:%s",PostTypesEventsTest::getAfterSaveData()['fileContent'], $data[$sampleData['fields'][1]['test_value']]));
+
+    fwrite($fileHandler,sprintf("%s:%s",PostTypesEventsTest::getAfterSaveData()['fileContent'], $data[$fieldId]));
     fclose($fileHandler);
+    sleep(1);
 }
 
 

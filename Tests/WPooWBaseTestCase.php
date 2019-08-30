@@ -30,7 +30,7 @@ class WPooWBaseTestCase extends WPSTestCase
                 $this->deletePost(...$postToDelete);
                 unset($this->addedPostsToDelete[$index]);
             }
-        }catch (Exception $e){
+        }catch (NoSuchElementException $e){
             //log
         }
     }
@@ -127,6 +127,8 @@ class WPooWBaseTestCase extends WPSTestCase
         $publishBtn = $this->driver->findElement(WebDriverBy::id("publish"));
         $this->driver->executeScript("arguments[0].scrollIntoView(false)", [$publishBtn]);
         $publishBtn->click();
+        $this->waitForPageToLoad();
+        $postId =  sprintf('post-%s',$this->driver->findElement(WebDriverBy::id('post_ID'))->getAttribute('value'));
 
         $this->navigateToPostTypeMenuItem($postTypeID);
 
@@ -134,7 +136,6 @@ class WPooWBaseTestCase extends WPSTestCase
             return null;
         }
 
-        $postId =  $this->driver->findElement(WebDriverBy::xpath("//form[@id='posts-filter']/table/tbody/tr"))->getAttribute('id');
         array_push($this->addedPostsToDelete, [$postTypeID, $postId]);
         return $postId;
     }

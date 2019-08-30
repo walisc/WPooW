@@ -20,6 +20,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     static function getSamplePostTypeData($id)
     {
         $baseSamplePostType = self::getBaseSamplePostTypeData();
+        $baseSamplePostType['id'] =  $baseSamplePostType['id']. '_e';
 
         switch($id) {
             case 1:
@@ -87,12 +88,12 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         ];
 
         foreach ($sampleTestValues as $id => $value){
-            $sampleData['fields'][0]['test_values'] = $id;
-            $sampleData['fields'][1]['test_values'] = $value;
+            $sampleData['fields'][0]['test_value'] = $id;
+            $sampleData['fields'][1]['test_value'] = $value;
             $this->addPost($sampleData['id'], $sampleData['fields']);
         }
 
-        $gridData = $this->navigateToPostTypeMenuItem($sampleData['id']);
+        $this->navigateToPostTypeMenuItem($sampleData['id']);
 
 
     }
@@ -191,14 +192,15 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 
     static function createBeforeFetchFuncPostType(){
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(2), true);
-        $testPostType->RegisterBeforeSaveEvent("beforeDataFetchFuncDataId2");
+        $testPostType->RegisterBeforeDataFetch("beforeDataFetchFuncDataId2");
+        $testPostType->Render();
     }
 
     static function createBeforeFetchPostTypeWithClass(){
         $sampleEventClass = new SampleEventsClass();
 
         $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
-        $testPostType->RegisterBeforeSaveEvent("beforeDataFetchFuncDataId2", $sampleEventClass);
+        $testPostType->RegisterBeforeDataFetch("beforeDataFetchFuncDataId2", $sampleEventClass);
         $testPostType->Render();
     }
 
@@ -246,9 +248,9 @@ function afterSaveFuncDataId1($data){
 
 function beforeDataFetchFuncDataId2($query){
     $sampleData = PostTypesEventsTest::getSamplePostTypeData(1);
-    $metaKey = sprintf("%s_%s", $sampleData['id'], $sampleData['fields'][1]['id']);
+    $metaKey = sprintf("%s_%s_value_key", $sampleData['id'], $sampleData['fields'][1]['id']);
     $query->set('order', 'ASC');
-    $query->set('orderby', 'meta_value_num');
+    $query->set('orderby', 'meta_value');
     $query->set('meta_key', $metaKey);
 }
 

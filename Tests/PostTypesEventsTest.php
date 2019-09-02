@@ -1,6 +1,7 @@
 <?php
 
 use WPooWTests\WPooWBaseTestCase;
+use Facebook\WebDriver\WebDriverBy;
 
 include_once __DIR__.'/../wpAPI.php';
 
@@ -81,10 +82,10 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         $sampleData = self::getSamplePostTypeData(2);
         $sampleTestValues = [
             ['1' => 'Rob'],
-            ['2' => 'Kim'],
-            ['3' => 'Richard'],
-            ['4' => 'Chris'],
-            ['5' => 'Angli'],
+//            ['2' => 'Kim'],
+//            ['3' => 'Richard'],
+//            ['4' => 'Chris'],
+//            ['5' => 'Angli'],
         ];
 
         foreach ($sampleTestValues as $id => $value){
@@ -93,9 +94,9 @@ class PostTypesEventsTest extends WPooWBaseTestCase
             $this->addPost($sampleData['id'], $sampleData['fields']);
         }
 
-        $this->navigateToPostTypeMenuItem($sampleData['id']);
 
-
+        $gridEntries = $this->getGridEntries($sampleData['id']);
+        $gri = 0;
     }
     /**
      * @WP_BeforeRun createBeforeSaveFuncPostType

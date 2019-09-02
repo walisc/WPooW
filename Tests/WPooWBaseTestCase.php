@@ -220,6 +220,57 @@ class WPooWBaseTestCase extends WPSTestCase
         return false;
     }
 
+    public function getGridEntries($postTypeID, $fields=null, $limit=22){
+
+        $entriesCount = 0;
+        $gridEntries= [];
+        $this->navigateToPostTypeMenuItem($postTypeID);
+
+        while(true) {
+            $entries = $this->driver->findElements(WebDriverBy::xpath("//form[@id = 'posts-filter']/table/tbody/tr"));
+
+            foreach ($entries as $entry) {
+                if (++$entriesCount > $limit){
+                    break;
+                }
+
+                $entryDetail = ['gridEntry' => $entry,
+                                'fieldData' => []];
+
+                if ($fields != null) {
+                    foreach ($fields as $field) {
+                        $postTypeFieldID = "${postTypeID}_${field['id']}";
+                        $entryDetail['fieldData'][$field['id']] = $entry->findElement(WebDriverBy::xpath("td[contains(@class, '${postTypeFieldID}')]"));
+                    }
+                } else {
+                    foreach ($entry->findElements(WebDriverBy::xpath("td")) as $entryField) {
+                        $fieldID = str_replace($postTypeID, '', explode(' ', $entryField->getAttribute('class'))[0]);
+                        $entryDetail['fieldData'][$fieldID] = $entryField;
+                    }
+
+                }
+
+                array_push($gridEntries, $entryDetail);
+
+
+            }
+
+            try {
+                $nextPageElement = $this->driver->findElement(WebDriverBy::xpath("//a[@class = 'next-page']"));
+                if ($entriesCount <= $limit){
+                    $nextPageElement->click();
+                }else{
+                    break;
+                }
+            } catch (NoSuchElementException $e) {
+                break;
+            }
+
+        }
+
+        return $gridEntries;
+    }
+
     public function getGridEntry($postTypeID, $postID, $fields=null){
 
         $this->navigateToPostTypeMenuItem($postTypeID);

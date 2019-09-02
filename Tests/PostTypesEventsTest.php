@@ -152,7 +152,6 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     function testCanExecuteBeforeFetchFunction()
     {
         $this->executeBeforeFetchFunction();
-        //find element make sure there in order
     }
 
     /**
@@ -161,7 +160,6 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     function testCanExecuteBeforeFetchFunctionWithClass()
     {
         $this->executeBeforeFetchFunction();
-        //find element make sure there in order
     }
 
     /**
@@ -169,8 +167,6 @@ class PostTypesEventsTest extends WPooWBaseTestCase
      */
     function testBeforeFetchDoesNotPersist()
     {
-        $this->executeBeforeFetchFunction();
-        // ntot find element make sure there in order
     }
 
     /**************************
@@ -216,11 +212,10 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     static function createBeforeFetchPostTypeWithClass(){
         $sampleEventClass = new SampleEventsClass();
 
-        $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(1), true);
+        $testPostType = self::createPostType(new wpAPI(), self::getSamplePostTypeData(2), true);
         $testPostType->RegisterBeforeDataFetch("beforeDataFetchFuncDataId2", $sampleEventClass);
         $testPostType->Render();
     }
-
 
 }
 

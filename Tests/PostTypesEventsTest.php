@@ -21,7 +21,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     static function getSamplePostTypeData($id)
     {
         $baseSamplePostType = self::getBaseSamplePostTypeData();
-        $baseSamplePostType['id'] =  $baseSamplePostType['id']. '_e';
+        $baseSamplePostType['id'] =  $baseSamplePostType['id']. '_or';
 
         switch($id) {
             case 1:
@@ -82,10 +82,10 @@ class PostTypesEventsTest extends WPooWBaseTestCase
         $sampleData = self::getSamplePostTypeData(2);
         $sampleTestValues = [
             ['1' => 'Rob'],
-//            ['2' => 'Kim'],
-//            ['3' => 'Richard'],
-//            ['4' => 'Chris'],
-//            ['5' => 'Angli'],
+            ['2' => 'Kim'],
+            ['3' => 'Richard'],
+            ['4' => 'Chris'],
+            ['5' => 'Angli'],
         ];
 
         foreach ($sampleTestValues as $id => $value){
@@ -96,7 +96,23 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 
 
         $gridEntries = $this->getGridEntries($sampleData['id']);
-        $gri = 0;
+
+        $currentValue = '';
+        $isOrdered = true;
+
+        foreach ($gridEntries as $entry){
+            $entryValue = $entry['fieldData'][$sampleData['fields'][1]['id']]->getText();
+            if (strcmp($currentValue,  $entryValue) > 0 ){
+                $isOrdered = false;
+                break;
+            }
+            else{
+                $currentValue = $entryValue;
+            }
+        }
+
+        $this->assertTrue($isOrdered);
+
     }
     /**
      * @WP_BeforeRun createBeforeSaveFuncPostType

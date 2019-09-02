@@ -220,7 +220,7 @@ class WPooWBaseTestCase extends WPSTestCase
         return false;
     }
 
-    public function getGridEntries($postTypeID, $fields=null, $limit=22){
+    public function getGridEntries($postTypeID, $fields=null, $limit=10){
 
         $entriesCount = 0;
         $gridEntries= [];
@@ -244,7 +244,7 @@ class WPooWBaseTestCase extends WPSTestCase
                     }
                 } else {
                     foreach ($entry->findElements(WebDriverBy::xpath("td")) as $entryField) {
-                        $fieldID = str_replace($postTypeID, '', explode(' ', $entryField->getAttribute('class'))[0]);
+                        $fieldID = str_replace("${postTypeID}_", '', explode(' ', $entryField->getAttribute('class'))[0]);
                         $entryDetail['fieldData'][$fieldID] = $entryField;
                     }
 

@@ -178,7 +178,7 @@ class WPooWBaseTestCase extends WPSTestCase
         return true;
     }
 
-    public function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag = '')
+    public function getElementOnPostTypePage($postTypeID, $field, $fieldIDTag = '', $returnAsPostBox=false)
     {
         $postTypeFieldID = "${postTypeID}_${field['id']}";
         $postbox = $this->driver->findElement(WebDriverBy::xpath("//div[@id='${postTypeFieldID}']"));
@@ -187,7 +187,7 @@ class WPooWBaseTestCase extends WPSTestCase
             return null;
         }
 
-        return $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
+        return $returnAsPostBox ? $postbox : $postbox->findElement(WebDriverBy::xpath("descendant::input[@id='${postTypeFieldID}${fieldIDTag}']"));
 
     }
 

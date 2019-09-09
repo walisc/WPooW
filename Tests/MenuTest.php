@@ -304,63 +304,63 @@ class MenuTest extends WPooWBaseTestCase
     /**************************/
 
     /**
-     * @WP_BeforeRun createMenuItem
+     * @wpBeforeRun createMenuItem
      */
     function testCanAddMenu(){
         $this->runMenuTestCase(1);
     }
 
     /**
-     * @WP_BeforeRun createCustomisedMenuItemOne
+     * @wpBeforeRun createCustomisedMenuItemOne
      */
     function testCanCustomiseMenuOne(){
         $this->runMenuTestCase(2);
     }
 
     /**
-     * @WP_BeforeRun createCustomisedMenuItemTwo
+     * @wpBeforeRun createCustomisedMenuItemTwo
      */
     function testCanCustomiseMenuTwo(){
         $this->runMenuTestCase(3);
     }
 
     /**
-     * @WP_BeforeRun createMultipleMenuItems
+     * @wpBeforeRun createMultipleMenuItems
      */
     function testCanHaveMultipleMenus(){
         $this->runMenuTestCase(4);
     }
 
     /**
-     * @WP_BeforeRun createMenuWithSubMenu
+     * @wpBeforeRun createMenuWithSubMenu
      */
     function testCanAddSubmenu(){
         $this->runMenuTestCase(5);
     }
 
     /**
-     * @WP_BeforeRun createMenuWithSubMenus
+     * @wpBeforeRun createMenuWithSubMenus
      */
     function testCanAddSubmenus(){
         $this->runMenuTestCase(6);
     }
 
     /**
-     * @WP_BeforeRun createMenuWithPostType
+     * @wpBeforeRun createMenuWithPostType
      */
     function testCanAddPostTypeAsSubMenus(){
         $this->runMenuTestCase(7);
     }
 
     /**
-     * @WP_BeforeRun createMenuWithMultiplePostType
+     * @wpBeforeRun createMenuWithMultiplePostType
      */
     function testCanAddMultiplePostTypeAsSubMenus(){
         $this->runMenuTestCase(8);
     }
 
     /**
-     * @WP_BeforeRun createComplexMenu
+     * @wpBeforeRun createComplexMenu
      */
     function testComplexMenuStructure(){
         $this->runMenuTestCase(9);

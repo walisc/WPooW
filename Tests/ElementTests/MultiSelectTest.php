@@ -63,7 +63,7 @@ class MultiSelectTest extends SelectTest
     /**************************/
 
     /**
-     * @WP_BeforeRun createSelectElement
+     * @wpBeforeRun createSelectElement
      */
     public function testCanSelectOption(){
         $this->loginToWPAdmin();
@@ -74,7 +74,7 @@ class MultiSelectTest extends SelectTest
 
 
     /**
-     * @WP_BeforeRun createMultipleSelectElements
+     * @wpBeforeRun createMultipleSelectElements
      */
     public function testCanLoadMultiple(){
         $this->loginToWPAdmin();
@@ -88,7 +88,7 @@ class MultiSelectTest extends SelectTest
     }
 
     /**
-     * @WP_BeforeRun createMultipleSelectElements
+     * @wpBeforeRun createMultipleSelectElements
      */
     public function testCanSelectMultipleOptions(){
         $this->loginToWPAdmin();
@@ -100,7 +100,7 @@ class MultiSelectTest extends SelectTest
     }
 
     /**
-     * @WP_BeforeRun createMultipleSelectElements
+     * @wpBeforeRun createMultipleSelectElements
      */
     public function testCanUpdateSelect(){
         $this->loginToWPAdmin();

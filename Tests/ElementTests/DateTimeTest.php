@@ -34,7 +34,7 @@ class DateTimeTest extends WPooWBaseTestCase
     /**************************/
 
     /**
-     * @WP_BeforeRun createDateTimeElement
+     * @wpBeforeRun createDateTimeElement
      */
     public function testCanInteractWithDateTimeElement(){
         $this->loginToWPAdmin();
@@ -42,7 +42,7 @@ class DateTimeTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createDateTimeElement
+     * @wpBeforeRun createDateTimeElement
      */
     public function testCanClearDataTimeElement(){
         $this->loginToWPAdmin();
@@ -51,7 +51,7 @@ class DateTimeTest extends WPooWBaseTestCase
 
 
     /**
-     * @WP_BeforeRun createDateTimeElement
+     * @wpBeforeRun createDateTimeElement
      */
     public function testCanHaveMultipleDateTimeElements()
     {
@@ -60,7 +60,7 @@ class DateTimeTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createDateTimeElement
+     * @wpBeforeRun createDateTimeElement
      */
     public function testTimeChangeWithLocale(){
     }

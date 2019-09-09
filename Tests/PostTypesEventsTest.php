@@ -115,7 +115,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
 
     }
     /**
-     * @WP_BeforeRun createBeforeSaveFuncPostType
+     * @wpBeforeRun createBeforeSaveFuncPostType
      */
     function testCanExecuteBeforeSaveFunction()
     {
@@ -123,7 +123,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createBeforeSaveFuncPostTypeWithClass
+     * @wpBeforeRun createBeforeSaveFuncPostTypeWithClass
      */
     function testCanExecuteBeforeSaveFunctionWithClass()
     {
@@ -131,7 +131,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createAfterSaveFuncPostType
+     * @wpBeforeRun createAfterSaveFuncPostType
      */
     function testCanExecuteAfterSaveFunction()
     {
@@ -139,7 +139,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createAfterSaveFuncPostTypeWithClass
+     * @wpBeforeRun createAfterSaveFuncPostTypeWithClass
      */
     function testCanExecuteAfterSaveFunctionWithClass()
     {
@@ -147,7 +147,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createBeforeFetchFuncPostType
+     * @wpBeforeRun createBeforeFetchFuncPostType
      */
     function testCanExecuteBeforeFetchFunction()
     {
@@ -155,7 +155,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createBeforeFetchPostTypeWithClass
+     * @wpBeforeRun createBeforeFetchPostTypeWithClass
      */
     function testCanExecuteBeforeFetchFunctionWithClass()
     {
@@ -163,7 +163,7 @@ class PostTypesEventsTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createBeforeFetchFuncPostType
+     * @wpBeforeRun createBeforeFetchFuncPostType
      */
     function testBeforeFetchDoesNotPersist()
     {

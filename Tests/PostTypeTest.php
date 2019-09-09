@@ -30,7 +30,7 @@ include_once __DIR__.'/../wpAPI.php';
      /**************************/
 
      /**
-      * @WP_BeforeRun initializesWithOutAnyErrorsWPBeforeRun
+      * @wpBeforeRun initializesWithOutAnyErrorsWPBeforeRun
       */
      public function testInitializesWithOutAnyErrors()
      {
@@ -40,7 +40,7 @@ include_once __DIR__.'/../wpAPI.php';
 
 
      /**
-      * @WP_BeforeRun createPostTypeWPBeforeRun
+      * @wpBeforeRun createPostTypeWPBeforeRun
       */
      public function testCanCreatePostType()
      {
@@ -58,7 +58,7 @@ include_once __DIR__.'/../wpAPI.php';
 
 
      /**
-      * @WP_BeforeRun createPostTypeWPBeforeRun
+      * @wpBeforeRun createPostTypeWPBeforeRun
       */
      public function testCanPublishPostType()
      {
@@ -67,7 +67,7 @@ include_once __DIR__.'/../wpAPI.php';
      }
 
      /**
-      * @WP_BeforeRun addFieldWPBeforeRun
+      * @wpBeforeRun addFieldWPBeforeRun
       */
      public function testCanAddField()
      {
@@ -79,7 +79,7 @@ include_once __DIR__.'/../wpAPI.php';
      }
 
      /**
-      * @WP_BeforeRun addFieldWPBeforeRun
+      * @wpBeforeRun addFieldWPBeforeRun
       */
      public function testCanEditPostType()
      {
@@ -93,7 +93,7 @@ include_once __DIR__.'/../wpAPI.php';
 
 
      /**
-      * @WP_BeforeRun addFieldWPBeforeRun
+      * @wpBeforeRun addFieldWPBeforeRun
       */
      public function testCanDeletePostType()
      {

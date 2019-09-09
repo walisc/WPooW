@@ -50,7 +50,7 @@ class CheckboxTests extends WPooWBaseTestCase{
 
 
     /**
-     * @WP_BeforeRun createTextElement
+     * @wpBeforeRun createTextElement
      */
     public function testCanInteractWithCheckboxElement(){
         $this->loginToWPAdmin();
@@ -61,7 +61,7 @@ class CheckboxTests extends WPooWBaseTestCase{
     }
 
     /**
-     * @WP_BeforeRun createTextElement
+     * @wpBeforeRun createTextElement
      */
     public function testCanUpdateCheckboxElement(){
         $this->loginToWPAdmin();
@@ -76,7 +76,7 @@ class CheckboxTests extends WPooWBaseTestCase{
     }
 
     /**
-     * @WP_BeforeRun createMultipleTextElements
+     * @wpBeforeRun createMultipleTextElements
      */
     public function testCanHaveMultipleTextElements(){
         $this->loginToWPAdmin();

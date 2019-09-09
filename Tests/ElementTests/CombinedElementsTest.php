@@ -104,7 +104,7 @@ class CombinedElementsTest extends WPooWBaseTestCase{
 
 
     /**
-     * @WP_BeforeRun createComplexPostType
+     * @wpBeforeRun createComplexPostType
      */
     public function testCanInteractWithComplexPostType(){
         $this->loginToWPAdmin();
@@ -115,7 +115,7 @@ class CombinedElementsTest extends WPooWBaseTestCase{
 
 
     /**
-    * @WP_BeforeRun createManyInputTypes
+    * @wpBeforeRun createManyInputTypes
     */
     public function testCanInputManyTypes(){
         $this->loginToWPAdmin();

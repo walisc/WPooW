@@ -56,7 +56,7 @@ class TextTest extends WPooWBaseTestCase{
 
 
     /**
-     * @WP_BeforeRun createTextElement
+     * @wpBeforeRun createTextElement
      */
     public function testCanInteractWithTextElement(){
         $this->loginToWPAdmin();
@@ -67,7 +67,7 @@ class TextTest extends WPooWBaseTestCase{
     }
 
     /**
-     * @WP_BeforeRun createTextElement
+     * @wpBeforeRun createTextElement
      */
     public function testCanUpdateTextBox(){
         $this->loginToWPAdmin();
@@ -82,7 +82,7 @@ class TextTest extends WPooWBaseTestCase{
     }
 
     /**
-     * @WP_BeforeRun createMultipleTextElements
+     * @wpBeforeRun createMultipleTextElements
      */
     public function testCanHaveMultipleTextElements(){
         $this->loginToWPAdmin();

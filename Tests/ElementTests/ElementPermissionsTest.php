@@ -71,7 +71,7 @@ class ElementPermissionsTest extends WPooWBaseTestCase
     /**************************/
 
     /**
-     * @WP_BeforeRun createTextElementsForPermissions
+     * @wpBeforeRun createTextElementsForPermissions
      */
     function testTextElementPermissions(){
         $this->loginToWPAdmin();

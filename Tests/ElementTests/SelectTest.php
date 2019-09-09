@@ -78,7 +78,7 @@ class SelectTest extends WPooWBaseTestCase
     /**************************/
 
     /**
-     * @WP_BeforeRun createSelectElement
+     * @wpBeforeRun createSelectElement
      */
     public function testCanSelectOption(){
         $this->loginToWPAdmin();
@@ -89,7 +89,7 @@ class SelectTest extends WPooWBaseTestCase
 
 
     /**
-     * @WP_BeforeRun createMultipleSelectElements
+     * @wpBeforeRun createMultipleSelectElements
      */
     public function testCanLoadMultiple(){
         $this->loginToWPAdmin();
@@ -102,7 +102,7 @@ class SelectTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createMultipleSelectElements
+     * @wpBeforeRun createMultipleSelectElements
      */
     public function testCanUpdateSelect(){
         $this->loginToWPAdmin();

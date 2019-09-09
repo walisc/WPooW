@@ -104,7 +104,7 @@ class UploadTest extends WPooWBaseTestCase
     /**************************/
 
     /**
-     * @WP_BeforeRun createUploaderBasicWPBeforeRun
+     * @wpBeforeRun createUploaderBasicWPBeforeRun
      */
     public function testCanCreateUploader(){
         $this->loginToWPAdmin();
@@ -116,7 +116,7 @@ class UploadTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createUploaderBasicWPBeforeRun
+     * @wpBeforeRun createUploaderBasicWPBeforeRun
      */
     public function testCanInteractWithUploader(){
         $this->loginToWPAdmin();
@@ -127,7 +127,7 @@ class UploadTest extends WPooWBaseTestCase
 
 
     /**
-     * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRun
+     * @wpBeforeRun createUploaderWithOtherSettingsWPBeforeRun
      */
     public function testCanCreateUploaderWithOtherSettings(){
         $this->loginToWPAdmin();
@@ -144,7 +144,7 @@ class UploadTest extends WPooWBaseTestCase
     }
 
     /**
-     * @WP_BeforeRun createUploaderWithOtherSettingsWPBeforeRun
+     * @wpBeforeRun createUploaderWithOtherSettingsWPBeforeRun
      * @doesNotPerformAssertions
      */
     public function testCanUploaderTwoAtOnce(){
@@ -162,7 +162,7 @@ class UploadTest extends WPooWBaseTestCase
 
 
     /**
-     * @WP_BeforeRun createMultipleUploadersWPBeforeRun
+     * @wpBeforeRun createMultipleUploadersWPBeforeRun
      */
     public function testCanHaveMultipleUploadersOnOnePage(){
         $this->loginToWPAdmin();

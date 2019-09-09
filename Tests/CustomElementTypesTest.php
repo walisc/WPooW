@@ -58,7 +58,7 @@ class CustomElementTypesTest extends WPooWBaseTestCase{
     /**************************/
 
     /**
-     * @WP_BeforeRun createBasicCustomElement
+     * @wpBeforeRun createBasicCustomElement
      */
     function testCanInteractWithElement(){
         $sampleData = self::getSamplePostTypeData(1);

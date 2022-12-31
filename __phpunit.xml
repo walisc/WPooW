@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<phpunit colors="true" printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinter">
+    <testsuites>
+        <testsuite name="WPooW Tests">
+            <directory>Tests/TempDir</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Core</directory>
+            <file>wpAPI.php</file>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -9,3 +9,4 @@ wpselenium.xml
 seleniumLog.log
 phpunit.xml
 /.idea
+/coverage

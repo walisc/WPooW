@@ -15,7 +15,7 @@
         ]
     },
     "require-dev": {
-        "devchid/wpselenium": "dev-v1.2.0_dev"
+        "devchid/wpselenium": "v1.2.1"
     },
     "repositories": [{
         "type": "path",

@@ -1,0 +1,19 @@
+/*fgfdgdfg*/
+.wpoow-menu-separator, .wpoow-menu-separator:hover, .wpoow-menu-separator:focus{
+    background-color: rgb(223 223 223);
+    margin-left: 10px !important;
+    
+}
+
+.wpoow-menu-separator > a {
+    color: black !important;
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+}
+
+.wpoow-menu-separator > a:hover, .wpoow-menu-separator > a:focus {
+    background-color:  rgb(223 223 223) !important;
+}
+
+

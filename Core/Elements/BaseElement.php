@@ -287,7 +287,7 @@ abstract class BaseElement
         wp_register_script($this->ScriptHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.js",  ["jquery"], "1.0.0", true);
         wp_enqueue_script($this->ScriptHandler);
 
-        wp_register_style($this->CssHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.css",  [""], "1.0.0");
+        wp_register_style($this->CssHandler,  WP_API_ELEMENT_URI_PATH  . "wpOOWBaseElement.css",  [], "1.0.0");
         wp_enqueue_style($this->CssHandler);
 
         $this->BaseScriptsToLoad();

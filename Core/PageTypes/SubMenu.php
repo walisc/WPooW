@@ -76,7 +76,37 @@ class SubMenu extends wpAPIBasePage
         {
             $child->Render($parent_slug);
         }
+        $this->OnPostRender();
+    }
 
+    protected function OnPostRender(){
+        if (count($this->_children) > 0){
+            add_action('admin_head', [$this, "ReOrderSubMenu"]);
+        }
+        
+          
+    }
+
+    public function ReOrderSubMenu(){
+        global $submenu;
+        $reorderSubMenu = [];
+
+        if (isset($submenu[$this->slug])){
+            $setSubMenu = $submenu[$this->slug];
+
+            foreach ($this->_children as $child)
+            {
+                foreach($setSubMenu as $setMenu){
+                    if ($child->slug == $setMenu[2] || str_contains($setMenu[2], sprintf("post_type=%s", $child->slug))){
+                        $reorderSubMenu[] = $setMenu;
+                        break;
+                    }
+                }
+                
+            }
+        }
+        $submenu[ $this->slug ] = $reorderSubMenu;
+        
     }
 
     /**

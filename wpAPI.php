@@ -10,6 +10,7 @@ include_once 'Core/Elements/BaseElement.php';
 include_once 'Core/PageTypes/PostType.php';
 include_once 'Core/PageTypes/SubMenu.php';
 include_once 'Core/PageTypes/Menu.php';
+include_once 'Core/PageTypes/SubMenuSeparator.php';
 
 include_once 'Libraries/twig/twig/lib/Twig/Autoloader.php';
 include_once 'Core/Elements/Autoloader.php';
@@ -43,7 +44,7 @@ class wpAPI
 
         define( 'WP_API_URI_PATH', wpAPIUtilities::GetWpAPUriLocation(dirname(__FILE__)) . URL_SEPARATOR);
         define( 'WP_API_ELEMENT_URI_PATH', WP_API_URI_PATH  . "Core" . URL_SEPARATOR . "Elements" . URL_SEPARATOR);
-
+        define( 'WP_API_PAGE_TYPES_URI_PATH', WP_API_URI_PATH  . "Core" . URL_SEPARATOR . "PageTypes" . URL_SEPARATOR);
 
 
     }
@@ -81,6 +82,10 @@ class wpAPI
 
     }
 
+    public function CreateSubMenuSeparator($seperator_slug, $seperator_title=null){
+        return new SubMenuSeparator($seperator_slug, $seperator_title);
+    }
+
     /**
      *
      * Create a new post-type page with a sub menu link that can be added to the wpAPI wrapper Menu
@@ -95,7 +100,7 @@ class wpAPI
         return new PostType($page_slug, $title , $persist, $options);
 
     }
-
+    
     public function GetVersion()
     {
         $composerFile = dirname(__FILE__) .DIRECTORY_SEPARATOR . "composer.json";

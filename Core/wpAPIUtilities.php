@@ -41,20 +41,23 @@ class wpAPIUtilities
      */
     public static function GetWpAPUriLocation($wpAPIPath)
     {
-        $templateDirectory = explode(DIRECTORY_SEPARATOR, str_replace('/', DIRECTORY_SEPARATOR, get_template_directory())); //Bug with wordpress. Doesn't create the correct URL when on windows
-        $wpAPIPath = explode(DIRECTORY_SEPARATOR, $wpAPIPath);
+        $templateDirectory = explode('/', str_replace("\\", "/", get_template_directory())); //Bug with wordpress. Doesn't create the correct URL when on windows. See https://developer.wordpress.org/reference/functions/get_template_directory/
+
+        // Taking acccount of phar files
+        $wpAPIPath = str_replace("phar://","", str_replace("\\", "/", $wpAPIPath));
+        $wpAPIPathArr = explode('/', $wpAPIPath);
 
         foreach ($templateDirectory as $templatePathItem)
         {
             if ($templatePathItem == "wp-content") #TODO look for wp-content constant
             {
-                return get_site_url() . URL_SEPARATOR. implode(URL_SEPARATOR, $wpAPIPath);
+                return get_site_url() . URL_SEPARATOR. implode(URL_SEPARATOR, $wpAPIPathArr);
             }
-            foreach ($wpAPIPath as $key => $wpAPIPathItem)
+            foreach ($wpAPIPathArr as $key => $wpAPIPathItem)
             {
                 if ($wpAPIPathItem == $templatePathItem)
                 {
-                    unset($wpAPIPath[$key]);
+                    unset($wpAPIPathArr[$key]);
                     break;
                 }
             }

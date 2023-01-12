@@ -1,0 +1,41 @@
+projectNamespace: centrid
+projectName: wpoow
+description: WordPress Object Oriented Wrapper
+descriptionTags:
+  - WordPress
+  - Object Oriented Programming
+projectUrl: ''
+license:
+  filePath: license.md
+  type: ''
+authors:
+  - name: ''
+    email: ''
+    url: ''
+company: ''
+versionInfo:
+  major:
+    versionNumber: 2
+    vesionDescription: ''
+    requires: {}
+    knownIssues: []
+  minor:
+    versionNumber: 0
+    featureList: []
+  patch:
+    versionNumber: 0
+    bugList: []
+  commitHash:
+    versionNumber: ''
+projectPaths:
+  src: src
+  tests: tests
+next:
+  releaseDescription: ''
+  features: []
+  bugFixes: []
+  improvements: []
+  documentation: []
+  knownIssues: []
+packageable: true
+artificateName: Centrid-WPooW

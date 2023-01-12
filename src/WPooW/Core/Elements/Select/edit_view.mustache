@@ -1,0 +1,5 @@
+<select class="form-control" id="{{id}}" name="{{id}}">
+    {% for value, label in options %}
+        <option {% if value == selected_option %} selected {% endif %} label="{{label}}">{{value}}</option>
+    {% endfor %}
+</select>

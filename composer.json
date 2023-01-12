@@ -1,0 +1,24 @@
+{
+    "name": "centrid/wpoow",
+    "description": "WordPress Object Oriented Wrapper",
+    "version": "2.0.0",
+    "author": "",
+    "license": "SEE LICENSE IN license.md",
+    "cnversion": "2.0.0",
+    "keywords": [
+        "WordPress",
+        "Object Oriented Programming"
+    ],
+    "authors": [
+        {
+            "name": "Chido Warambwa",
+            "email": "chidow@centridsol.tech"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0"
+    },
+    "autoload": {
+        "classmap": ["src/WPooW/wpAPI.php"]
+    }
+}

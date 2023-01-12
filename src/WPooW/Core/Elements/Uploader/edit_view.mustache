@@ -1,0 +1,8 @@
+<div id="{{id}}{{elementIds.selected_file_preview}}">
+{{ fileDetails.filePreview|raw }}
+</div>
+<div>
+<label><strong>Filename: </strong></label><label id="{{id}}{{elementIds.selected_file_display}}">{{fileDetails.filename}}</label>
+</div>
+<input type="button" id="{{id}}{{elementIds.upload_button}}" value="{{buttonText}}" class="{{cssClass}}"/>
+<input type="hidden" id="{{id}}{{elementIds.selected_file}}" name="{{id}}" value="{{value}}" />

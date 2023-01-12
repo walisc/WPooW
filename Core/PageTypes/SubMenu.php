@@ -97,7 +97,7 @@ class SubMenu extends wpAPIBasePage
             foreach ($this->_children as $child)
             {
                 foreach($setSubMenu as $setMenu){
-                    if ($child->slug == $setMenu[2] || str_contains($setMenu[2], sprintf("post_type=%s", $child->slug))){
+                    if ($child->slug == $setMenu[2] || strpos($setMenu[2], sprintf("post_type=%s", $child->slug)) !== false){
                         $reorderSubMenu[] = $setMenu;
                         break;
                     }

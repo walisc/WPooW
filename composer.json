@@ -19,6 +19,8 @@
         "twig/twig": "^3.0"
     },
     "autoload": {
-        "classmap": ["src/WPooW/wpAPI.php"]
+        "psr-4": {
+            "wpOOW": "./src/wpOOW"
+        }
     }
 }

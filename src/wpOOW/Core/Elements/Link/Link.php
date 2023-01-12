@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\Link;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class Link

@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\Uploader;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class Uploader

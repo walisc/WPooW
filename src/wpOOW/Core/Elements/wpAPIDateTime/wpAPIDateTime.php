@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\wpAPIDateTime;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class wpAPIDateTime

@@ -1,5 +1,12 @@
 <?php
 
+namespace wpOOW\Core\PageTypes;
+
+
+use wpOOW\Core\Permissions\wpAPIPermissions;
+use wpOOW\Core\wpAPIBasePage;
+use wpOOW\Core\wpAPIObjects;
+use wpOOW\Core\wpQueryObject;
 
 /**
  * Class PostType

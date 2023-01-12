@@ -1,5 +1,7 @@
 <?php
 
+namespace wpOOW\Core;
+
 
 /**
  * Class wpAPIObjects

@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "wpOOW": "./src/wpOOW"
+            "wpOOW\\": "./src/wpOOW"
         }
     }
 }

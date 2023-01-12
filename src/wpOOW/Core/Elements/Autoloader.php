@@ -1,5 +1,7 @@
 <?php
 
+namespace wpOOW\Core\Elements;
+
 /**
  * Created by PhpStorm.
  * User: chidow

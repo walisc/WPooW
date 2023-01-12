@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\PageTypes;
+
+
+use wpOOW\Core\wpAPIBasePage;
 
 /**
  * Class SubMenu

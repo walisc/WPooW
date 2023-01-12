@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\MultiSelect;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class MultiSelect

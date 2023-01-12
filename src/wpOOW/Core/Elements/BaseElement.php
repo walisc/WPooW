@@ -1,5 +1,10 @@
 <?php
 
+namespace wpOOW\Core\Elements;
+
+
+use wpOOW\Core\Permissions\wpAPIPermissions;
+use wpOOW\Core\wpAPIObjects;
 
 /**
  * Class BaseElement
@@ -186,7 +191,7 @@ abstract class BaseElement
      */
     protected function GetElementURIDirectory()
     {
-        return WP_API_ELEMENT_URI_PATH.  get_class($this) . URL_SEPARATOR;
+        return WP_API_ELEMENT_URI_PATH.  (new \ReflectionClass($this))->getShortName(). URL_SEPARATOR;
     }
 
     // register events
@@ -262,7 +267,7 @@ abstract class BaseElement
 
         //TODO: Make this global
 
-        $loader = new \Twig\Loader\FilesystemLoader(dirname((new ReflectionClass($this))->getFileName()). $elementPath);
+        $loader = new \Twig\Loader\FilesystemLoader(dirname((new \ReflectionClass($this))->getFileName()). $elementPath);
         $this->twigTemplate = new \Twig\Environment($loader);
 
         wpAPIObjects::GetInstance()->AddObject(sprintf("_element_%s", $this->id), $this);

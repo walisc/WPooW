@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\TextArea;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class TextArea

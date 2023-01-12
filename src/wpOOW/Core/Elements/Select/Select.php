@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\Select;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class Select

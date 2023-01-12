@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\Text;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class Text

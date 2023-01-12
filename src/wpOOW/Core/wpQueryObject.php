@@ -1,5 +1,7 @@
 <?php
 
+namespace wpOOW\Core;
+
 /**
  * Class wpQueryObject
  * Creates a query object that acts as a wrapper class to create wp queries with relevant properties for a post types
@@ -61,7 +63,7 @@ class wpQueryObject
      */
     public function Fetch()
     {
-        $loop = new WP_Query( $this->queryArgs );
+        $loop = new \WP_Query( $this->queryArgs );
 
         while ( $loop->have_posts() ) : $loop->the_post();
 
@@ -84,7 +86,7 @@ class wpQueryObject
  */
 
 #TODO: Really think about this. The proper way of implementing. The class is no longer generic
-class PostTypeRow extends ArrayObject
+class PostTypeRow extends \ArrayObject
 {
 
     private $parent_slug = "";
@@ -154,7 +156,7 @@ class PostTypeRow extends ArrayObject
 
     public function getIterator()
     {
-        return new ArrayIterator($this->storage);
+        return new \ArrayIterator($this->storage);
 
     }
 }

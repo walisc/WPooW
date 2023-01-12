@@ -1,5 +1,9 @@
 <?php
 
+namespace wpOOW\Core\Elements\RichTextArea;
+
+
+use wpOOW\Core\Elements\BaseElement;
 
 /**
  * Class RichTextArea

@@ -1,7 +1,11 @@
 <?php
 
+namespace wpOOW\Core;
 
 
+
+
+use wpOOW\Core\Permissions\wpAPIPermissions;
 
 $CURRENT_VIEW_STATE = wpAPIPermissions::EditPage;
 

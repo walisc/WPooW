@@ -2,7 +2,8 @@
 
 namespace wpOOW;
 
-
+use Composer\InstalledVersions;
+use wpOOW\Core\RestApi\wpRestApi;
 use wpOOW\Core\wpAPIUtilities;
 
 use wpOOW\Core\PageTypes\PostType;
@@ -28,6 +29,7 @@ use wpOOW\Core\Permissions\WP_PERMISSIONS;
 
 class wpAPI
 {
+    const PACKAGE_NAME = "centrid/wpoow";
     /**
      * wpAPI constructor.
      *
@@ -87,6 +89,9 @@ class wpAPI
         return new SubMenuSeparator($seperator_slug, $seperator_title);
     }
 
+    public function RegisterRestApi($api_namespace){
+        return new wpRestApi($api_namespace);
+    }
     /**
      *
      * Create a new post-type page with a sub menu link that can be added to the wpAPI wrapper Menu
@@ -104,7 +109,8 @@ class wpAPI
     
     public function GetVersion()
     {
-        $composerFile = dirname(__FILE__) .DIRECTORY_SEPARATOR . "composer.json";
+        // TODO: Might need to rethink this. Makes wpOOW dependant on composer, which is not the goal
+        $composerFile = InstalledVersions::getInstallPath(wpAPI::PACKAGE_NAME) .DIRECTORY_SEPARATOR . "composer.json";
         return new VersionDetails(json_decode(file_get_contents($composerFile), true));
     }
 

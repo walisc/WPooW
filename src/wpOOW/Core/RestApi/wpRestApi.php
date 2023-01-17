@@ -23,11 +23,11 @@ class wpRestApi{
      * @param RestApiController $controller
      * @return void
      */
-    public function AddRouteController($route_id, RestApiController $controller){
-        $this->routeControllers[$route_id] = $controller; // TODO: Ensure lowercase
+    public function AddRouteController($controller_id, RestApiController $controller){
+        $this->routeControllers[$controller_id] = $controller; // TODO: Ensure lowercase
 
-        foreach ($this->routeControllers[$route_id]->GetRestAPIRoutes() as $route_id => $routeDetail){
-            $routeDetail->SetRestApiParentId($this->GetRestApiNameSpace($route_id));
+        foreach ($this->routeControllers[$controller_id]->GetRestAPIRoutes() as $route_id => $routeDetail){
+            $routeDetail->SetRestApiParentId($this->GetRestApiNameSpace($controller_id));
         }
     }
 

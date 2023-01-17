@@ -80,21 +80,21 @@ class RestApiRoute{
 
     function GenerateUrl($suffix=""){
         $this->CheckLoaded();
-        return sprintf("/wp-json/%s/%s/%s%s%s", $this->parentNamespace, $this->route, $suffix, strpos($suffix, '?') !== false ? "&" : "?" , '_wp_nounce='.$this->GetRouteNonce());
+        return sprintf("%s/wp-json/%s/%s/%s%s%s", site_url(), $this->parentNamespace, $this->route, $suffix, strpos($suffix, '?') !== false ? "&" : "?" , '_wp_nounce='.$this->GetRouteNonce());
     }
 
     function WrapperCallBack( $request){
         $this->CheckLoaded();
         try{
             foreach ($this->validators as $validator){
-                $request = $validator->validate($request, $this->GetNonceId());
+                $request = $validator->validate($request, $this);
             }
 
             foreach ($this->sanitizers as $sanitizer){
-                $request = $sanitizer->sanitize($request);
+                $request = $sanitizer->sanitize($request, $this);
             }
-            $response = call_user_func_array($this->callBack, $request);
-            if (!($response instanceof WP_REST_Response or $response instanceof WP_Error)){
+            $response = call_user_func_array($this->callBack, [$request]);
+            if (!($response instanceof \WP_REST_Response || $response instanceof \WP_Error)){
                 throw new \Exception(sprintf("Rest api responses muct be of type WP_REST_Response or WP_Error"));
             }
             return $response;

@@ -20,7 +20,7 @@ versionInfo:
     requires: {}
     knownIssues: []
   minor:
-    versionNumber: 0
+    versionNumber: 1
     featureList: []
   patch:
     versionNumber: 0

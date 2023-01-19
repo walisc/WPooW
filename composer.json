@@ -1,10 +1,10 @@
 {
     "name": "centrid/wpoow",
     "description": "WordPress Object Oriented Wrapper",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "author": "",
-    "license": "SEE LICENSE IN license.md",
-    "cnversion": "2.0.0",
+    "license": "GPL-3.0",
+    "cnversion": "2.1.0",
     "keywords": [
         "WordPress",
         "Object Oriented Programming"

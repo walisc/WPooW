@@ -4,6 +4,7 @@ namespace wpOOW\Core\PageTypes;
 
 
 use wpOOW\Core\wpAPIBasePage;
+use wpOOW\Core\wpAPIView;
 
 /**
  * Class SubMenu
@@ -24,7 +25,7 @@ class SubMenu extends wpAPIBasePage
         parent::__construct($page_slug, $menu_title);
         $this->menu_title = $menu_title;
         $this->capability = $capability;
-        $this->display_path_content = $display_path_content == null ? new wpAPI_VIEW(wpAPI_VIEW::CONTENT, $menu_title) : $display_path_content;
+        $this->display_path_content = $display_path_content == null ? new wpAPIView(wpAPIView::CONTENT, $menu_title) : $display_path_content;
 
     }
 
@@ -98,10 +99,22 @@ class SubMenu extends wpAPIBasePage
         if (isset($submenu[$this->slug])){
             $setSubMenu = $submenu[$this->slug];
 
+            // The first submenu links to the parent, so need to keep it there
+            if (count($setSubMenu) > 0){
+                $reorderSubMenu[] = $setSubMenu[0];
+            }
+
             foreach ($this->_children as $child)
             {
+                if ($child instanceof PostType && !$child->show_in_menu){
+                    continue;
+                }
                 foreach($setSubMenu as $setMenu){
-                    if ($child->slug == $setMenu[2] || strpos($setMenu[2], sprintf("post_type=%s", $child->slug)) !== false){
+                    if ($child instanceof LinkedSubMenu && $setMenu[2] == $child->GetToLink()){
+                        $reorderSubMenu[] = $setMenu;
+                        break;
+                    }
+                    else if ($child->slug == $setMenu[2] || strpos($setMenu[2], sprintf("post_type=%s", $child->slug)) !== false){
                         $reorderSubMenu[] = $setMenu;
                         break;
                     }

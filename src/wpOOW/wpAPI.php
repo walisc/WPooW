@@ -10,6 +10,7 @@ use wpOOW\Core\PageTypes\PostType;
 use wpOOW\Core\PageTypes\SubMenu;
 use wpOOW\Core\PageTypes\Menu;
 use wpOOW\Core\PageTypes\SubMenuSeparator;
+use wpOOW\Core\PageTypes\LinkedSubMenu;
 
 use wpOOW\Utilities\VersionDetails;
 
@@ -87,6 +88,10 @@ class wpAPI
 
     public function CreateSubMenuSeparator($seperator_slug, $seperator_title=null){
         return new SubMenuSeparator($seperator_slug, $seperator_title);
+    }
+
+    public function CreateLinkedSubMenu($link_slug, $linked_child_type, $linked_child_id, $submenu_title, $capability ){
+        return new LinkedSubMenu($link_slug, $linked_child_type, $linked_child_id, $submenu_title, $capability);
     }
 
     public function RegisterRestApi($api_namespace){

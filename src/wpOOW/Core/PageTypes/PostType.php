@@ -59,9 +59,7 @@ class PostType extends wpAPIBasePage
         }
 
         foreach ($options as $opt => $val){
-            if (array_key_exists($opt, $this->props)){
-                $this->props[$opt] = $val;
-            }
+            $this->props[$opt] = $val;
         }
         $this->CreateProperties();
         $this->LoadViewState();

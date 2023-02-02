@@ -1,7 +1,7 @@
 <?php
 
 namespace wpOOW\Core\RestApi;
-use wpOOW\Core\RestApi\Sanitizers\JsonSanitizer;
+use wpOOW\Core\RestApi\Sanitizers\HtmlSpecialCharSanitizer;
 use wpOOW\Core\RestApi\Validators\InjectionsValidator;
 use wpOOW\Core\RestApi\Validators\NonceValidator;
 
@@ -41,7 +41,7 @@ class RestApiRoute{
             $this->validators[] =  $validatorCallback;
         }
 
-        $this->sanitizers = [new JsonSanitizer()];
+        $this->sanitizers = [new HtmlSpecialCharSanitizer()];
         if (isset($sanitizerCallback)){
             $this->sanitizers[] =  $sanitizerCallback;
         }
@@ -88,11 +88,15 @@ class RestApiRoute{
         try{
             foreach ($this->validators as $validator){
                 $request = $validator->validate($request, $this);
+                if ($request instanceof \WP_Error){
+                    throw new \Exception($request->get_error_message());
+                }
             }
 
             foreach ($this->sanitizers as $sanitizer){
                 $request = $sanitizer->sanitize($request, $this);
             }
+            
             $response = call_user_func_array($this->callBack, [$request]);
             if (!($response instanceof \WP_REST_Response || $response instanceof \WP_Error)){
                 throw new \Exception(sprintf("Rest api responses muct be of type WP_REST_Response or WP_Error"));
@@ -110,7 +114,7 @@ class RestApiRoute{
         }
     }
 
-    private function GetNonceId(){
+    function GetNonceId(){
         $this->CheckLoaded();
         return sprintf("%s_%s", $this->parentNamespace, $this->route);
     }

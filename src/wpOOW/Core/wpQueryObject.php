@@ -2,6 +2,8 @@
 
 namespace wpOOW\Core;
 
+use ValueError;
+
 /**
  * Class wpQueryObject
  * Creates a query object that acts as a wrapper class to create wp queries with relevant properties for a post types
@@ -37,6 +39,28 @@ class wpQueryObject
         $this->queryArgs["posts_per_page"] = -1;
 
         return $this;
+    }
+
+    public function Save($saveDic){
+        $meta_input_values = [];
+        
+        $existing_field = $this->postType->GetFields();
+        foreach($saveDic as $field => $value){
+            if (!key_exists(sprintf("%s_%s", $this->postType->GetSlug(), $field), $existing_field)){
+                throw new ValueError(sprintf("The field %s does not exist on the wpOOW posttype %s", $field, $this->postType->GetSlug() ));
+            }
+            $meta_input_values[$this->postType->GetFieldDbKey($field)] = $value;
+        }
+
+        wp_insert_post(
+            array(
+                'comment_status' => 'closed',
+                'ping_status' => 'closed',
+                'post_content' => '',
+                'post_status' => 'publish',
+                'post_type' => $this->postType->GetSlug(),
+                'meta_input' => $meta_input_values
+            ));
     }
 
     /**

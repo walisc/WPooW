@@ -75,7 +75,17 @@ class RestApiRoute{
 
     protected function GetRouteNonce(){
         $this->CheckLoaded();
-        return wp_create_nonce($this->GetNonceId());
+        /**
+         * TODO: Below is an extract of the wp_create_nonce method, excluding the uid information
+         * We are just assuming none logged in users are using the route (i.e ajax calls don't have session cookies).
+         * additional authentication can be done through the routes varification option
+         */
+        $action = $this->GetNonceId();
+
+        $token = wp_get_session_token( $action );
+	    $i     = wp_nonce_tick( $action );
+	    return substr( wp_hash( $i . '|' . $action . '|' . 0 . '|' . $token, 'nonce' ), -12, 10 );
+
     }
 
     function GenerateUrl($suffix=""){

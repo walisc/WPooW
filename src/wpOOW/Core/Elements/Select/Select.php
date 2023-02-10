@@ -33,6 +33,11 @@ class Select extends BaseElement
     {
         $value =$this->GetDatabaseValue($post);
 
+        if (is_array($value))
+        {
+            $value = array_keys($value)[0]; 
+        }
+
         if (array_key_exists($value, $this->options))
         {
             $value = $this->options[$value];
@@ -44,9 +49,16 @@ class Select extends BaseElement
     {
        parent::EditView($post);
 
+       $value =$this->GetDatabaseValue($post);
+
+        if (is_array($value))
+        {
+            $value = array_keys($value)[0]; 
+        }
+
        echo $this->twigTemplate->render('/edit_view.mustache', ["options" => $this->options,
                                                                                 "id" => $this->id,
-                                                                                "selected_option" => $this->GetDatabaseValue($post) ]);
+                                                                                "selected_option" => $value ]);
     }
 
     /**
@@ -57,8 +69,13 @@ class Select extends BaseElement
     {
         parent::ProcessPostData($post_id);
         $data = sanitize_text_field($_POST[$this->id]);
+        $value_key_array = [];
 
-        $this->SaveElementData($post_id, $data);
+        if (array_key_exists($data, $this->options) && $data != "") {
+            $value_key_array[$data] = $this->options[$data];
+        }
+
+        $this->SaveElementData($post_id, $value_key_array);
         
     }
 }

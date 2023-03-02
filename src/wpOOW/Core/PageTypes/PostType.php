@@ -7,7 +7,7 @@ use wpOOW\Core\Permissions\wpAPIPermissions;
 use wpOOW\Core\wpAPIBasePage;
 use wpOOW\Core\wpAPIObjects;
 use wpOOW\Core\wpQueryObject;
-
+use wpOOW\Core\Elements\Checkbox\Checkbox;
 /**
  * Class PostType
  * Class responsible for creating the Custom post types that can be used for config

@@ -12,10 +12,12 @@ use wpOOW\Core\Elements\BaseElement;
  */
 class RichTextArea extends BaseElement
 {
+    private $wpautop;
 
-    function __construct($id, $label, $permissions=[], $elementPath='')
+    function __construct($id, $label, $permissions=[], $elementPath='', $wpautop=true)
     {
         parent::__construct($id, $label, $permissions, $elementPath);
+        $this->wpautop = $wpautop;
     }
 
     function ReadView($post)
@@ -28,8 +30,9 @@ class RichTextArea extends BaseElement
        parent::EditView($post);
 
         wp_editor(  html_entity_decode($this->GetDatabaseValue($post)) , "tinymce_".$this->id, array(
-            'tinymce' => true
-        ) ); #TODO Consider making wpautop configurable
+            'tinymce' => true,
+            'wpautop' => $this->wpautop
+        ) );
     }
 
     /**

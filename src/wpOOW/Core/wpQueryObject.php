@@ -156,13 +156,13 @@ class PostTypeRow extends \ArrayObject
         return count($this->storage);
     }
 
-    public function asort()
+    public function asort($flags=SORT_REGULAR)
     {
         asort($this->storage);
     }
 
 
-    public function ksort()
+    public function ksort($flags=SORT_REGULAR)
     {
         ksort($this->storage);
     }
